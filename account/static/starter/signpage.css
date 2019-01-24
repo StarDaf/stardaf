@@ -1,0 +1,19 @@
+
+body {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: silver;
+}
+
+
+.jumbotron{
+  background-color: #F8F8F8;
+  align-items: center;
+  box-shadow: 0 10px 20px black, 0 10px 20px black;
+  border: 2px solid black;
+}
+

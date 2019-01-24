@@ -1,0 +1,197 @@
+
+
+body {
+  padding-top: 54px;
+  padding-top: 54px;
+  background-color: dimgray;  
+  font-family: trebuchet MS; 
+}
+
+/*
+------------------------------
+NAVBAR WITH CSS
+--------------------------------*/
+.navbar {
+    background-color: darkturquoise;
+}
+/*.navbar a {
+	display: inline-block;
+	padding:.4em;
+    color: white;
+}
+.navbar li  {
+color: sienna;
+}
+*/
+
+
+.navbar ul {
+	margin: 0;
+}
+ 
+.navbar li {
+	display: inline;
+	padding: .3em;
+}
+
+.navbar a {
+	display: inline-block;
+	padding: .4em;
+	color: white;
+	text-decoration: underline;
+}
+.navbar a:hover  {
+	 	background-color: grey;
+        }
+
+.a {
+    
+    text-decoration: none;
+}
+/*
+------------------------------
+PHONES BRANDS WITH CSS
+--------------------------------*/
+.list-group-item{
+    font-size: 20px;
+    color: black;
+    background-color: darkturquoise;
+}
+
+.list-group-item a{
+    text-decoration: none;
+}
+.list-group-item a:hover {
+    color: darkblue;
+}
+
+/*
+------------------------------
+PRICE TAG WITH CSS
+--------------------------------*/
+.price {
+    color:black;font-size:19px;font-weight:450;margin-bottom:8px;text-align:left;transition:all .3s;
+}
+/*
+------------------------------
+SELLLER WITH CSS
+--------------------------------*/
+.seller-name {
+    font-size: 20px;
+    color: black;
+}
+.seller-name a{
+    text-decoration: none;
+    padding: 0px;
+}
+.seller-name a:hover {
+    color: silver;
+    
+}
+/*
+.brand-name {
+    font-size: 20px;
+    color: black;
+}
+.brand-name:hover {
+    color: darkturquoise;
+    text-decoration: none;
+}*/
+.icons{
+    color: darkturquoise;
+}
+
+.btn-outline-primary {
+    border: 1px solid darkturquoise ;
+    color: darkturquoise;
+}
+
+
+
+/*
+.product-social {
+    
+}
+.product-chat {
+    border:1px solid transparent;
+    background:white;
+    color:#fff;
+    border:1px solid #e5e5e5;display:inline-block;padding:10px 20px;color:#888;font-weight:600;font-size:16px;border-radius:4px;transition:all .3s; text-decoration: none;
+}
+.product-chat:hover{background-color:#505050;box-shadow:0 0 10px rgba(0,0,0,.5);} */
+/*
+.social-icon-lg {
+  margin: 0 5px 5px 0;
+  width: 60px;
+  height: 60px;
+  font-size: 30px;
+  line-height: 60px !important;
+  color: #555;
+  text-shadow: none;
+  border-radius: 3px;
+  overflow: hidden;
+  display: block;
+  float: left;
+  text-align: center;
+  border: 1px solid #AAA;
+}
+.social-icon-lg:hover {
+  border-color: transparent;
+}
+
+.social-icon-lg i {
+  display: block;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  line-height: 60px;
+  position: relative;
+}
+.social-icon-lg i:last-child {
+  color: #FFF !important;
+}
+
+.social-icon-lg:hover i:first-child {
+  margin-top: -60px;
+}
+si-border {
+  border: 1px solid #AAA !important;
+}
+
+.si-border-round {
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  border-radius: 50%;
+}
+.si-android:hover, .si-colored-andriod {
+  background-color: #A4C639 !important;
+}
+
+.si-appstore:hover, .si-colored-apple {
+  background-color: #000 !important;
+} */
+/*
+@media (max-width: 768px) {
+  body {
+    padding-top: 20px;
+  }
+.navbar {
+  display: none;
+}
+.list-group {
+  
+}
+}
+*/
+.loader {
+    width: 5rem;
+    height: 5rem;
+    border: 0.6rem solid #999;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    margin: 0 auto;
+    padding-bottom: 10px;
+    animation: loader 5000ms linear infinite;
+}

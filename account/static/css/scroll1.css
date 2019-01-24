@@ -1,0 +1,11 @@
+.one {
+  overflow: auto;
+  white-space: nowrap;
+}
+
+.header__logo {
+  padding: 0px;
+  margin-right: 1em;
+  vertical-align: top;
+    height: 100px;
+}

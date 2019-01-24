@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+    <!-- Custom styles for this template -->
+    <!--<link href="starter-template.css" rel="stylesheet">-->
+    <!--<link rel="stylesheet" type="text/css" href="signpage.css">-->
+
+<body>
+
+<hr>
+
+<div class="container">
+    
+      <br>
+    <div class="row">
+  		<div class="col-sm-3"><!--left col-->
+
+
+      <div class="text-center">
+        <img src="{% if user.profile.image %}{{ user.profile.image.url }}{% else %}{% static 'img/no_image.png'%}
+        {% endif %}" class="avatar img-circle img-thumbnail" alt="avatar" style='width:250px; height:200px; border-radius:30px'>
+
+      </div>
+
+
+          <ul class="list-group">
+            <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
+            {% if user.shop %}<li class="list-group-item text-right"><span class="pull-left"><strong>Uploaded </strong></span> {{ user.shop.products.count }}</li>{% endif %}
+            <li class="list-group-item text-right"><span class="pull-left"><strong>Likes</strong></span> {{ user.product_liked.count }}</li>
+            <li class="list-group-item text-right"><span class="pull-left"><strong>Following</strong></span> {{ user.following.count }}</li>
+            <li class="list-group-item text-right"><span class="pull-left"><strong>Followers</strong></span> {{ user.followers.count }}</li>
+          </ul>
+
+        </div><!--/col-3-->
+
+    	<div class="col-sm-9 mx-auto d-block">
+        <h1>{{ user.get_full_name }}</h1>
+        <h2>@{{ user.username }}  </h2>
+        {% if request.user != user %}
+          <a href='#' data-id="{{ user.id }}" 
+data-action="{% if request.user in user.followers.all %}unfollow{% else %}follow{% endif %}"
+class='follow float-left' id='{{ user.id }}'>
+{% if not request.user in user.followers.all  %}
+    <button class="btn btn-outline-primary btn-sm float-right">follow</button>
+{% else %}
+    <button class="btn btn-outline-primary btn-sm float-right">unfollow</button>
+{% endif %}    
+</a>
+{% endif %}
+
+          {% if request.user.id == user.shop.owner.id %}
+            {% if user.shop %}
+            <button class="btn btn-outline-danger float-right"><a href="{% url 'bizz:edit' %}">Edit Shop info</a></button><br/>
+              <button class="btn btn-lg  btn-block"><a href="{% url 'bizz:add_product' user.shop.id %}">Add Product</a></button>
+              
+            {% endif %}
+          
+          
+          {% endif %}
+          
+          {% if user.shop %}
+          
+            <!--<button class="btn btn-lg btn-dark btn-block"><a href="{% url 'bizz:create' user.id %}">Create shop</a></button>-->
+           
+          <br/>
+          <p class='text-muted float-left'>
+            <i class='fa fa-map-marker'></i> {{ user.shop.business_address }} {{ user.shop.shop_address }}
+          </p>
+          {% endif %}
+          {% if request.user == user %}<a href="{% url 'account:logout_then_login' %}" class='float-right'><button class='btn btn-outline-primary btn-sm'>Sign-out</button></a>{% endif %}
+          
+
+
+          <br>
+          <br>
+          <!--<div class="card-group">-->
+
+          <!--<div class="card-deck">-->
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><span class='fa fa-hashtag'></span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link"  href="{% url 'account:edit' %}" ><span class='fa fa-cog'></span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="like-tab" href="{% url 'account:favourites' user.id %}" ><span class='fa fa-heart'></span></a>
+          </li>
+          <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <div class="row">
+                {% for product in products %}
+
+
+                      <div class="col-sm-3">
+                      <div class="card" style='width:100%'>
+                      {% if product.photo %}
+                        <a href='{{ product.get_absolute_url }}'><img class="card-img-top" src="{{ product.photo.url }}" alt="{{ product.id }}" style='height:200px'></a>
+                      {% else %}
+
+                        <a href='{{ product.get_absolute_url }}'><video width="100%" height="100%" controls>
+                            <source src="{{ product.video.url }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video></a>
+
+                      {% endif %}  
+                        <div class="card-body">
+                          <h5 class="card-title"><a href='{{ product.get_absolute_url }}'>{{ product.name }}</a></h5>
+                          <p class="card-text">{{ product.description|truncatewords:15 }}<br/>
+                          {{ product.stock }}<br/>
+                            {% if request.user.id == user.shop.owner.id %}
+                              <a href="{% url 'bizz:delete' product.id %}">Delete</a></p>
+                            {% endif %}
+
+                        </div>
+                        <div class="card-footer">
+                          <small class="text-muted">
+                            {% with total_comments=product.comments.count %}
+                              {{ total_comments }} comment{{ total_comments|pluralize }}
+                            {% endwith %}
+                          </small><br/>
+                          <small class="text-muted">Uploaded {{ product.created|timesince }} ago</small><br/>
+                          <!--<small class="text-muted">Updated {{ product.updated|timesince }} ago</small>-->
+                        </div>
+                      </div>
+                      </div>
+              <!--</div>-->
+
+                {% empty %}
+                {% if request.user.shop %}
+                  No products uploaded yet.
+                {% else %}
+                  
+                {% endif %}    
+                {% endfor %}
+                </div>
+            </div>
+
+            
+          </div>
+
+        </ul>
+
+          <!--</div>-->
+
+{% endblock %}
+
+

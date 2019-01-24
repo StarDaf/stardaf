@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block title %}
+    Edit your profile
+{% endblock %}
+
+{% block content %}
+    <br/>
+
+    <h3 class="display-3">Edit your account</h3>
+    {% if user_form.errors or profile_form.errors %}
+        {% for error in users_form.errors %}
+            {{ error }}
+        {% endfor %}
+        {% for error in profile_form.errors %}
+            {{ error }}
+        {% endfor %}
+    {% else %}
+
+        
+
+         <main role="main" class="container-fluid">
+            <div class="offset-lg-3 col-lg-6 col-md-12">
+              <div>
+                <form action="." method="post" enctype="multipart/form-data">
+                  <div class="mb-4 text-center">
+                  <img src="{% static 'css/UUUU.jpg' %}" alt="" width="72" height="72">
+                  <h1 class="h3 mb-3 font-weight-bold text-black-100 shadow-lg">Edit profile</h1>
+                </div>
+                  <div class="form-group">
+                {% for field in user_form.visible_fields %}
+                    <label id="field.id_for_label">{{ field.label }}</label>
+                    {{ field|add_class:'form-control' }}
+                {% endfor %}
+                {% for field in profile_form.visible_fields %}
+                    <label id="field.id_for_label">{{ field.label }}</label>
+                    {{ field|add_class:'form-control' }}
+                {% endfor %}
+                {% csrf_token %}
+                <input type="submit" value="edit account" class="btn btn-outline-primary">
+            </div>
+                    </form>
+            </div>
+            </div><br/><br/> 
+            </main>  
+
+    {% endif %}
+
+{% endblock %}

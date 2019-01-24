@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+{% endblock %}
+
+{% block style %}href="{% static 'css/scroll1.css' %}"{% endblock %}
+
+{% block content %}
+
+<main role="main" style='padding: 0px; margin:0px'>
+     <!--<div class="row">--> 
+
+                    <div id="streams">
+                        {% include 'vinestream/stream_ajax.html' %}
+                    </div>
+
+
+     <!--</div>--> 
+    </main>
+{% endblock %}
+
+
+{% block domready %}
+
+
+    var page = 1;
+    var block_request = false;
+    var empty_page = false;
+
+    $(window).scroll(function() {
+
+        var margin = $(document).height() - $(window).height() - 500;
+
+         if ($(window).scrollTop() > margin && block_request == false && empty_page == false) {
+             block_request = true;
+             page += 1;
+
+             $.get('?page=' + page, function(data) {
+                 if (data == '') {
+                     empty_page = true;
+                 }
+                 else {
+                     block_request = false;
+                     $('#streams').append(data);
+                 }
+             })
+         }
+    });
+
+
+  
+{% endblock %}

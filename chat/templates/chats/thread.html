@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+
+{% block title %}{{ user.username }}/{{ other_user.username }}{% endblock %}
+
+{% block style %}href="{% static "css/chatcom.css" %}"{% endblock %}
+
+{% block content %}
+
+    <h3>Thread for {% if user == thread.first %}{{ other_user.username }}{% else %}{{ user.username }}{% endif %}</h3>
+
+    <div class='chat'>
+        <section>
+            <ul id='chat-items'>
+
+                {% for chat in thread.chat_messages.all %}
+
+                    {% if chat.user == user %}
+                        <li class="seller">
+                            <div class="date">
+                                {{ chat.timestamp|timesince }} ago
+                            </div>
+                            <div class="message">
+                            <p>
+                                {{ chat.message }}
+                            </p>
+                            </div>
+                        </li>
+                    {% else %}
+                            <li class="buyer">
+                            <div class="date">
+                                {{ chat.timestamp|timesince }}
+                            </div>
+                            <div class="message">
+                            <p>
+                                {{ chat.message }}
+                            </p>
+                            </div>
+                        </li>
+                    {% endif %}<br/>
+
+                {% endfor %}
+
+            </ul>
+           
+         
+
+<form id='form' method='post' action='.'> 
+    {% comment %} {{ form.as_p }}
+    <input type='hidden' id='myUsername' value='{{ user.username }}' />
+    {% csrf_token %}
+    <input type='submit' class='btn btn-primary'/> {% endcomment %}
+    <input type='hidden' id='myUsername' value='{{ user.username }}' />
+            <div class="type_msg">
+                <div class="input_msg_write">
+                    <textarea class="write_msg" placeholder="Type a message" cols='35' name='message' id='id_message'/></textarea>
+                    {% csrf_token %}
+                  <button type='submit' class="msg_send_btn" type="button"><i class="fa fa-location-arrow"></i></span></button>
+                </div>
+              </div>
+    
+</form><br/>
+ </section>    
+    </div>  
+
+{% endblock %}
+
+
+{% block domready %}
+
+    $('#id_message').focus();
+    var protocol = 'ws://'
+    var formData = $('#form');
+    var msgInput = $('#id_message');
+    var chatHolder = $('#chat-items');
+    var me = $('#myUsername').val()
+
+    if (window.location.protocol == 'https:') {
+        protocol = 'wss://'
+    }
+
+    var endpoint = protocol + window.location.host + window.location.pathname;
+
+    var socket = new WebSocket(endpoint)
+
+    socket.onmessage = function(e) {
+        console.log('message', e)
+        var chatMsg = JSON.parse(e.data)
+        if (me == chatMsg.username) {
+            chatHolder.append('<li class="seller">' +
+            '<div class="date">' + 
+                    chatMsg.timestamp
+            + '</div>' +
+                '<div class="message">' +
+                    '<p>' + 
+                        chatMsg.message
+                    +  '</p>'
+                + '</div>'
+            + '</li>')
+        }
+
+        else {
+            chatHolder.append('<li class="buyer">' +
+            '<div class="date">' + 
+                    chatMsg.timestamp
+            + '</div>' +
+                '<div class="message">' +
+                    '<p>' + 
+                        chatMsg.message
+                    +  '</p>'
+                + '</div>'
+            + '</li>')
+        }
+    }
+    socket.onopen  = function(e) {
+        console.log('open', e)
+        formData.submit(function(event){
+            event.preventDefault();
+            var msgText = msgInput.val();
+            var finalData = {
+                'message':msgText
+            }
+            socket.send(JSON.stringify(finalData))
+            formData[0].reset()
+        })
+    }
+    socket.onclose  = function(e) {
+        console.log('close', e)
+    }
+    socket.onerror  = function(e) {
+        console.log('error', e) 
+    }
+{% endblock %}

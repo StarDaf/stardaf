@@ -1,0 +1,10 @@
+{% load static %}
+
+{% for shop in shops %} 
+    {% if shop.logo %}
+        <a href='{{ shop.owner.get_absolute_url }}'><img src="{{ shop.logo.url }}" style="height:90px; width:90px; border-radius:15%;"></a>
+    {% else %}
+         <a href='{{ shop.owner.get_absolute_url }}'><img src="{% static 'css/UUUU.jpg' %}" style="height:90px; width:90px; border-radius:15%"></a>
+    {% endif %}
+    
+{% endfor %}

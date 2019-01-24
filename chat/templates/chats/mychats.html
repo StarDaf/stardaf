@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    my chats
+{% endblock %}
+
+{% block content %}
+    <br/>
+    {% for thread in threads %}
+        {% with other_user=thread.second %}
+        {% with first_user=thread.first %}
+        <a href='{% if user == thread.first %}{% url "chat:thread" other_user.username %}{% else %}
+        {% url "chat:thread" first_user.username  %}{% endif %}' style='text-decoration:none'>
+                <div class='container-fluid' style='padding-left:22px'>
+                        <div class="row">
+                            <div class="col-xs-2">
+                            {% if user == thread.first %}
+                                <img src="{%  if other_user.profile.image %}{{ other_user.profile.image.url }}
+                        {% else %}{% static 'img/no_image.png'%}{% endif %}" style="border-radius:50%;width:50px; height:50px" class="img-circle">
+                            {% else %}
+                                <img src="{%  if first_user.profile.image %}{{ first_user.profile.image.url }}
+                        {% else %}{% static 'img/no_image.png'%}{% endif %}" style="border-radius:50%;width:50px; height:50px" class="img-circle">
+                            {% endif %}
+                            </div>
+                            <div class="col-xs-8">&nbsp;&nbsp;&nbsp;&nbsp;
+                                    {% if user == thread.first %}
+                                        <strong style='vertical-align:baseline'>{{ other_user.username }}</strong>
+                                    {% else %}
+                                    <strong style='vertical-align:baseline'>{{ first_user.username }}</strong>
+                                    {% endif %}<br/>
+                                    <small class='text-muted' style='vertical-align:text-bottom; padding-left:22px'>{{ thread.chat_messages.last.message|truncatewords:5 }}</small>
+                                    
+                            </div>
+                        </div><hr width='70%' float='center' />
+                </div>     </a>
+            {% endwith %}
+        {% endwith %}
+        {% empty %}
+            <h2><p style='padding:50px' class='text-muted'>You have no chats yet</p></h2>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>HOME PAGE</title>
+	 <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" type="image/jpg" href="file:///C:/Users/pc/Pictures/UUUU.jpg">
+  <link href="fontawesome-all.min.css" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+   <!-- Bootstrap core CSS -->
+    <link href="../../../../dist/css/bootstrap.min.css" rel="stylesheet">
+
+    
+    <link rel="stylesheet" type="text/css" href="">
+    
+<style>
+/* Show it's not fixed to the top */
+body {
+/*min-height: 75rem;*/
+/*overflow-y:hidden;*/
+}
+label.error {
+color: #ff0008;
+font-style: italic;
+font-weight: bold;
+}
+footer {
+position: fixed;
+height: 80px;
+line-height: 72px;
+font-size: 16px;
+text-align: center;
+vertical-align: middle;
+bottom: 0;
+width: auto;
+background-color: #bff3fa;
+}
+
+#parent {position: relative;}
+
+#child {
+position: absolute;
+top: 50%;
+left: 50%;
+height: 30%;
+width: 50%;
+margin: -15% 0 0 -25%;
+}
+</style>
+
+    </head>
+    <body>
+      <body>
+<div class="container">
+
+<nav class="navbar navbar-expand-md mb-4" style="background-color: #bff3fa">
+<ul class="nav navbar-nav navbar-left">
+<li class="">
+<table border=0>
+<tr><td><img style="height: 80px; width: auto; padding: -5px" src="file:///C:/Users/pc/Pictures/UUUU.jpg" alt=""></td><td>&nbsp;</td><td><h1>Casbah</h1></td></tr>
+</table>
+</ul>
+<!--<div class="collapse navbar-collapse" id="navbarCollapse">
+<ul class="navbar-nav mr-auto">
+<li class="nav-item active">
+<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="#">Link</a>
+</li>
+<li class="nav-item">
+<a class="nav-link disabled" href="#">Disabled</a>
+</li>
+</ul>
+</div>
+-->
+</nav>
+
+<main role="main" class="container-fluid">
+<row>
+<div class="offset-lg-3 col-lg-6 col-md-12">
+
+<div class="jumbotron">
+<div id="de1" style="margin-bottom: 30px"></div>
+<b><span style="text-align:center;"> Ensure that you dowloaded your admission letter from Jamb Website</span></b>
+<h5 style="text-align: center; color: darkgreen"> <i class="fas fa-key"></i> <b>Authentication</b></h5>
+<form class="form" id="frm_generate" name="frm_generate" method="post">
+<div class="form-group">
+<label for="jambno">JAMB No</label>
+<div class="has-feedback">
+<input type="text" class="form-control" id="jambno" name="jambno" placeholder="JAMB Number" required><span></span>
+</div>
+</div>
+<div class="form-group">
+<label for="programme">State</label>
+<select class="form-control" id="slc_programme" name="slc_programme"></select>
+</div>
+<div class="form-group">
+<label for="gender">Gender</label>
+<select class="form-control" id="slc_gender" name="slc_gender"></select>
+</div>
+<div class="form-group">
+<button id="btn_generate" name="btn_generate" type="submit" class="btn btn-primary btn-block">Generate Admission Letter</button>
+</div>
+</form>
+</div>
+
+</div>
+</row>
+</main>
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<!--<script src="./js/jquery-3.2.1.slim.min.js"></script>-->
+<script src="./js/jquery.min.js"></script>
+<script src="./js/popper.min.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<script src="./js/jquery-validation-1.16.0/jquery.validate.min.js"></script>
+<script src="./js/jquery-validation-1.16.0/additional-methods.min.js"></script>
+<script src="./js/fontawesome-all.js"></script>
+<script>
+var programmes = [{"id":"1","state":"Abia"},{"id":"2","state":"Adamawa"},{"id":"3","state":"Akwa Ibom"},{"id":"4","state":"Anambra"},{"id":"5","state":"Bauchi"},{"id":"6","state":"Benue"},{"id":"7","state":"Borno"},{"id":"8","state":"Cross River"},{"id":"9","state":"Delta"},{"id":"10","state":"Ebonyi"},{"id":"11","state":"Edo"},{"id":"12","state":"Ekiti"},{"id":"13","state":"Enugu"},{"id":"14","state":"FCT"},{"id":"15","state":"Gombe"},{"id":"16","state":"Imo"},{"id":"17","state":"Jigawa"},{"id":"18","state":"Kaduna"},{"id":"19","state":"Kano"},{"id":"20","state":"Katsina"},{"id":"21","state":"Kebbi"},{"id":"22","state":"Kogi"},{"id":"23","state":"Kwara"},{"id":"24","state":"Lagos"},{"id":"25","state":"Nasarawa"},{"id":"26","state":"Niger"},{"id":"27","state":"Ogun"},{"id":"28","state":"Ondo"},{"id":"29","state":"Osun"},{"id":"30","state":"Oyo"},{"id":"31","state":"Plateau"},{"id":"32","state":"Rivers"},{"id":"33","state":"Sokoto"},{"id":"34","state":"Taraba"},{"id":"35","state":"Yobe"},{"id":"36","state":"kjaba"},{"id":"37","state":"Zamfara"}];
+var slc_programme = document.getElementById("slc_programme");
+slc_programme.options.length = 0;
+slc_programme.options[0] = new Option('Select state', '');
+slc_programme.options[0].style.fontWeight = "bold";
+slc_programme.options[0].style.fontStyle = "italic";
+slc_programme.options[0].disabled=true;
+for (var i = 0; i < programmes.length; i++) {
+// if(programmes[i].programme_id == 68 || programmes[i].programme_id == 400)
+// slc_programme.options[i + 1] = new Option("B.Sc. Mathematics/B.Sc. Statistics", programmes[i].programme_id);
+// else
+slc_programme.options[i + 1] = new Option(programmes[i].state, programmes[i].state);
+}
+</script>
+
+<script>
+var gender = [{"value":"M","text":"Male"},{"value":"F","text":"Female"}];
+var slc_gender = document.getElementById("slc_gender");
+slc_gender.options.length = 0;
+slc_gender.options[0] = new Option('Select Gender', '');
+slc_gender.options[0].style.fontWeight = "bold";
+slc_gender.options[0].style.fontStyle = "italic";
+slc_gender.options[0].disabled=true;
+for (var i = 0; i < gender.length; i++) {
+slc_gender.options[i + 1] = new Option(gender[i].text, gender[i].value);
+}
+</script>
+
+<script>
+
+
+jQuery.validator.addMethod(
+"regex",
+function(value, element, regexp) {
+var re = new RegExp(regexp);
+return this.optional(element) || re.test(value);
+},
+"Please Check Your Input"
+);
+
+$('#frm_generate').validate({
+rules:{
+slc_programme: 'required',
+slc_gender: 'required',
+jambno: {required: true, minlength:10, regex: "8[0-9]{7}[A-Ja-j]{2}"}
+},
+messages:{
+jambno : {required: "Please Enter your JAMB Number",
+minlength: "JAMB Number Must be 10 Characters"},
+slc_programme: {required: "Please Select the Programme You were Admitted to"},
+slc_gender: {required: "Please Select Your Gender"}
+},
+submitHandler: function(form){
+var alart = $('#de1');
+var loading_images = ['379-infinity.gif', '477-intersection.gif', '480-running-dog.gif', '30-bar-dots.gif'];
+$('head').append('<link rel="stylesheet" href="./css/switchery.min.css" type="text/css" />');
+var loading_image = loading_images[Math.floor(Math.random() * loading_images.length)];
+$.ajax({
+url: 'submit_process.php', // form action url
+type: 'POST', // form submit method get/post
+data: $(form).serialize(), // serialize form data
+beforeSend: function () {
+$('#btn_generate').html("<img src='./images/"+loading_image+"'>");
+//alart.fadeOut();
+//alart.html('Sending....'); // change submit button text
+},
+success: function (data) {
+alart.html(data).fadeIn(); // fade in response data},
+$('#btn_generate').html('Generate Admission Letter')
+},
+error: function (e) {
+console.log(e)
+}
+});
+}
+});
+</script>
+
+    </body>
+
+
+
+ <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+    <script src="../../../../assets/js/vendor/popper.min.js"></script>
+    <script src="../../../../dist/js/bootstrap.min.js"></script>

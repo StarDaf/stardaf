@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% load humanize %}
+
+<link rel="stylesheet" href="{% static 'style.css' %}">
+<link rel="stylesheet" href="{% static 'css/comment.css' %}">
+<link rel="stylesheet" href="{}">
+
+{% block title %} {{ product.name }} {% endblock %}
+
+<link rel='stylesheet' {% block style %}href="{% static 'css/comment.css' %}"{% endblock %}> 
+
+{% block content %}
+      <div class="container" style='padding: 0px;'>
+      <div class='card'>
+        <div class="jumbotron mx-auto d-block">
+            
+            <!-- product -->
+
+            <div class="product-content product-wrap clearfix product-details mx-auto d-block" style='width:auto'>
+                <div class="row">
+                        <div class="col-md-6 col-sm-12 offset-lg-6 mx-auto d-block">
+                                <!--<div class="text-center pull-left col-md-5 col-sm-12">-->
+                                    <img  class="float-left " src="{% if product.shop.owner.profile.image %}{{ product.shop.owner.profile.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}"
+                                          style="width: 50px; height:50px; border-radius: 50%; border:3px solid black"> &nbsp;&nbsp;&nbsp;
+
+                            
+
+                             <a href="{{ product.shop.owner.get_absolute_url }}">{{ product.shop }}
+                            </a> 
+                               
+                                    
+                                     <a href="#"><i class="fa fa-check-circle "></i></a>
+                                     {% if request.user != product.shop.owner %}
+                                    <a href="#" data-id="{{ product.shop.owner.id }}" data-action="{% if request.user in product.shop.owner.followers.all %}
+                            unfollow{% else %}follow{% endif %}" class="follow" id="{{ product.shop.owner.id }}">
+                                {% if request.user not in product.shop.owner.followers.all %}
+                                    <button class='btn btn-outline-primary btn-sm'>follow</button>
+                                {% else %}
+                                    <button class='btn btn-outline-primary btn-sm'>unfollow</button>
+                                {% endif %}
+                            </a> 
+                            {% endif %}
+                           
+                                   
+                            {% if product.video %}
+                                <video width="100%" height="300px" controls {% if product.photo %}poster="{{ product.photo.url }}"{% endif %}>
+                                    <source src="{{ product.video.url }}" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video> 
+                            {% else %}
+                                 <img class="img-responsive float-center" src="{{ product.photo.url }}" style="width: 100%; height:350px; border-radius: 5px">
+                            {% endif %}    
+                                
+                                <!--</div>--><br/><br/>
+
+                            <a href='#' data-id='{{ product.id }}'
+                         data-action='{% if request.user in product.users_like.all %}un{% endif %}like' class='like' id='{{ product.id }}'>
+                        {% if request.user not in product.users_like.all %}
+                            <i class="fa fa-heart-o"></i>
+                            <!--Like-->
+                        {% else %}
+                            <i class="fa fa-heart"></i>
+                            <!--Unlike-->
+                        {% endif %}
+                         </a>
+                            <span class='count text-muted'>
+                            {% with total_likes=product.users_like.count %}
+                                <span id='total_{{ product.id }}'>{{ total_likes }}</span>
+                                like{{ total_likes|pluralize }}
+                            {% endwith %}
+                        </span>&nbsp;&nbsp;&nbsp;
+                            {% with views=product.total_views %}
+                                <span class="text-muted"><i class="fa fa-eye"></i>
+                                    {{ views }} view{{ views|pluralize }}
+                                </span>
+                            {% endwith %}
+                           
+
+                            <span class="float-right mx-2"><a href='{% if not request.user.is_authenticated %}{% url 'account:login' %}{% else %}{% url 'bizz:recommend' request.user.id product.id %}{% endif %}'><i class="fa fa-hand-spock-o pull-right icons"></i></a></span>
+                 <span class="float-right mx-2"><a href='{% url 'cart:home' product.pk %}'><i class="fa fa-plus-circle pull-right icons"></i></a></span>
+                                    <div class="pull-right">
+                        <h2 class="name">
+                            {{ product.name }} 
+                            <small> - <a href="">{{ product.shop.owner.first_name }}</a> - {{ product.shop.business_address }}</small><br/>
+                            <!--<ul class="rating">-->
+                        <!--<li class="fa fa-star"></li>-->
+                        <!--<li class="fa fa-star"></li>-->
+                        <!--<li class="fa fa-star"></li>-->
+                        <!--<li class="fa fa-star disable"></li>-->
+                        <!--<li class="fa fa-star disable"></li>-->
+                    <!--</ul>-->
+
+                        </h2>
+
+                        <hr>
+                        <h2 class="price-container text-muted">
+                            ₦{{ product.price|intcomma }}
+                            <!--<small>*includes tax</small>-->
+                        </h2>
+                        <div class="certified">
+                            <ul style='list-style-type:none'>
+                                <li>30 minutes delivery time</li>
+                                <!--<li>{{ product.shop. }}</li>-->
+                                
+                                
+
+                            </ul>
+                            <h5>Seller's location</h5>
+                            <a href='{{ product.shop.owner.get_absolute_url }}'>
+                                    <i class='fa fa-map-marker'></i> {{ product.shop.business_address }}
+                                    {{ product.shop.shop_address }}
+                                </a><br/><br/>
+                        </div>
+                                    <strong><h5>Product description</h5></strong>
+                                    <p>{{ product.description }}</p>
+                                    <strong><span class='text-muted'>People who liked this also liked </span></strong><br/>
+                                    {% for product in similar_products %}
+                                    <a href='{{ product.get_absolute_url }}'>
+                                        {% if product.photo %}
+                                            <img src="{{ product.photo.url }}" style='border-radius: 50%; height:40px; width:40px'>
+                                        {% else %}
+                                            <img src="{% static 'css/UUUU.jpg' %}" style='border-radius: 50%; height:40px; width:40px'>
+                                        {% endif %}    
+                                    </a>
+                                        <span class='text-muted'>{{ product.name }}</span>
+                                    {% empty %}
+                                    {% endfor %}<br/><br/>
+                                        <span class="fa fa-2x"><h5>({{ product.comments.count }}) </h5></span>
+                            Comment{{ product.comments.count|pluralize }}  {% if request.user.is_anonymous %}<small style="color:red">Create account to comment</small>{% endif %}
+
+                                        <form action="." method="post">
+                                            <div class="form-group">
+                                                {% for field in comment_form.visible_fields %}
+                                                <label id="field.id_for_label">{{ field.label }}</label>
+                                                {{ field|add_class:'form-control' }}
+                                                {% endfor %}
+                                                {% csrf_token %}
+                                                <!--<button type="submit" class="btn btn-primary btn-sm">-->
+                                                    <!--<i class="fa fa-paper-plane"></i>-->
+                                                <!--</button>-->
+                                                <button class='btn btn-outline-primary'><span class='fa fa-angle-double-right'></span></button
+                                            </div>
+                                        </form>
+
+                            {% for comment in product.comments.all %}
+                              <div class='comment'>
+                                   <p class='info'>
+                                     Comment {{ forloop.counter }} by {{ comment.user.username }} on
+                                     {{ comment.created|timesince }} ago
+                                    </p>
+                                      {{ comment.body|linebreaks }}
+                                   </div>
+                            {% empty %}
+                                        <p>Be the first to comment.</p>
+                            {% endfor %}
+                                </div>
+
+
+                        <!--<div class="row">-->
+                            <!--<div class="col-sm-12 col-md-6 col-lg-6">-->
+                                    <!--<a href="" class="btn btn-success ">Add to cart ($129.54)</a>-->
+                            <!--</div>-->
+                            <!--<div class="col-sm-12 col-md-6 col-lg-6">-->
+                                <!--<div class="btn-group pull-right">-->
+                                    <!--<button class="btn btn-white btn-warning"><i class="fa fa-shopping-bag"></i> Add to bag </button>-->
+                                    <!--<button class="btn btn-white btn-default"><i class="fa fa-envelope"></i> Contact Seller</button>-->
+                                <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    </div>
+                </div>
+            </div>
+            <!-- end product -->
+        </div>
+        </div>
+        
+
+
+{% endblock %}
+
+

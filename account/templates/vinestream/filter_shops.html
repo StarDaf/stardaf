@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}{% endblock %}
+
+{% block style %}href="{% static 'css/gridz.css' %}"{% endblock %}
+
+{% block content %}
+    <br/>
+
+    {% if query %}
+    <h1>Products containing "{{ query }}"</h1>
+
+        <h3>
+            <!-- to avo id hitting the database more than once (efficiency matters) -->
+            {% with results.count as total_results %}
+                Found {{ total_results }} result{{ total_results|pluralize }}
+            {% endwith %}
+
+        </h3>
+
+    <div class='row'>
+        {% for product in results %}
+        {% with product.shop as shop %}
+            {% with total_followers=shop.owner.followers.count %}
+
+        <div class='col-sm-3'>   
+        <a href='{{ product.get_absolute_url }}'> 
+                <div class="card">
+                    <a href='{{ product.get_absolute_url }}'> 
+                        <img class="card-img-top" src='{{ product.photo.url }}'>
+                    </a>
+                    <div class="card-body">
+                    <h5 class="card-title">
+                    <a href='{{ shop.owner.get_absolute_url }}'>
+                        <img src='{% if shop.owner.profile.image %}{{ shop.owner.profile.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}' style='width:50px; height:50px; border-radius:50%'>
+                        <span class='text-muted'>{{ shop.owner }} ~ {{ shop.business_name }}</span>
+                        
+                    </h5>
+                    <p class="card-text text-muted">
+                        address: {{ shop.business_address }}<br/> 
+                        uploads {{ shop.products.count }}
+                    </p>
+                    <p class="card-text">{{ product.description }}</p>
+                    <p class="card-text"><small class="text-muted">{{ product.created|timesince }} ago</small></p>
+                    </div>
+                </div><br/>
+        </a>        
+        </div>    
+
+    {% endwith %}
+    {% endwith %}
+        {% empty %}
+
+                <p>Their are no results for your query.</p>
+
+        {% endfor %}
+    </div>    
+    
+{% else %}
+
+    <!--search form-->
+        <form action='.' method='get'>
+            {% for field in form.visible_fields %}
+            <strong>
+                <label id='field.id_for_label'>{{ field.label }}:</label>
+                {{ field|add_class:'form-control' }}
+            </strong>
+            {% endfor %}
+            <input type='submit' value='Search'>
+        </form>
+
+        <div id="people-list">
+            {% for shop in shops %}
+                <div class="user">
+                    <a href="{{ shop.owner.get_absolute_url }}">
+                       
+                            <img src="{{ shop.logo.url}}" style='width:130px;height:130px'>
+           
+                        </a>
+                    <div class="info">
+                        <a href="{{ shop.owner.get_absolute_url }}" class="title">
+                            {{ shop.business_name }}<br/>
+                            {{ shop.owner.get_full_name }}
+                        </a>
+                        {% if request.user != shop.owner %}
+                        <a href='#' data-id="{{ shop.owner.id }}" 
+                        data-action="{% if request.user in shop.owner.followers.all %}unfollow{% else %}follow{% endif %}"
+                        class='follow' id='{{ shop.owner.id }}' class='title'>
+                        {% if not request.user in shop.owner.followers.all  %}
+                            <button class="btn btn-outline-primary btn-sm float-right">follow</button>
+                        {% else %}
+                            <button class="btn btn-outline-primary btn-sm float-right">unfollow</button>
+                        {% endif %}    
+                        </a>
+                        {% endif %}
+                    </div><br/><br/><br/>
+                </div>
+            {% empty %}
+                <h3 class='text-muted'>shops are coming soon</h3>    
+            {% endfor %}
+        </div>
+
+   
+
+        
+    
+{% endif %}   
+
+{% endblock %}
+
+
+
+    

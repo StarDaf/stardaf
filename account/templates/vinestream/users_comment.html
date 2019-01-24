@@ -1,0 +1,10 @@
+{% load static %}
+
+{% for comment in all_comments %}
+    {% if comment.user.profile.image %}
+        <img src="{{ comment.user.profile.image.url }}" style="height:20px; width:20px; border-radius:50%">
+    {% else %}
+         <img src="{% static 'css/UUUU.jpg' %}" style="height:20px; width:20px; border-radius:50%">
+    {% endif %}
+
+{% endfor %}

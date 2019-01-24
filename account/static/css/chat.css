@@ -1,0 +1,218 @@
+body {
+  background-color: whitesmoke;
+  font-family: trebuchet Ms;
+}
+/*==========================
+     Section
+  ============================*/
+section {
+  width: 600px;
+  margin: 60px auto;
+  background-color: #fff;
+  padding: 10px 15px 20px 15px;
+}
+/*==========================
+        Chat container
+  ============================*/
+.chat ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.chat ul li {
+  margin: 45px 0 0 0;
+  font-weight: 300;
+}
+.chat ul li a.user {
+  margin: -30px 0 0 0;
+  display: block;
+  color: #333;
+}
+.chat ul li a.user img {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  background-color: whitesmoke;
+  box-shadow: 0 2px 6px black;
+}
+.chat ul li .date {
+  font-size: 12px;
+  color: #a6a6a6;
+}
+.chat ul li .message-seller {
+  display: block;
+  padding: 10px;
+  position: relative;
+  color: black;
+  font-size: 17px;
+  background-color: silver;
+  border-radius: 3px;
+  box-shadow: 0 2px 6px black;
+}
+
+.chat ul li .message-buyer {
+  display: block;
+  padding: 10px;
+  position: relative;
+  color: black;
+  font-size: 17px;
+  background-color: darkturquoise;
+  border-radius: 3px;
+  box-shadow: 0 2px 6px black;
+}
+.chat ul li .message-buyer:before {
+  content: '';
+  position: absolute;
+  border-top: 16px solid rgba(0, 0, 0, 0.15);
+  border-left: 16px solid transparent;
+  border-right: 16px solid transparent;
+}
+.chat ul li .message-buyer:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  border-top: 17px solid darkturquoise;
+  border-left: 17px solid transparent;
+  border-right: 17px solid transparent;
+}
+
+.chat ul li .message-seller:before {
+  content: '';
+  position: absolute;
+  border-top: 16px solid rgba(0, 0, 0, 0.15);
+  border-left: 16px solid transparent;
+  border-right: 16px solid transparent;
+}
+.chat ul li .message-seller:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  border-top: 17px solid darkturquoise;
+  border-left: 17px solid transparent;
+  border-right: 17px solid transparent;
+}
+
+
+.chat ul li .message p {
+  margin: 0;
+  padding: 0;
+  transition: all 0.1s;
+}
+
+/*==========================
+    seller and buyer
+  ============================*/
+.chat ul li.seller a.user {
+  float: right;
+}
+.chat ul li.seller .date {
+  float: right;
+  margin: -20px 10px 0 0;
+}
+.chat ul li.seller .message {
+  margin: 0 90px 0 0;
+}
+.chat ul li.seller .message:before {
+  margin: -9px -16px 0 0;
+  right: 0;
+}
+.chat ul li.seller .message:after {
+  content: '';
+  right: 0;
+  margin: 0 -15px 0 0;
+}
+.chat ul li.buyer a.user {
+  float: left;
+}
+.chat ul li.buyer .date {
+  float: left;
+  margin: -20px 0 0 10px;
+}
+.chat ul li.buyer .message {
+  margin: 0 0 0 90px;
+}
+.chat ul li.buyer .message:before {
+  margin: -9px 0 0 -16px;
+  left: 0;
+}
+.chat ul li.buyer .message:after {
+  content: '';
+  left: 0;
+  margin: 0 0 0 -15px;
+}
+/*--------------------
+Message Box
+--------------------
+.message-box {
+  flex: 0 1 40px;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 10px;
+  position: relative;
+}
+.message-box .message-input {
+  background: none;
+  border: none;
+  outline: none !important;
+  resize: none;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 11px;
+  height: 17px;
+  margin: 0;
+  padding-right: 20px;
+  width: 265px;
+}
+.message-box textarea:focus:-webkit-placeholder {
+  color: transparent;
+}
+.message-box .message-submit {
+  position: absolute;
+  z-index: 1;
+  top: 9px;
+  right: 10px;
+  color: #fff;
+  border: none;
+  background: #248A52;
+  font-size: 10px;
+  text-transform: uppercase;
+  line-height: 1;
+  padding: 6px 10px;
+  border-radius: 10px;
+  outline: none !important;
+  transition: background .2s ease;
+}
+.message-box .message-submit:hover {
+  background: #1D7745;
+}
+*/
+/*--------------------
+Message Box
+--------------------*/
+.input_msg_write input {
+  background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+  border: medium none;
+  color: #4c4c4c;
+  font-size: 15px;
+  min-height: 48px;
+  width: 100%;
+}
+
+.type_msg {border-top: 1px solid black;position: relative;}
+.msg_send_btn {
+  background: darkturquoise none repeat scroll 0 0;
+  border: medium none;
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+  font-size: 17px;
+  height: 33px;
+  position: absolute;
+  right: 0;
+  top: 11px;
+  width: 33px;
+}
+@media (max-width: 468px) {
+    .section {
+        width: 300px;
+    }
+}

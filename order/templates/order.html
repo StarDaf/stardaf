@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% load static %}
+
+{%  block title %}
+    {{ request.user.username }}
+{% endblock %}
+
+{% block style %}href="{% static 'css/order.css' %}"{% endblock %}
+
+{% block content %}
+    <h1>Checkout</h1>
+            <div class="order-info mx-5">
+                <h3>Your order</h3>
+                    <ul>
+                        {% for item in cart %}
+                            <li>
+                                {{ item.quantity }}x {{ item.product.name }}
+                                <span>₦{{ item.total_price|intcomma }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                <p>Total: ₦{{ cart.get_total_cost|intcomma }}</p>
+            </div>
+
+            <form action="." method="post" class="order-form mx-5">
+            <br>
+                {{ form.as_p }}
+                <p><input type="submit" value="Place order"></p>
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/> 
+                
+                {% csrf_token %}
+            </form>
+             
+{% endblock %}

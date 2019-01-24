@@ -1,0 +1,36 @@
+html,body {
+	background-color: white;
+}
+
+@media sr-only(max-width: 767.98px) {
+
+
+.bg-primary {
+	background-color: teal;
+}
+
+
+
+.nav ul {
+	margin: 0;
+	text-align: center;
+}
+ 
+.nav li {
+	display: inline;
+	padding-right: 4em;
+	text-align: center;
+	align-items: center;
+
+}
+
+.nav a {
+	display: inline-block;
+	padding: .5em;
+	text-decoration: none;
+}
+.nav a:hover  {
+	 	background-color: grey;
+        }
+
+

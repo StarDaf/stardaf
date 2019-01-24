@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ user.username }}'s favourites
+{% endblock %}
+
+
+{% block content %}
+    <h3 class='text-muted'>@{{ user.username }}'s favourites</h3><br/>
+
+      <div class="row">
+                {% for product in user.product_liked.all %}
+
+
+                      <div class="col-sm-3">
+                      <a href='{{ product.get_absolute_url }}' class='card-link'>
+                      <div class="card">
+                      {% if product.photo %}
+                        <img class="card-img-top" src="{{ product.photo.url }}" alt="{{ product.id }}" style='height:400px'>
+                      {% else %}
+
+                        <video width="100%" height="100%" controls>
+                            <source src="{{ product.video.url }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+
+                      {% endif %}  
+                        <div class="card-body">
+                          <h5 class="card-title">{{ product.name }}</h5>
+                          <p class="card-text">{{ product.description|truncatewords:15 }}<br/>
+                          {{ product.stock }}<br/>
+                          
+
+                        </div>
+                        <div class="card-footer">
+                          <small class="text-muted">
+                            {% with total_comments=product.comments.count %}
+                              {{ total_comments }} comment{{ total_comments|pluralize }}
+                            {% endwith %}
+                          </small><br/>
+                          <small class="text-muted">Uploaded {{ product.created|timesince }} ago</small><br/>
+                          <!--<small class="text-muted">Updated {{ product.updated|timesince }} ago</small>-->
+                        </div>
+                        </a>
+                      </div>
+                      </div>
+              <!--</div>-->
+
+                {% empty %}
+                  No products uploaded yet.
+                {% endfor %}
+                </div>
+{% endblock %}

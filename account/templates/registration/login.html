@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/forms.css' %}">
+<link rel="stylesheet" href="{% static 'css/starter-template.css' %}">
+
+{% block title %}
+    Sign-in to your account
+{% endblock %}
+
+
+{% block content %}
+    <br/>
+    <!--<h1 class="display-1 text-center">Sign-in</h1>-->
+    {% if form.errors %}
+        <main class="container-fluid">
+
+    <div class="offset-lg-3 col-lg-6 col-md-12">
+        <div>
+            <img src="{% static 'css/UUUU.jpg' %}" alt="" width="72" height="72" class="mx-auto d-block">
+            <h1 class="h3 mb-3 font-weight-bold text-black-100 shadow-50 display-2"> Login error </h1>
+        <p class="h3 mb-3 font-weight-bold text-black-100 shadow-50">Invalid login details
+            check your username, email and password. login <a href="{% url 'account:login' %}" class="badge badge-info">here</a> </p>
+
+        </div>
+    </div>
+    </main>
+
+    {% else %}
+     <main role="main" class="container-fluid">
+<div class="offset-lg-3 col-lg-6 col-md-12">
+  <div >
+    <form action="{% url 'account:login' %}" method="post">
+      <div class="mb-4 text-center">
+      <img src="{% static 'css/UUUU.jpg' %}" alt="" width="72" height="72">
+      <h1 class="h3 mb-3 font-weight-bold text-black-100 shadow-lg">SIGN IN</h1>
+    </div>
+      {% for field in form.visible_fields %}
+        <label id="field.id_for_label">{{ field.label }}</label>
+        {{ field|add_class:'form-control' }}
+        {% endfor %}
+        <label>
+          <input type="checkbox" value="remember-me"> Remember me
+        </label>
+
+      <div class="text-center">
+          {% csrf_token %}
+      <button class="btn btn-info btn-lg" type="submit">Sign in</button>
+      <hr>
+      <div class="container">
+        <p>Don't have an account yet?</p>
+          <p class="text-left btn btn-outline-info"><a href="{% url 'account:register' %}">Create an account</a></p>
+          <p><a href="{% url 'account:password_reset' %}">Forgot password?</a></p>
+       <p>click <a href="{% url 'account:password_reset' %}" class="btn-info btn-sm" style="text-decoration: none;">here</a> to reset your password</p>
+       <footer class="mt-5 mb-10 text-muted text-center">&copy; 2018 fybah.com | All rights reserved</footer>
+           </div>
+
+      </div>
+        </form>
+</div>
+</div>
+</main>
+
+
+{% endif %}
+{% endblock %}

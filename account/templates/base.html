@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+{% load widget_tweaks %}
+{% load static %}
+<html lang="en">
+<head>
+    <link rel='icon' href='{% static 'img/favicon.gif' %}'>
+    <title>{% block title %}{% endblock %}</title>
+    <meta charset="UTF-8">
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'font-awesome-4.7.0/css/font-awesome.min.css' %}">
+    <link rel='stylesheet' {% block style %}{% endblock %}> 
+    
+    <style>
+        body {
+            padding:0px;
+            margin:0px;
+            background-color: white;
+
+        }
+        img, video {
+            max-width:100%;
+        }
+        a:link {
+            text-decoration: none;
+        }
+        #navbar_nav_authenticated a:link {
+           color: #0060B6;
+        }
+        #navbar_nav_authenticated a:hover {
+           color: red;
+        }
+    </style>
+</head>
+<body style='padding:0px; margin:0px' >
+
+
+     <!-- Navigation -->
+     <div class="navbar nav fixed-top bg-light" style='height:40px;'>
+           <img  class="mx-auto d-block  header__logo" src="{% static 'img/stardaf.png' %}" style='height:100px; '>
+      </div><br/>
+     {% if request.user.is_authenticated %}
+     
+      <div class="navbar fixed-bottom" style='background-color:whitesmoke' id='navbar_nav_authenticated'>
+    
+      <!--<a class="navbar-brand" href="#"><img src="web-font-with-css/image/logo.jpg" height="50" width="50"></a>-->
+      
+      
+
+      <!-- Navbar Search -->
+     
+  <!--<input type="text" class="form-control" placeholder="Search for products, brands....." aria-label="Search" aria-describedby="button-addon2">
+  <div class="input-group-append">
+      <button class="btn btn-outline-info" ><svg  xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-3"><circle cx="10.5" cy="10.5" r="7.5"></circle><line x1="21" y1="21" x2="15.8" y2="15.8"></line></svg></button>
+  </div>-->
+
+      <!-- Navbar 
+      <ul class="navbar-nav nav">
+        <li class="nav-item nav">
+          <a class="nav-link" href="#">
+            <i class="fas fa-bell fa-fw"></i>
+          </a>
+        </li>
+        <li class="nav-item nav">
+          <a class="nav-link" href="#">
+            <i class="fas fa-envelope fa-fw"></i>
+            </a>
+        </li>
+          <li class="nav-item no-arrow">
+          <a class="nav-link" href="#">
+            <i class="fas fa-shipping-fast fa-fw"></i>
+            </a>
+        </li>
+        <li class="nav-item no-arrow">
+          <a class="nav-link" href="#">
+            <i class="fas fa-user-circle fa-fw"></i>
+            </a>
+        </li>
+      </ul>
+         </div>-->
+          
+          
+<a class="active" href="{% url 'account:stream' %}" style='color:inherit'><i class="fa fa-fw fa-hashtag fa-2x"></i></a> 
+<a href="{% url 'chat:chats' %}" style='color:inherit'><i class="fa fa-fw fa-circle-thin fa-2x"></i></a>
+<a href="{% url 'account:market' %}" style='color:inherit'><i class="fa fa-fw fa-fort-awesome fa-2x"></i></a>  
+    {% if request.user.shop %}
+        <a href="{% url 'bizz:add_product' request.user.shop.id %}" style='color:inherit'><i class="fa fa-fw fa-plus-circle  fa-2x"></i></a> 
+    {% endif %}
+
+  
+
+<a href="{% url 'cart:detail' %}" style='{% if cart|length > 0%}color:red{% else %}color:inherit{% endif %}'><i class="fa fa-fw fa-shopping-basket  fa-2x"></i></a>
+<a href="{{ request.user.get_absolute_url }}" style='color:grey'><img src="{%  if request.user.profile.image %}{{ request.user.profile.image.url }}
+              {% else %}{% static 'img/no_image.png'%}{% endif %}" style="border-radius:50%;width:35px; height:35px" class="img-circle"></a>
+</div>
+</div>
+{% else %}
+
+      <div class="navbar fixed-bottom" style='background-color:whitesmoke' id='navbar_nav_anonymous'>
+    
+      <!--<a class="navbar-brand" href="#"><img src="web-font-with-css/image/logo.jpg" height="50" width="50"></a>-->
+      
+      
+
+      <!-- Navbar Search -->
+     
+  <!--<input type="text" class="form-control" placeholder="Search for products, brands....." aria-label="Search" aria-describedby="button-addon2">
+  <div class="input-group-append">
+      <button class="btn btn-outline-info" ><svg  xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-3"><circle cx="10.5" cy="10.5" r="7.5"></circle><line x1="21" y1="21" x2="15.8" y2="15.8"></line></svg></button>
+  </div>-->
+
+      <!-- Navbar 
+      <ul class="navbar-nav nav">
+        <li class="nav-item nav">
+          <a class="nav-link" href="#">
+            <i class="fas fa-bell fa-fw"></i>
+          </a>
+        </li>
+        <li class="nav-item nav">
+          <a class="nav-link" href="#">
+            <i class="fas fa-envelope fa-fw"></i>
+            </a>
+        </li>
+          <li class="nav-item no-arrow">
+          <a class="nav-link" href="#">
+            <i class="fas fa-shipping-fast fa-fw"></i>
+            </a>
+        </li>
+        <li class="nav-item no-arrow">
+          <a class="nav-link" href="#">
+            <i class="fas fa-user-circle fa-fw"></i>
+            </a>
+        </li>
+      </ul>
+         </div>-->
+          
+          
+<a class="active" href="{% url 'account:stream' %}"><i class="fa fa-fw fa-hashtag fa-2x"></i></a> 
+<a href="{% url 'account:login' %}"><i class="fa fa-fw fa-circle-thin fa-2x"></i></a>
+<a href="{% url 'account:farmcenter' 'farmcenter' %}"><i class="fa fa-fw fa-fort-awesome fa-2x"></i></a>  
+    
+
+  
+
+<a href="{% url 'cart:detail' %}"><i class="fa fa-fw fa-shopping-basket  fa-2x"></i></a>
+
+</div>
+</div>
+
+{% endif %}
+
+
+
+
+
+      </div>
+    </nav>
+
+     {% if messages %}
+         <ul class="messages">
+             {% for message in messages %}
+             <div class="alert alert-success" role="alert">
+                 <li class="{{ message.tags }}">
+                     {{ message|safe }}
+                     <a href="#" class="close">✖</a>
+                 </li>
+             </div>
+             {% endfor %}
+         </ul>
+
+     
+         
+     {% endif %}
+
+    {% block content %}{% endblock %}
+
+
+        <script src='{% static "js/jquery.js" %}'></script>
+        <script src='{% static "js/jquery.cookie.js" %}'></script>
+        <script src='{% static "js/bootstrap.min.js" %}'></script>
+
+         <script>
+                //  csrf_token setup for ajax
+                 var csrftoken = $.cookie('csrftoken');
+                     function csrfSafeMethod(method) {
+                         // these HTTP methods do not require CSRF protection
+                        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+                     }
+                     $.ajaxSetup({
+                         beforeSend: function(xhr, settings) {
+                         if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                             xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                         }
+                     }
+                     });
+            </script>
+
+        <script>
+            $(document).ready(function(){
+                {% block domready %}
+                {% endblock %}
+            })
+        </script>
+
+        
+
+        <script>
+
+        
+
+            $(document).on('click', '.like' , function(e){
+                var id = $(this).attr('id');  //convert to string
+                var address = '#' + id;  //attach # to id
+                var count = '#total_' + id;
+               e.preventDefault();
+               $.post('{% url "bizz:like" %}',
+                {
+                    id: $(this).data('id'),
+                    action: $(this).data('action')
+                }, function (data) {
+                    // get text
+                    var previous_action = $(address).data('action');
+
+                    //toggle data-action value
+                    $(address).data('action', previous_action == 'like' ? 'unlike':'like');
+
+                    //toggle text value
+                    $(address).html(previous_action == 'like' ? '<i class="fa fa-heart"></i>' : '<i class="fa fa-heart-o"></i>');
+
+                    // get text value of total likes and convert to int.
+                    var previous_likes = parseInt($(count).text());
+
+                    $(count).text(previous_action == 'like' ? previous_likes += 1:previous_likes -= 1);
+
+                    
+
+                })
+
+            })
+
+
+            $(document).on('click', '.follow' , function(e){
+                e.preventDefault();
+                var id = $(this).attr('id')
+                var address = '#' + id;
+                $.post('{% url 'account:follow' %}',
+                {
+                        id : $(this).data('id'),
+                        action : $(this).data('action')
+                },  function (data) {
+                        if (data['status'] == 'ok') {
+
+                            previous_action = $(address).data('action');
+
+
+                            $(address).data('action', previous_action == 'follow' ? 'unfollow':'follow')
+
+                            $(address).html(previous_action == 'follow' ? '<button class="btn btn-outline-primary btn-sm float-right">unfollow</button>':'<button class="btn btn-outline-primary btn-sm float-right">follow</button>')
+                        }
+                })
+            })
+
+        $(document).ready(function(){
+                $(window).on('resize', function(e){
+                    if ($(window).height() <= 468) {
+                        $('.navbar_nav').css('position', 'fixed-bottom')
+                    }
+                    else if ($(window).height() >= 568) {
+                        $('.navbar_nav').css('position', 'fixed-top')
+                    }
+                    
+                })
+        })
+        
+        
+        </script>
+
+
+
+
+</body>
+</html>

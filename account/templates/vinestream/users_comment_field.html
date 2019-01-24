@@ -1,0 +1,8 @@
+{% load static %}
+
+{% for comment in all_comments %}
+   <a href='{{ comment.user.get_absolute_url }}'>
+        @{{ comment.user.username }}  {{ comment.body|truncatewords:10 }}
+   </a><br/>
+
+{% endfor %}

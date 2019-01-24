@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load humanize %}
+{% load static %}
+
+{% block title %}
+    {{ request.user.username }} 's cart.
+{% endblock %}
+
+{% block style %}href="{% static 'css/shop2.css' %}"{% endblock %}
+
+{% block content %}
+    {% if cart %}
+        {% for item in cart %}
+                    {% with product=item.product %}
+                    
+                            <div class="shopping-cart mx-4">
+                        <br>
+                            <br>
+                            <br>
+                        <div class="column-labels">
+                            <label class="product-image">Image</label>
+                            <label class="product-details">Name</label>
+                            <label class="product-price">Price</label>
+                            <label class="product-quantity">Quantity</label>
+                            <label class="product-removal">Remove</label>
+                            <!--<label class='product-line-price'>Total</label>-->
+                            
+                        </div>
+
+                        <div class="product">
+                            <div class="product-image">
+                                <a href="{% url 'bizz:detail' product.id product.slug product.shop.owner.username %}">
+                                        {% if not product.video %}
+                                            <img src="{{ product.photo.url }}" style="width:180px; height:180px">
+                                        {% else %}
+                                            <video width="180px" height="180px" controls  {% if product.photo %}poster="{{ product.photo.url }}"{% endif %}>
+                                                <source src="{{ product.video.url }}" type="video/mp4">
+                                                Your browser does not support the video tag.
+                                            </video> 
+                                        {% endif %}    
+                                        </a>
+                            </div>
+                            <div class="product-details">
+                                <div class="product-title text-center"><h4><a href="{% url 'bizz:detail' product.id product.slug product.shop.owner.username %}">
+                                                <span class="text-muted">{{ product.name }}</span>
+                                            </a></h4></div>
+                                
+                                </div>
+                            <div class="product-price"> ₦{{ item.total_price|intcomma }}</div>
+                            <div class="product-quantity mx-5">
+                                <form action="{% url 'cart:add' product.id %}" method='post'>
+                                        {{ item.cart_update_quantity_form.as_p }}
+                                            {% csrf_token %}
+                                            <!--<input type="submit" value="Update" class="btn btn-secondary btn-sm">-->
+                                            <button type='submit' class="btn btn-secondary btn-sm mx-3">update</button>
+                                </form>
+                            </div>
+                            <div class="product-removal float-right">
+                                        <a href='{% url 'cart:remove' product.id  %}'>
+                                            <button class='remove-product btn btn-outline-primary btn-sm '>
+                                                remove
+                                            </button>
+                                        </a> 
+                            </div>
+                            <!--<div class='product-line-price'>{{ item.total_price|intcomma }}</div>-->
+                        </div>
+
+                        {% endwith %} 
+            {% endfor %} 
+
+                            <div class="totals">
+                                <!--<div class="totals-item">
+                                <label>Total</label>
+                                <div class="totals-value" id="cart-subtotal"></div>
+                                </div>-->
+                                <!--<div class="totals-item">
+                                <label>Tax (5%)</label>
+                                <div class="totals-value" id="cart-tax">70</div>
+                                </div>-->
+                                <div class="totals-item">
+                                <label>delivery</label>
+                                <div class="totals-value" id="cart-shipping">₦50</div>
+                                </div>
+                                <div class="totals-item totals-item-total">
+                                <label>Grand Total</label>
+                                <div class="totals-value" id="cart-total">₦{{ cart.get_total_cost|intcomma }}</div>
+                                </div>
+                            </div>
+                        
+                    </div>
+                    <div>
+                            <a href="{% url 'account:stream' %}"><button class="btn mb-10 btn-sm btn-primary float-left"><h5>Continue Shopping</h5></button></a>
+                            <a href="{% url 'order:order_create' %}"><button class="btn-sm mb-10 btn-danger btn float-right"><h5>pay on delivery</h5></button></a>   
+                    </div><br/><br/><br/><br/><br/><br/>
+                    
+                
+        {% else %}
+            <h2><p style='padding:50px' class='text-muted'>Your bag is empty</p></h2>
+        {% endif %}              
+{% endblock %}
