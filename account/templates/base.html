@@ -83,7 +83,7 @@
           
           
 <a class="active" href="{% url 'account:stream' %}" style='color:inherit'><i class="fa fa-fw fa-hashtag fa-2x"></i></a> 
-<a href="{% url 'chat:chats' %}" style='color:inherit'><i class="fa fa-fw fa-circle-thin fa-2x"></i></a>
+
 <a href="{% url 'account:market' %}" style='color:inherit'><i class="fa fa-fw fa-fort-awesome fa-2x"></i></a>  
     {% if request.user.shop %}
         <a href="{% url 'bizz:add_product' request.user.shop.id %}" style='color:inherit'><i class="fa fa-fw fa-plus-circle  fa-2x"></i></a> 
@@ -138,7 +138,7 @@
           
           
 <a class="active" href="{% url 'account:stream' %}"><i class="fa fa-fw fa-hashtag fa-2x"></i></a> 
-<a href="{% url 'account:login' %}"><i class="fa fa-fw fa-circle-thin fa-2x"></i></a>
+
 <a href="{% url 'account:farmcenter' 'farmcenter' %}"><i class="fa fa-fw fa-fort-awesome fa-2x"></i></a>  
     
 

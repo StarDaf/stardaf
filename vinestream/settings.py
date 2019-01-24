@@ -45,7 +45,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'channels',
+    #'channels',
     'chat',
     'action',
     'Comment',
@@ -80,7 +80,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'vinestream.urls'
-ASGI_APPLICATION = "vinestream.routing.application"
+#ASGI_APPLICATION = "vinestream.routing.application"
 
 TEMPLATES = [
     {
@@ -189,13 +189,13 @@ AUTHENTICATION_BACKENDS = (
     'account.authentication.EmailAuthBackend',
  )
 
-ASGI_APPLICATION = "vinestream.routing.application"
+#ASGI_APPLICATION = "vinestream.routing.application"
 
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [("localhost", 6379)],
-        },
-    },
-}
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels_redis.core.RedisChannelLayer",
+#         "CONFIG": {
+#             "hosts": [("localhost", 6379)],
+#         },
+#     },
+# }

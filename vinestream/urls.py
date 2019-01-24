@@ -25,7 +25,7 @@ urlpatterns = [
     url(r'^', include('account.urls', namespace='account')),
     url(r'^bizz/', include('bizz.urls', namespace='bizz')),
     url(r'^cart/', include('cart.urls', namespace='cart')),
-    url(r'^chats/', include('chat.urls', namespace='chat')),
+    #url(r'^chats/', include('chat.urls', namespace='chat')),
     url(r'^orders/', include('order.urls', namespace='order')),
 ]
 

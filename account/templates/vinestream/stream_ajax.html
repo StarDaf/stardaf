@@ -122,7 +122,7 @@
                         </span>
                 </a></span>
                 &nbsp;
-                <a href='{% url 'chat:thread' target.shop.owner.username %}'><span class='fa fa-circle-thin'></a>
+                
                
                 <span class="float-right mx-2"><a href='{% if not request.user.is_authenticated %}{% url 'account:login' %}{% else %}{% url 'bizz:recommend' request.user.id target.id %}{% endif %}'><i class="fa fa-hand-spock-o pull-right icons"></i></a></span>
                  <span class="float-right mx-2"><a href='{% url 'cart:home' target.pk %}'><i class="fa fa-plus-circle pull-right icons"></i></a></span>
