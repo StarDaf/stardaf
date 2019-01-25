@@ -143,9 +143,9 @@ WSGI_APPLICATION = 'vinestream.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'vinestream',
-        'USER': 'postgres',
-        'PASSWORD': 'faisal',
+        'NAME': 'stardaf',
+        'USER': 'u_faisal',
+        'PASSWORD': '0completehuman0',
     }
 }
 
