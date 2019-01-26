@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, HttpResponse
 from .forms import OrderCreateForm
 from django.contrib.auth.decorators import login_required
 from .models import Order, OrderItem
@@ -28,6 +28,16 @@ def order_created(request):
             order.email = str(request.user.email)
             order.save()
             for item in cart:
+                product = item['product']
+                quantity = item['quantity']
+                stock = product.stock
+                
+                if quantity > stock:
+                    return HttpResponse('There are only "{}" {}\'s remaining, change the quantity of your purchase and try again. thank you'.format(stock, item['product'].name))
+                
+                remaining = stock - quantity
+                product.stock = remaining
+                product.save()
                 OrderItem.objects.create(order=order, quantity=item['quantity'], price=item['price'], product=item['product'])
 
 

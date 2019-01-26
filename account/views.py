@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegistrationForm, UserEditForm, ProfileEditForm, SearchForm
+from bizz.forms import UpdateProductForm
 from .tasks import account_created
 from .models import Profile
 from django.contrib import messages
@@ -124,11 +125,13 @@ def profile(request, user_id, username):
     """profile will contain personal infomations such as images, names, small cards of products uploaded,
     history of uploads, chats,edit of info, bussiness location etc."""
     # total_views = r.incr('product:{}:views'.format(product.id))
+    form = UpdateProductForm()
 
     return render(request,
                   'vinestream/profile.html',
                   {'user':user,
-                   'products':products})
+                   'products':products,
+                   'form':form})
 
 # edit your account details
 # will lead to a template having forms prepopulated with user's existing data

@@ -9,7 +9,7 @@ class CommentForm(forms.ModelForm):
 
         widgets = {
             'active' : forms.HiddenInput,
-            'body' : forms.Textarea(attrs={'placeholder':'comment here', 'rows':1,})
+            'body' : forms.Textarea(attrs={'placeholder':'comment here', 'rows':2,})
         }
         # def __init__(self, *args, **kwargs):
         #     super(CommentForm, self).__init__(*args, **kwargs)

@@ -59,9 +59,9 @@
                 {% with product=target.product %}
             <!--<div class="col-sm-4"></div>-->
             
+            {% if target.stock != 0 %}
             
-            
-                    <div class='col-md-6 mx-auto d-block' style='padding-left: 0px; padding-right:0px'>
+                    <div class='col-md-6 mx-auto d-block' style='padding-left: 0px; padding-right:0px;'>
                         <div class='product-entry'>
                             <div class="card mb-4">
               <div class="card card-header">
@@ -88,8 +88,8 @@
             <a href='{{ target.get_absolute_url }}'>
             {% if not target.video %}
                 
-                    <img class="card-img-top" src="{{ target.photo.url }}" style='height:400px; width:100vw'>
-               
+                    <img class="card-img-top" src="{{ target.photo.url }}" style='height:auto; width:100%;'>
+                
             {% else %}
                 <video width="100%" height="100%" controls {% if target.photo %}poster="{{ target.photo.url }}"{% endif %}>
                     <source src="{{ target.video.url }}" type="video/mp4">
@@ -177,12 +177,12 @@
           </div>
                         </div>
                     </div>
-                  
+                  {% endif %}
                 {% endwith %}
                 {% endwith %}
             {% endwith %}
         {% endwith %}
-    {% endfor %}
+    {% endfor %}<br/><br/>
 
 
 

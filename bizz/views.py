@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import CreateShopForm, ShopEditForm, AddProductForm
+from .forms import CreateShopForm, ShopEditForm, AddProductForm, UpdateProductForm
 from .tasks import shop_created
 from django.contrib import messages
 from django.shortcuts import get_object_or_404
@@ -246,3 +246,15 @@ def recommend(request, user_id, product_id):
 
     # return to the homepage
     return redirect('account:stream')
+
+@login_required
+def add_product_stock(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+
+    if request.method == 'POST':
+        form = UpdateProductForm(data=request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            product.stock = cd['quantity']
+            product.save()
+            return redirect(product.shop.owner.get_absolute_url())

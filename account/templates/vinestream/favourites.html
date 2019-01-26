@@ -6,6 +6,7 @@
 
 
 {% block content %}
+    <br/><br/>
     <h3 class='text-muted'>@{{ user.username }}'s favourites</h3><br/>
 
       <div class="row">
@@ -16,7 +17,7 @@
                       <a href='{{ product.get_absolute_url }}' class='card-link'>
                       <div class="card">
                       {% if product.photo %}
-                        <img class="card-img-top" src="{{ product.photo.url }}" alt="{{ product.id }}" style='height:400px'>
+                        <img class="card-img-top" src="{{ product.photo.url }}" alt="{{ product.id }}" style='height:auto'>
                       {% else %}
 
                         <video width="100%" height="100%" controls>
@@ -47,7 +48,7 @@
               <!--</div>-->
 
                 {% empty %}
-                  No products uploaded yet.
+                      &nbsp;&nbsp;&nbsp;&nbsp;No products liked yet.
                 {% endfor %}
                 </div>
 {% endblock %}

@@ -22,7 +22,7 @@
 
       <div class="text-center">
         <img src="{% if user.profile.image %}{{ user.profile.image.url }}{% else %}{% static 'img/no_image.png'%}
-        {% endif %}" class="avatar img-circle img-thumbnail" alt="avatar" style='width:250px; height:200px; border-radius:30px'>
+        {% endif %}" class="avatar img-circle img-thumbnail" alt="avatar" style='width:100%; height:auto; border-radius:5px'>
 
       </div>
 
@@ -81,9 +81,11 @@ class='follow float-left' id='{{ user.id }}'>
 
           <!--<div class="card-deck">-->
         <ul class="nav nav-tabs" id="myTab" role="tablist">
+        {% if user.shop %}
           <li class="nav-item">
             <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true"><span class='fa fa-hashtag'></span></a>
           </li>
+        {% endif %}  
           <li class="nav-item">
             <a class="nav-link"  href="{% url 'account:edit' %}" ><span class='fa fa-cog'></span></a>
           </li>
@@ -99,7 +101,7 @@ class='follow float-left' id='{{ user.id }}'>
                       <div class="col-sm-3">
                       <div class="card" style='width:100%'>
                       {% if product.photo %}
-                        <a href='{{ product.get_absolute_url }}'><img class="card-img-top" src="{{ product.photo.url }}" alt="{{ product.id }}" style='height:200px'></a>
+                        <a href='{{ product.get_absolute_url }}'><img class="card-img-top" src="{{ product.photo.url }}" alt="{{ product.id }}" style='height:auto;width:100%'></a>
                       {% else %}
 
                         <a href='{{ product.get_absolute_url }}'><video width="100%" height="100%" controls>
@@ -111,8 +113,14 @@ class='follow float-left' id='{{ user.id }}'>
                         <div class="card-body">
                           <h5 class="card-title"><a href='{{ product.get_absolute_url }}'>{{ product.name }}</a></h5>
                           <p class="card-text">{{ product.description|truncatewords:15 }}<br/>
-                          {{ product.stock }}<br/>
+                          stock: {{ product.stock }}<br/>
                             {% if request.user.id == user.shop.owner.id %}
+                              <form action="{% url 'bizz:stock' product.id %}" method='post'>
+                                        {{ form.as_p }}
+                                            {% csrf_token %}
+                                            <!--<input type="submit" value="Update" class="btn btn-secondary btn-sm">-->
+                                            <button type='submit' class="btn btn-secondary btn-sm mx-3">update</button>
+                                </form>
                               <a href="{% url 'bizz:delete' product.id %}">Delete</a></p>
                             {% endif %}
 
@@ -134,7 +142,7 @@ class='follow float-left' id='{{ user.id }}'>
                 {% if request.user.shop %}
                   No products uploaded yet.
                 {% else %}
-                  
+                 
                 {% endif %}    
                 {% endfor %}
                 </div>
@@ -146,7 +154,7 @@ class='follow float-left' id='{{ user.id }}'>
         </ul>
 
           <!--</div>-->
-
+        <br/><br/><br/>
 {% endblock %}
 
 

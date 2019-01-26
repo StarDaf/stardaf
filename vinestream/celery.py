@@ -14,3 +14,4 @@ app.config_from_object('django.conf:settings')
 # set celery to autodiscover asynchronous tasks
 app.autodiscover_tasks(lambda : settings.INSTALLED_APPS)
 
+

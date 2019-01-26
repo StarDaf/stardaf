@@ -28,3 +28,12 @@ class AddProductForm(forms.ModelForm):
         }
 
 
+class UpdateProductForm(forms.Form):
+    MAX_QUANTITY = ((i, str(i)) for i in range(1, 30))  # a user can buy a maximum of 20 products
+
+    quantity = forms.TypedChoiceField(choices=MAX_QUANTITY,
+                                      coerce=int)
+
+
+
+
