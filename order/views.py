@@ -45,7 +45,7 @@ def order_created(request):
             # create subject, message
             subject = '{}, Your order_id is: {}'.format(order.user.username, order.id)
             message = '{}, Your product is coming to you.'
-            send_mail(subject, message, 'mg.stardaf.com', [order.email])
+            send_mail(subject, message, 'postmaster@stardaf.com', [order.email])
             cart.clear()  #empty cart
 
             messages.success(request, 'Order has being placed successfully.')
