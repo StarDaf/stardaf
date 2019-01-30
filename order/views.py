@@ -41,7 +41,11 @@ def order_created(request):
                 OrderItem.objects.create(order=order, quantity=item['quantity'], price=item['price'], product=item['product'])
 
 
-            order_faisal_created.delay(order.id)
+            #order_faisal_created.delay(order.id)
+            # create subject, message
+            subject = '{}, Your order_id is: {}'.format(order.user.username, order.id)
+            message = '{}, Your product is coming to you.'
+            send_mail(subject, message, 'teamstardaf@gmail.com', [order.email])
             cart.clear()  #empty cart
 
             messages.success(request, 'Order has being placed successfully.')
