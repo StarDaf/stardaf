@@ -12,7 +12,7 @@ def order_faisal_created(order_id):
     # create subject, message
     subject = '{}, Your order_id is: {}'.format(order.user.username, order.id)
     message = '{}, Your product is coming to you.'
-    send_mail(subject, message, 'faisallawan1997@gmail.com', [order.email])
+    send_mail(subject, message, 'teamstardaf@gmail.com', [order.email])
 
     return send_mail
 
@@ -26,6 +26,6 @@ def order_faisal_created(order_id):
     # create subject, message
     subject = '{}, Your order_id is: {}'.format(order.user.username, order.id)
     message = '{}, Your product is coming to you.'
-    send_mail(subject, message, 'faisallawan1997@gmail.com', [order.email])
+    send_mail(subject, message, 'teamstardaf@gmail.com', [order.email])
 
     return send_mail

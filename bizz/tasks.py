@@ -12,6 +12,6 @@ def shop_created(shop_id):
     subject = '{}\'s business is online!!'.format(shop.user.username)
     message = 'Congratulations {}, You can add products to your shop through your profile'.format(shop.user.username)
 
-    send_mail(subject, message, 'faisallawan1997@gmail.com', [shop.user.email], fail_silently=False)
+    send_mail(subject, message, 'teamstardaf@gmail.com', [shop.user.email], fail_silently=False)
 
     return send_mail
