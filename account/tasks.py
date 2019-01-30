@@ -11,6 +11,6 @@ def account_created(user_id):
     message = 'Hello Dear!!, You have arrived at the first ultimate social commerce site in the world!<br//>' \
               'Where you can browse and buy cool products and also set you business online' \
 
-    send_mail(subject, message, 'teamstardaf@gmail.com', [user.email], fail_silently=False)
+    send_mail(subject, message, 'postmaster@stardaf.com', [user.email], fail_silently=False)
 
     return send_mail

@@ -43,8 +43,8 @@ def order_created(request):
 
             #order_faisal_created.delay(order.id)
             # create subject, message
-            subject = '{}, Your order_id is: {}'.format(order.user.username, order.id)
-            message = '{}, Your product is coming to you.'
+            subject = '{}, Your stardaf order id is: {}'.format(order.user.username, order.id)
+            message = '{}, Your product is coming to you.<br/>Your order is complete.'.format(order.user.username)
             send_mail(subject, message, 'postmaster@stardaf.com', [order.email])
             cart.clear()  #empty cart
 
