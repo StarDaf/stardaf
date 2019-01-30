@@ -5,7 +5,7 @@ from .models import Order, OrderItem
 from cart.cart import Cart
 from django.contrib import messages
 from .tasks import order_faisal_created
-
+from django.core.mail import send_mail
 
 from django.http import HttpResponse
 from django.views.generic import View
