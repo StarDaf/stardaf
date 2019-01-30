@@ -16,7 +16,7 @@ import os
 from decouple import config, Csv
 import dj_database_url
 
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = config('SECRET_KEY', default='xe%h)vvlc&qx9#aql&02^kboq244nq)+9ml%qrje*ex$1u#7wz')
 DEBUG = config('DEBUG', default=False, cast=bool)
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 DATABASES = {
@@ -211,7 +211,7 @@ USE_TZ = True
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'account/static/')
 STATIC_URL = '/static/'
-#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
