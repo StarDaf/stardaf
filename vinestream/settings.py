@@ -35,6 +35,13 @@ DEFAULT_FROM_EMAIL = 'StarDaf <noreply@stardaf.com>'
 EMAIL_SUBJECT_PREFIX = '[StarDaf] '
 
 
+EMAIL_HOST='smtp.mailgun.org'
+EMAIL_PORT=587
+EMAIL_HOST_USER='postmaster@mg.stardaf.com'
+EMAIL_HOST_PASSWORD='c3a8f3439f9f751908be125be0271825-c8c889c9-027676c8'
+EMAIL_USE_TLS=True
+EMAIL_USE_SSL =False
+
 # __AUTHOR__ = 'Faisal Lawan Muhammad'
 
 ABSOLUTE_URL_OVERRIDES = {
