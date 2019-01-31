@@ -31,7 +31,7 @@
 
     <div class="offset-lg-3 col-lg-6 col-md-12">
         <div>
-            <img src="{% static 'css/UUUU.jpg' %}" alt="" width="72" height="72" class="mx-auto d-block">
+            <img src="{% static 'img/favicon.png' %}" alt="" width="72" height="72" class="mx-auto d-block">
             <h1 class="h3 mb-3 font-weight-bold text-black-100 shadow-50 display-2"> Registration error</h1>
             {% if error == 'username' %}
                 <p class="h3 mb-3 font-weight-bold text-black-100 shadow-50">Username already exist</p> 
@@ -56,7 +56,7 @@
     <form class="form-group" method='post' action='.'>
             <div class="text-center mb-4">
         <h2 class="text-center font-weight-bold">Create an account</h2>
-        <img class="mb-1 img-rounded" src="{% static 'css/UUUU.jpg' %}" alt="" width="72" height="72">
+        <img class="mb-1 img-rounded" src="{% static 'img/favicon.png' %}" alt="" width="72" height="72">
     </div>
             {% for field in form.visible_fields %}
 
@@ -73,12 +73,12 @@
 </form>
 <hr>
     <p>Already have an account? <a href="{% url 'account:login' %}">Sign in</a></p>
-<footer class="mt-5 mb-10 text-muted text-center">&copy; 2018 fybah.com | All rights reserved</footer>
+<footer class="mt-5 mb-10 text-muted text-center">&copy; 2018 stardaf.com | All rights reserved</footer>
 </div>
 </div>
 </main>
 {% endif %}
 
-<footer class="mt-5 mb-10 text-muted text-center">&copy; 2018 fybah.com | All rights reserved</footer>
+<footer class="mt-5 mb-10 text-muted text-center">&copy; 2018 stardaf.com | All rights reserved</footer>
 {% endblock %}
 

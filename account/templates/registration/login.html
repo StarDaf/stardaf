@@ -18,7 +18,7 @@
 
     <div class="offset-lg-3 col-lg-6 col-md-12">
         <div>
-            <img src="{% static 'css/UUUU.jpg' %}" alt="" width="72" height="72" class="mx-auto d-block">
+            <img src="{% static 'img/favicon.png' %}" alt="" width="72" height="72" class="mx-auto d-block">
             <h1 class="h3 mb-3 font-weight-bold text-black-100 shadow-50 display-2"> Login error </h1>
         <p class="h3 mb-3 font-weight-bold text-black-100 shadow-50">Invalid login details
             check your username, email and password. login <a href="{% url 'account:login' %}" class="badge badge-info">here</a> </p>
@@ -33,7 +33,7 @@
   <div >
     <form action="{% url 'account:login' %}" method="post">
       <div class="mb-4 text-center">
-      <img src="{% static 'css/UUUU.jpg' %}" alt="" width="72" height="72">
+      <img src="{% static 'img/favicon.png'%}" alt="" width="72" height="72">
       <h1 class="h3 mb-3 font-weight-bold text-black-100 shadow-lg">SIGN IN</h1>
     </div>
       {% for field in form.visible_fields %}
@@ -53,7 +53,7 @@
           <p class="text-left btn btn-outline-info"><a href="{% url 'account:register' %}">Create an account</a></p>
           <p><a href="{% url 'account:password_reset' %}">Forgot password?</a></p>
        <p>click <a href="{% url 'account:password_reset' %}" class="btn-info btn-sm" style="text-decoration: none;">here</a> to reset your password</p>
-       <footer class="mt-5 mb-10 text-muted text-center">&copy; 2018 fybah.com | All rights reserved</footer>
+       <footer class="mt-5 mb-10 text-muted text-center">&copy; 2018 stardaf.com | All rights reserved</footer>
            </div>
 
       </div>

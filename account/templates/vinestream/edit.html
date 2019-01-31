@@ -9,7 +9,7 @@
 {% block content %}
     <br/>
 
-    <h3 class="display-3">Edit your account</h3>
+    
     {% if user_form.errors or profile_form.errors %}
         {% for error in users_form.errors %}
             {{ error }}
@@ -26,7 +26,7 @@
               <div>
                 <form action="." method="post" enctype="multipart/form-data">
                   <div class="mb-4 text-center">
-                  <img src="{% static 'css/UUUU.jpg' %}" alt="" width="72" height="72">
+                  <img src="{% static 'img/favicon.png' %}" alt="" width="72" height="72">
                   <h1 class="h3 mb-3 font-weight-bold text-black-100 shadow-lg">Edit profile</h1>
                 </div>
                   <div class="form-group">

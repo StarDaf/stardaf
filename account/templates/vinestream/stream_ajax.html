@@ -86,7 +86,7 @@
 
             </div>
             <a href='{{ target.get_absolute_url }}'>
-            {% if not target.video %}
+            <!--{% if not target.video %}
                 
                     <img class="card-img-top" src="{{ target.photo.url }}" style='height:auto; width:100%;'>
                 
@@ -95,7 +95,80 @@
                     <source src="{{ target.video.url }}" type="video/mp4">
                     Update your browser.
                 </video>
-            {% endif %}    
+            {% endif %}-->  
+            <!--begin-->
+
+             <!--Carousel Wrapper-->
+<div id="carousel_{{ target.id }}" class="carousel slide" data-interval="false">
+  <!--Indicators-->
+  <ol class="carousel-indicators">
+    {% if target.video %}<li data-target="#carousel_{{ target.id }}" data-slide-to="0" {% if target.video %}class='active'{% endif %}></li>{% endif %}
+    <li data-target="#carousel_{{ target.id }}" data-slide-to="1" {% if not target.video %}class='active'{% endif %}></li>
+    {% if target.photo1 %}<li data-target="#carousel_{{ target.id }}" data-slide-to="2"></li>{% endif %}
+    {% if target.photo2 %}<li data-target="#carousel_{{ target.id }}" data-slide-to="3"></li>{% endif %}
+    {% if target.photo3 %}<li data-target="#carousel_{{ target.id }}" data-slide-to="4"></li>{% endif %}
+    
+  </ol>
+  <!--/.Indicators-->
+  <!--Slides-->
+  <div class="carousel-inner" role="listbox">
+    <!--First slide-->
+    {% if target.video  %}
+        <div class="carousel-item active">
+            
+                <video width="100%" height="100%"  controls {% if target.photo %}poster="{{ target.photo.url }}"{% endif %}>
+                        <source src="{{ target.video.url }}" type="video/mp4">
+                        Update your browser.
+                    </video>
+            
+        </div>
+    {% endif %}
+    <!--/First slide-->
+    <!--Second slide-->
+    {% if target.photo %}
+    <div class="carousel-item {% if not target.video %}active{% endif %}">
+        
+            <img class="card-img-top" src="{{ target.photo.url }}" style='height:auto; width:100%;' alt="First slide">
+           
+    </div>
+    {% endif %}
+    <!--/Second slide-->
+    <!--Third slide-->
+    {% if target.photo1 %}
+    <div class="carousel-item ">
+        
+            <img class="card-img-top" src="{{ target.photo1.url }}" style='height:auto; width:100%;' alt="First slide">
+           
+    </div>
+    {% endif %}
+    <!--/Third slide-->
+    {% if target.photo2 %}
+    <div class="carousel-item ">
+        
+            <img class="card-img-top" src="{{ target.photo2.url }}" style='height:auto; width:100%;' alt="First slide">
+           
+    </div>
+    {% endif %}
+    {% if target.photo3 %}
+    <div class="carousel-item ">
+        
+            <img class="card-img-top" src="{{ target.photo3.url }}" style='height:auto; width:100%;' alt="First slide">
+           
+    </div>
+    {% endif %}
+  </div>
+  <!--/.Slides-->
+  <!--Controls-->
+ {% if target.video or target.photo1 %}
+  <a class="carousel-control-next" href="#carousel_{{ target.id }}" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+  {% endif %}
+  <!--/.Controls-->
+</div>
+<!--/.Carousel Wrapper-->
+            
             </a>
             
             <div class="card-body">
@@ -182,7 +255,7 @@
                 {% endwith %}
             {% endwith %}
         {% endwith %}
-    {% endfor %}<br/><br/>
+    {% endfor %}<br/><br/><br/><br/>
 
 
 

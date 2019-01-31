@@ -98,6 +98,10 @@ class Product(models.Model):
     stock = models.PositiveIntegerField()  # quantity of product available
     #photo = models.FileField(upload_to='products/%y/%m/%d', blank=True, null=True)  # image of product
     photo = ImageField(upload_to='products/%y/%m/%d', blank=True, null=True)
+    photo1 = ImageField(upload_to='products/%y/%m/%d', blank=True, null=True, default='')
+    photo2 = ImageField(upload_to='products/%y/%m/%d', blank=True, null=True, default='')
+    photo3 = ImageField(upload_to='products/%y/%m/%d', blank=True, null=True, default='')
+
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     available = models.BooleanField(default=False)  # can be user to disable products

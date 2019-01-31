@@ -1,3 +1,55 @@
 <!--<a href='{% url 'chat:thread' target.shop.owner.username %}'><span class='fa fa-circle-thin'></a>-->
 <!--<a href="{% url 'account:login' %}"><i class="fa fa-fw fa-circle-thin fa-2x"></i></a>-->
 <!--<a href="{% url 'chat:chats' %}" style='color:inherit'><i class="fa fa-fw fa-circle-thin fa-2x"></i></a>-->
+
+<div id="carousel-example-1z" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel">
+  <!--Indicators-->
+  <!--<ol class="carousel-indicators">
+    <li data-target="#carousel-example-1z" data-slide-to="0"></li>
+    <li data-target="#carousel-example-1z" data-slide-to="1" ></li>
+    {% if target.photo1 %}<li data-target="#carousel-example-1z" data-slide-to="2"></li>{% endif %}
+    {% if target.photo2 %}<li data-target="#carousel-example-1z" data-slide-to="3"></li>{% endif %}
+    {% if target.photo3 %}<li data-target="#carousel-example-1z" data-slide-to="4"></li>{% endif %}
+  </ol>-->
+  <ol class="carousel-indicators">
+    <li data-target="#carousel-example-1z" data-slide-to="0"></li>
+    <li data-target="#carousel-example-1z" data-slide-to="1" class="active"></li>
+    
+  </ol>
+  <!--/.Indicators-->
+  <!--Slides-->
+  <div class="carousel-inner" role="listbox">
+    <!--First slide-->
+    {% if target.video  %}
+        <div class="carousel-item">
+            
+                <video width="100%" height="100%"  controls {% if target.photo %}poster="{{ target.photo.url }}"{% endif %}>
+                        <source src="{{ target.video.url }}" type="video/mp4">
+                        Update your browser.
+                    </video>
+            
+        </div>
+    {% endif %}
+    <!--/First slide-->
+    <!--Second slide-->
+    {% if target.photo %}
+    <div class="carousel-item active">
+        
+            <img class="card-img-top" src="{{ target.photo.url }}" style='height:auto; width:100%;' alt="First slide">
+           
+    </div>
+    {% endif %}
+    <!--/Second slide-->
+    <!--Third slide-->
+    
+  </div>
+  <a class="carousel-control-prev" href="#carousel-example-1z" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carousel-example-1z" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+</div>
