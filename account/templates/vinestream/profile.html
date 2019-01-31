@@ -33,6 +33,8 @@
             <li class="list-group-item text-right"><span class="pull-left"><strong>Likes</strong></span> {{ user.product_liked.count }}</li>
             <li class="list-group-item text-right"><span class="pull-left"><strong>Following</strong></span> {{ user.following.count }}</li>
             <li class="list-group-item text-right"><span class="pull-left"><strong>Followers</strong></span> {{ user.followers.count }}</li>
+            {% if user.shop %}<li class="list-group-item text-right"><span class="pull-left"><strong>{{ user.shop.description|linebreaks }}</strong></li>{% endif %}
+
           </ul>
 
         </div><!--/col-3-->
@@ -100,9 +102,9 @@ class='follow float-left' id='{{ user.id }}'>
 
 
                       <div class="col-sm-3">
-                      <div class="card" style='width:100%'>
+                      <div class="card">
                       {% if product.photo %}
-                        <a href='{{ product.get_absolute_url }}'><img class="card-img-top" src="{{ product.photo.url }}" alt="{{ product.id }}" style='height:auto;width:100%'></a>
+                        <a href='{{ product.get_absolute_url }}'><img class="card-img-top" src="{{ product.photo.url }}" alt="{{ product.id }}" style='height:auto'></a>
                       {% else %}
 
                         <a href='{{ product.get_absolute_url }}'><video width="100%" height="100%" controls>
@@ -141,7 +143,7 @@ class='follow float-left' id='{{ user.id }}'>
 
                 {% empty %}
                 {% if request.user.shop %}
-                  No products uploaded yet.
+                  
                 {% else %}
                  
                 {% endif %}    

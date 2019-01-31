@@ -176,8 +176,8 @@ def delete(request, product_id):
     product = get_object_or_404(Product, id=product_id, shop=request.user.shop)   # get product
     # get action which has this product as it's target
     id =int(product.id)
-    action = Action.objects.get(target_id=id)
-    action.delete()  # delete action
+    actions = Action.objects.filter(target_id=id)
+    actions.delete()  # delete action
     Product.objects.filter(name=product.name, id=product.id).delete() # delete the product from the database.
 
 
