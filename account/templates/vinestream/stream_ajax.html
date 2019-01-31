@@ -99,14 +99,14 @@
             <!--begin-->
 
              <!--Carousel Wrapper-->
-<div id="carousel_{{ target.id }}" class="carousel slide" data-interval="false">
+<div id="carousel_{{ action.id }}" class="carousel slide" data-interval="false">
   <!--Indicators-->
   <ol class="carousel-indicators">
-    {% if target.video %}<li data-target="#carousel_{{ target.id }}" data-slide-to="0" {% if target.video %}class='active'{% endif %}></li>{% endif %}
-    <li data-target="#carousel_{{ target.id }}" data-slide-to="1" {% if not target.video %}class='active'{% endif %}></li>
-    {% if target.photo1 %}<li data-target="#carousel_{{ target.id }}" data-slide-to="2"></li>{% endif %}
-    {% if target.photo2 %}<li data-target="#carousel_{{ target.id }}" data-slide-to="3"></li>{% endif %}
-    {% if target.photo3 %}<li data-target="#carousel_{{ target.id }}" data-slide-to="4"></li>{% endif %}
+    {% if target.video %}<li data-target="#carousel_{{ action.id }}" data-slide-to="0" {% if target.video %}class='active'{% endif %}></li>{% endif %}
+    <li data-target="#carousel_{{ action.id }}" data-slide-to="1" {% if not target.video %}class='active'{% endif %}></li>
+    {% if target.photo1 %}<li data-target="#carousel_{{ action.id }}" data-slide-to="2"></li>{% endif %}
+    {% if target.photo2 %}<li data-target="#carousel_{{ action.id }}" data-slide-to="3"></li>{% endif %}
+    {% if target.photo3 %}<li data-target="#carousel_{{ action.id }}" data-slide-to="4"></li>{% endif %}
     
   </ol>
   <!--/.Indicators-->
@@ -160,7 +160,7 @@
   <!--/.Slides-->
   <!--Controls-->
  {% if target.video or target.photo1 %}
-  <a class="carousel-control-next" href="#carousel_{{ target.id }}" role="button" data-slide="next">
+  <a class="carousel-control-next" href="#carousel_{{ action.id }}" role="button" data-slide="next">
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="sr-only">Next</span>
   </a>
