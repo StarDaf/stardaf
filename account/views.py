@@ -94,6 +94,7 @@ def register(request):
             Profile.objects.create(user=new_user)
             # give a success notification.
             messages.success(request, 'Welcome {},'.format(new_user.get_full_name()))
+            messages.success(request, 'Use the plus (+) button to add items to your bag',)
 
             # send new user to streams
             return redirect('account:login')

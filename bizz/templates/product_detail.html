@@ -22,8 +22,8 @@
                 <div class="row">
                         <div class="col-md-6 col-sm-12 offset-lg-6 mx-auto d-block">
                                 <!--<div class="text-center pull-left col-md-5 col-sm-12">-->
-                                    <img  class="float-left " src="{% if product.shop.owner.profile.image %}{{ product.shop.owner.profile.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}"
-                                          style="width: 50px; height:50px; border-radius: 50%; border:3px solid black"> &nbsp;&nbsp;&nbsp;
+                                    <a href='{{ product.shop.owner.get_absolute_url }}'><img  class="float-left " src="{% if product.shop.owner.profile.image %}{{ product.shop.owner.profile.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}"
+                                          style="width: 50px; height:50px; border-radius: 50%; border:3px solid black"></a> &nbsp;&nbsp;&nbsp;
 
                             
 
@@ -41,7 +41,8 @@
                                     <button class='btn btn-outline-primary btn-sm'>unfollow</button>
                                 {% endif %}
                             </a> 
-                            {% endif %}
+                            {% endif %}<br/>
+                            &nbsp;&nbsp;&nbsp;<small><i>Sold by {{ product.shop.owner.first_name }}</i><small>
                            
                                    
                             <!--{% if product.video %}
@@ -153,8 +154,8 @@
                  <span class="float-right mx-2"><a href='{% url 'cart:home' product.pk %}'><i class="fa fa-plus-circle pull-right icons"></i></a></span>
                                     <div class="pull-right">
                         <h2 class="name">
-                            {{ product.name }} 
-                            <small> - <a href="">{{ product.shop.owner.first_name }}</a> - {{ product.shop.business_address }}</small><br/>
+                            {{ product.name }}  
+                            <small> - <a href="">   @{{ product.shop.owner.first_name }}</a>   -   {{ product.shop.business_address }}</small><br/>
                             <!--<ul class="rating">-->
                         <!--<li class="fa fa-star"></li>-->
                         <!--<li class="fa fa-star"></li>-->
@@ -172,7 +173,7 @@
                         </h2>
                         <div class="certified">
                             <ul style='list-style-type:none'>
-                                <li>30 minutes delivery time</li>
+                                <li><em>30 minutes delivery time</em></li>
                                 <!--<li>{{ product.shop. }}</li>-->
                                 
                                 
@@ -199,7 +200,8 @@
                                     {% empty %}
                                     {% endfor %}<br/><br/>
                                         <span class="fa fa-2x"><h5>({{ product.comments.count }}) </h5></span>
-                            Comment{{ product.comments.count|pluralize }}  {% if request.user.is_anonymous %}<small style="color:red">Create account to comment</small>{% endif %}
+                            Comment{{ product.comments.count|pluralize }}  {% if request.user.is_anonymous %}<small style="color:red"><a href='{% url 'account:register' %}'>Create account to comment</a></small> or
+                            <small style='color:blue'><a href='{% url 'account:login' %}'>Login</a></small> to comment{% endif %}
 
                                         <form action="." method="post">
                                             <div class="form-group">

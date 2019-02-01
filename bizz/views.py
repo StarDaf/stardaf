@@ -100,7 +100,7 @@ def add_product(request, shop_id):
 
 def detail(request, id, slug, username):
     
-    # get user
+    
     user = User.objects.get(username=username)
     # get shop
     shop = Shop.objects.get(owner=user)
@@ -135,6 +135,8 @@ def detail(request, id, slug, username):
     form = CartAddForm()
     # if request if post
     if request.method == 'POST':
+        if not request.user.is_authenticated:
+            return redirect('account:login')
         comment_form = CommentForm(data=request.POST)  # prepopulate data with existing form.
 
         if comment_form.is_valid():
