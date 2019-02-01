@@ -42,7 +42,7 @@
                                 {% endif %}
                             </a> 
                             {% endif %}<br/>
-                            &nbsp;&nbsp;&nbsp;<small><i>Sold by {{ product.shop.owner.first_name }}</i><small>
+                            &nbsp;&nbsp;&nbsp;<small><i>Sold by {{ product.shop.owner.first_name }}</i></small>
                            
                                    
                             <!--{% if product.video %}
@@ -155,7 +155,7 @@
                                     <div class="pull-right">
                         <h2 class="name">
                             {{ product.name }}  
-                            <small> - <a href="">   @{{ product.shop.owner.first_name }}</a>   -   {{ product.shop.business_address }}</small><br/>
+                            <small> - <a href="{{ product.shop.owner.get_absolute_url }}">   @{{ product.shop.owner.first_name }}</a>   -   {{ product.shop.business_address }}</small><br/>
                             <!--<ul class="rating">-->
                         <!--<li class="fa fa-star"></li>-->
                         <!--<li class="fa fa-star"></li>-->
@@ -173,7 +173,7 @@
                         </h2>
                         <div class="certified">
                             <ul style='list-style-type:none'>
-                                <li><em>30 minutes delivery time</em></li>
+                                <li><em30 minutes delivery time</em></li>
                                 <!--<li>{{ product.shop. }}</li>-->
                                 
                                 
