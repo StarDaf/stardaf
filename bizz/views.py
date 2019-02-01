@@ -135,16 +135,18 @@ def detail(request, id, slug, username):
     form = CartAddForm()
     # if request if post
     if request.method == 'POST':
-        if not request.user.is_authenticated:
-            return redirect('account:login')
+        
         comment_form = CommentForm(data=request.POST)  # prepopulate data with existing form.
 
         if comment_form.is_valid():
-            comment = comment_form.save(commit=False)  # create comment instance but don't save to the database yet.
-            comment.product = product
-            comment.user = request.user
-            comment.email = str(request.user.email)
-            comment.save()   # save comment form
+            if request.user.is_authenticated:
+                comment = comment_form.save(commit=False)  # create comment instance but don't save to the database yet.
+                comment.product = product
+                comment.user = request.user
+                comment.email = str(request.user.email)
+                comment.save()   # save comment form
+            else:
+                return redirect('account:login')    
 
     else:
         # get comment form
