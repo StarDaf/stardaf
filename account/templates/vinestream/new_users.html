@@ -4,7 +4,7 @@
     {% if profile.user.profile.image %}
         <a href='{{ profile.user.get_absolute_url }}'><img src="{{ profile.user.profile.image.url }}" style="height:50px; width:50px; border-radius:50%;"></a>
     {% else %}
-         <a href='{{ user.get_absolute_url }}'><img src="{% static 'css/UUUU.jpg' %}" style="height:50px; width:50px; border-radius:50%"></a>
+         <a href='{{ profile.user.get_absolute_url }}'><img src="{% static 'css/UUUU.jpg' %}" style="height:50px; width:50px; border-radius:50%"></a>
     {% endif %}
     
 {% endfor %}

@@ -91,7 +91,7 @@ def register(request):
             new_user.save()  # save user in database
             #account_created.delay(new_user.id)  # set asynchronous task in queue.
             subject = 'Welcome to stardaf'
-            message = 'Hello Dear!!, You have arrived at the first ultimate social commerce site in the world!\nWhere you can browse cool products and also set you business online\nTeam StarDaf.'
+            message = 'Hello Dear!!, You have arrived at the first ultimate social commerce site in the world!\nWhere you can browse cool products and also set your business online\nThank you\n\nTeam StarDaf.'
 
             send_mail(subject, message, 'postmaster@stardaf.com', [new_user.email], fail_silently=False)
 
