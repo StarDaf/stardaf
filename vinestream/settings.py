@@ -13,34 +13,34 @@ from django.urls import reverse_lazy
 import os
 
 
-from decouple import config, Csv
-import dj_database_url
+# from decouple import config, Csv
+# import dj_database_url
 
-SECRET_KEY = config('SECRET_KEY', default='xe%h)vvlc&qx9#aql&02^kboq244nq)+9ml%qrje*ex$1u#7wz')
-DEBUG = config('DEBUG', default=False, cast=bool)
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
-DATABASES = {
-    'default': dj_database_url.config(
-        default=config('DATABASE_URL')
-    )
-}
-EMAIL_BACKEND = config('EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
-EMAIL_HOST = config('EMAIL_HOST', default='')
-EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
-EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
-EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
+# SECRET_KEY = config('SECRET_KEY', default='xe%h)vvlc&qx9#aql&02^kboq244nq)+9ml%qrje*ex$1u#7wz')
+# DEBUG = config('DEBUG', default=False, cast=bool)
+# ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default=config('DATABASE_URL')
+#     )
+# }
+# EMAIL_BACKEND = config('EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
+# EMAIL_HOST = config('EMAIL_HOST', default='')
+# EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
+# EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
+# EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
+# EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
 
-DEFAULT_FROM_EMAIL = 'StarDaf <noreply@stardaf.com>'
-EMAIL_SUBJECT_PREFIX = '[StarDaf] '
+# DEFAULT_FROM_EMAIL = 'StarDaf <noreply@stardaf.com>'
+# EMAIL_SUBJECT_PREFIX = '[StarDaf] '
 
 
-EMAIL_HOST='smtp.mailgun.org'
-EMAIL_PORT=587
-EMAIL_HOST_USER='postmaster@mg.stardaf.com'
-EMAIL_HOST_PASSWORD='c3a8f3439f9f751908be125be0271825-c8c889c9-027676c8'
-EMAIL_USE_TLS=True
-EMAIL_USE_SSL =False
+# EMAIL_HOST='smtp.mailgun.org'
+# EMAIL_PORT=587
+# EMAIL_HOST_USER='postmaster@mg.stardaf.com'
+# EMAIL_HOST_PASSWORD='c3a8f3439f9f751908be125be0271825-c8c889c9-027676c8'
+# EMAIL_USE_TLS=True
+# EMAIL_USE_SSL =False
 
 # __AUTHOR__ = 'Faisal Lawan Muhammad'
 
@@ -157,27 +157,27 @@ WSGI_APPLICATION = 'vinestream.wsgi.application'
 
 # production database
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'stardaf',
-        'USER': 'u_faisal',
-        'PASSWORD': '0completehuman0',
-        'HOST':'localhost',
-        'port':'',
-
-    }
-}
-
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'vinestream',
-#         'USER': 'postgres',
-#         'PASSWORD': 'faisal',
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'stardaf',
+#         'USER': 'u_faisal',
+#         'PASSWORD': '0completehuman0',
+#         'HOST':'localhost',
+#         'port':'',
+
 #     }
 # }
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'vinestream',
+        'USER': 'postgres',
+        'PASSWORD': 'faisal',
+    }
+}
 
 
 # Password validation
