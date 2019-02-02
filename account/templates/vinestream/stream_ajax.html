@@ -177,7 +177,7 @@
                 
                 <a href='#' data-id='{{ target.id }}'
                          data-action='{% if request.user in target.users_like.all %}un{% endif %}like' class='like'
-                           id='{{ target.id }}'>
+                           id='{{ action.id }}'>
                         {% if request.user not in target.users_like.all %}
                             <i class="fa fa-heart-o "></i>
                             <!--Like-->
@@ -208,7 +208,7 @@
                         <!--</span>-->
                         <span class='count text-muted'>
                             {% with total_likes=target.users_like.count %}
-                                <span id='total_{{ target.id }}'>{{ total_likes }}</span>
+                                <span id='total_{{ action.id }}'>{{ total_likes }}</span>
                                 like{{ total_likes|pluralize }}
                             {% endwith %}
                         </span>&nbsp;
