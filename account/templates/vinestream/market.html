@@ -41,10 +41,12 @@
                         {% if not product.photo %}
                             <img class="card-img-top" src='{{ product.photo.url }}' style='height:auto'>
                         {% else %}
-                            <video width="100%" height="100%" controls {% if product.photo %}{% if product.photo %}poster="{{ product.photo.url }}{% endif %}"{% endif %}>
-                                <source src="{{ product.video.url }}" type="video/mp4">
-                                Update your browser.
-                            </video>
+                            {% if product.video %}
+                                <video width="100%" height="100%" controls {% if product.photo %}{% if product.photo %}poster="{{ product.photo.url }}{% endif %}"{% endif %}>
+                                    <source src="{{ product.video.url }}" type="video/mp4">
+                                    Update your browser.
+                                </video>
+                            {% endif %}    
                         {% endif %}    
 
                         </a>

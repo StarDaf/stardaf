@@ -30,9 +30,9 @@
           <ul class="list-group">
             <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
             {% if user.shop %}<li class="list-group-item text-right"><span class="pull-left"><strong>Uploaded </strong></span> {{ user.shop.products.count }}</li>{% endif %}
-            <li class="list-group-item text-right"><span class="pull-left"><strong>Likes</strong></span> {{ user.product_liked.count }}</li>
-            <li class="list-group-item text-right"><span class="pull-left"><strong>Following</strong></span> {{ user.following.count }}</li>
-            <li class="list-group-item text-right"><span class="pull-left"><strong>Followers</strong></span> {{ user.followers.count }}</li>
+             <a href="{% url 'account:favourites' user.id %}" ><li class="list-group-item text-right"><span class="pull-left"><strong>Likes</strong></span> {{ user.product_liked.count }}</li></a>
+            <a href='{% url "account:following" user.username %}'><li class="list-group-item text-right"><span class="pull-left"><strong>Following</strong></span> {{ user.following.count }}</li></a>
+            <a href='{% url "account:followers" user.username %}'><li class="list-group-item text-right"><span class="pull-left"><strong>Followers</strong></span> {{ user.followers.count }}</li></a>
             {% if user.shop %}<li class="list-group-item text-right"><span class="pull-left"><strong>{{ user.shop.description|linebreaks }}</strong></li>{% endif %}
 
           </ul>

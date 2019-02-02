@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Followers
+{% endblock %}
+
+
+{% block content %}
+<br/><br/><br/>
+<h3 class='text-muted'>@{{ user.username }} is following</h3>
+    {% for user in users %}
+        <a href='{{ user.get_absolute_url }}' style='text-decoration:none'>
+                <div class='container-fluid' style='padding-left:22px'>
+                        <div class="row">
+                            <div class="col-xs-2">
+                                <img src="{% if user.profile.image %}{{ user.profile.image.url }}
+                        {% else %}{% static 'img/no_image.png'%}{% endif %}" style="border-radius:50%;width:50px; height:50px" class="img-circle">
+                            </div>
+                            <div class="col-xs-8">
+                                        <strong>{{ user.get_full_name }}</strong>
+                                
+                                    <small class='text-muted float-right'>
+                                        <a href='#' data-id="{{ user.id }}" 
+                                        data-action="{% if request.user in user.followers.all %}un{% endif %}follow"
+                                        class='follow' id='{{ user.id }}'>
+                                        {% if not request.user in user.followers.all  %}
+                                            <button class="btn btn-outline-primary btn-sm float-right">follow</button>
+                                        {% else %}
+                                            <button class="btn btn-outline-primary btn-sm float-right">unfollow</button>
+                                        {% endif %}  
+                                          
+                                    </a>
+                                    </small>
+                                    
+                            </div>
+                        </div><hr width='70%' float='center' />
+                </div>     </a>
+    {% empty %}
+        <br/><br/><br/>
+        <h3 class='text-muted'><strong>{{ user }}</strong> is following no one yet.</p></h3>         
+    {% endfor %}<br/><br/><br/>
+{% endblock %}

@@ -288,3 +288,28 @@ def favourites(request, user_id):
     return render(request,
             'vinestream/favourites.html',
             {'user':user})
+
+
+
+@login_required
+def followers(request, username):
+    user = get_object_or_404(User, username=username)
+    users = user.followers.all()
+    return render(request,
+            'vinestream/followers.html',
+            {'users':users,
+            'user':user})
+
+
+@login_required
+def following(request, username):
+    user = get_object_or_404(User, username=username)
+    users = user.following.all()
+    return render(request,
+            'vinestream/following.html',
+            {'users':users,
+            'user':user})
+            
+
+
+

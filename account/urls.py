@@ -23,6 +23,8 @@ urlpatterns = [
     url(r'^filter/(?P<market>[-\w]+)/$', views.filter_shops, name='filter'),
     url(r'^favourites/(?P<user_id>\d+)/$', views.favourites, name='favourites'),
     url(r'^(?P<market>[-\w]+)/$', views.filter_shops, name='farmcenter'),
+    url(r'(?P<username>[-\w]+)/followers/', views.followers, name='followers'),
+    url(r'(?P<username>[-\w]+)/following/', views.following, name='following'),
                                                      
 
 ]

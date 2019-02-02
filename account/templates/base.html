@@ -41,7 +41,7 @@
 
      <!-- Navigation -->
      <div class="navbar nav fixed-top bg-light" style='height:40px;'>
-           <img  class="mx-auto d-block  header__logo" src="{% static 'img/stardaf.png' %}" style='height:100px; '>
+           <a href='{% url "account:stream" %}' class='mx-auto d-block'><img  class="mx-auto d-block  header__logo" src="{% static 'img/stardaf.png' %}" style='height:100px; '></a>
       </div><br/>
      {% if request.user.is_authenticated %}
      
