@@ -19,6 +19,7 @@ import redis
 from django.conf import settings
 from cart.forms import CartAddForm
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
+from django.core.mail import send_mail
 
 r = redis.StrictRedis(host=settings.REDIS_HOST,
                       port=settings.REDIS_PORT,
@@ -88,7 +89,13 @@ def register(request):
             new_user.set_password(cd['password'])  # set user password
             new_user.gender = str(cd['gender'])  # set the user's gender
             new_user.save()  # save user in database
-            account_created.delay(new_user.id)  # set asynchronous task in queue.
+            #account_created.delay(new_user.id)  # set asynchronous task in queue.
+            subject = 'Welcome {} to stardaf'.format(user.get_full_name())
+            message = 'Hello Dear!!, You have arrived at the first ultimate social commerce site in the world!\n' \
+              'Where you can browse cool products and also set you business online' \ 
+              'Team StarDaf.'
+
+            send_mail(subject, message, 'postmaster@stardaf.com', [user.email], fail_silently=False)
 
             # create profile for user
             Profile.objects.create(user=new_user)
