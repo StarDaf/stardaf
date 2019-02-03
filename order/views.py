@@ -5,12 +5,15 @@ from .models import Order, OrderItem
 from cart.cart import Cart
 from django.contrib import messages
 from .tasks import order_faisal_created
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMultiAlternatives, EmailMessage
 
 from django.http import HttpResponse
 from django.views.generic import View
 from order.utils import render_to_pdf #created in step 4
 from django.template.loader import get_template
+from django.conf import settings
+from io import BytesIO
+from xhtml2pdf import pisa
 
 @login_required
 def order_created(request):
@@ -40,15 +43,28 @@ def order_created(request):
                 product.save()
                 OrderItem.objects.create(order=order, quantity=item['quantity'], price=item['price'], product=item['product'])
 
-
             #order_faisal_created.delay(order.id)
             # create subject, message
             subject = '{}, Your stardaf order id is: {}'.format(order.user.username, order.id)
             message = '{}, Your product is coming to you. Your order is complete. \n A pdf containing your order details is attached with this email.\n Thank you \nTeam StarDaf '.format(order.user.username)
-            send_mail(subject, message, 'postmaster@stardaf.com', [order.email])
-            send_mail(subject, message, 'postmaster@stardaf.com', ['teamstardaf@gmail.com'])
-            cart.clear()  #empty cart
+            # send_mail(subject, message, 'postmaster@stardaf.com', [order.email])
+            # send_mail(subject, message, 'postmaster@stardaf.com', ['teamstardaf@gmail.com'])
+            template = get_template('invoice.html')
+            context = {
+                    'order':order
+                }
+            html = template.render(context)
+            #pdf = render_to_pdf('invoice.html', context)  # how to convert a HttpResponse object to bytes like object
+            result = BytesIO()
+            pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+            email = EmailMessage(subject, message, 'postmaster@stardaf.com', ['teamstardaf@gmail.com', order.email])
+            #out = BytesIO(pdf)
 
+            email.attach('order_{}.pdf'.format(order.id), result.getvalue(), 'application/pdf')
+            email.send()
+
+
+            cart.clear()  #empty cart
             messages.success(request, 'Order has being placed successfully.')
             messages.success(request, 'Your Cart have being emptyied.')
 
