@@ -46,7 +46,7 @@ EMAIL_USE_SSL =False
 
 # ABSOLUTE_URL_OVERRIDES = {
 #          'auth.user': lambda u: reverse_lazy('account:profile',
-#          args=[u.id, u.username])
+#          args=[u.id, u.username]) 
 #  }
 
 ABSOLUTE_URL_OVERRIDES = {

@@ -13,6 +13,10 @@ class ShopEditForm(forms.ModelForm):
 
 
 class AddProductForm(forms.ModelForm):
+    
+    def __init__(self, *args, **kwargs):
+        super(AddProductForm, self).__init__(*args, **kwargs)
+        self.fields['photo'].required = True
 
     class Meta:
         model = Product
@@ -23,7 +27,7 @@ class AddProductForm(forms.ModelForm):
             'name':forms.TextInput(attrs={'placeholder':'sunan kaya'}),
             'description' : forms.Textarea(attrs={'placeholder':'bayanin kaya'}),
             'price' : forms.TextInput(attrs={'placeholder':'kudin kaya'}),
-            'stock':forms.TextInput(attrs={'placeholder':'samfur nawa ne?'})
+            'stock':forms.TextInput(attrs={'placeholder':'samfur nawa ne?'}),
 
         }
 
