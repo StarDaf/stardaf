@@ -21,8 +21,8 @@
 
 
       <div class="text-center">
-        <img src="{% if user.profile.image %}{{ user.profile.image.url }}{% else %}{% static 'img/no_image.png'%}
-        {% endif %}" class="avatar img-circle img-thumbnail" alt="avatar" style='width:100%; height:auto; border-radius:5px'>
+        <a href="{% url 'account:edit' %}"><img src="{% if user.profile.image %}{{ user.profile.image.url }}{% else %}{% static 'img/no_image.png'%}
+        {% endif %}" class="avatar img-circle img-thumbnail" alt="avatar" style='width:100%; height:auto; border-radius:5px'></a>
 
       </div>
 

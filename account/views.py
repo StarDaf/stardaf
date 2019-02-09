@@ -330,6 +330,10 @@ def following(request, username):
             {'users':users,
             'user':user})
             
+def contact(request):
+    return render(request,
+                    'vinestream/contact.html',
+                    {})            
 
 
 

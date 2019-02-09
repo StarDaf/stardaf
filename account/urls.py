@@ -19,6 +19,7 @@ urlpatterns = [
     url(r'^user-follow/$', views.follow, name='follow'),
     url(r'^market/$', views.market, name='market'),
     url(r'^edit/$', views.edit, name='edit'),
+    url(r'^contact-us/$', views.contact, name='contact'),
     url(r'^(?P<username>[-\w]+)/$', views.profile, name='profile'),
     #url(r'^(?P<business_name>[-\w]+)/', views.profile1, name='profile1'),
     url(r'^filter/(?P<market>[-\w]+)/$', views.filter_shops, name='filter'),
