@@ -113,11 +113,11 @@ def register(request):
                   {'form':form})
 
 
-@login_required
-def profile(request, user_id, username):
+
+def profile(request, username):
 
     # get the user
-    user = get_object_or_404(User, id=user_id, username=username)
+    user = get_object_or_404(User, username=username)
 
     try:
         shop = user.shop
@@ -138,6 +138,26 @@ def profile(request, user_id, username):
                   {'user':user,
                    'products':products,
                    'form':form})
+
+
+@login_required
+def profile1(request, business_name):
+    try:
+        shop = get_object_or_404(Shop, business_name=business_name)
+        user = shop.owner
+        products = shop.products.all().order_by('-created')
+        
+    except Shop.DoesNotExist:
+        products = None
+
+    form = UpdateProductForm()
+    return render(request,
+                  'vinestream/profile.html',
+                  {'user':user,
+                   'products':products,
+                   'form':form})
+
+
 
 # edit your account details
 # will lead to a template having forms prepopulated with user's existing data
@@ -252,7 +272,7 @@ def market(request):
 #                 'query':query})
 
 
-
+@login_required
 def filter_shops(request, market):
     print(market)
     shops = Shop.objects.filter(business_address__startswith=market)

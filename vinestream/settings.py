@@ -44,11 +44,15 @@ EMAIL_USE_SSL =False
 
 # __AUTHOR__ = 'Faisal Lawan Muhammad'
 
+# ABSOLUTE_URL_OVERRIDES = {
+#          'auth.user': lambda u: reverse_lazy('account:profile',
+#          args=[u.id, u.username])
+#  }
+
 ABSOLUTE_URL_OVERRIDES = {
          'auth.user': lambda u: reverse_lazy('account:profile',
-         args=[u.id, u.username])
+         args=[u.username])
  }
-
 
 LOGIN_URL = reverse_lazy('account:login')
 LOGIN_REDIRECT_URL = reverse_lazy('account:stream')

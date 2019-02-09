@@ -262,3 +262,25 @@ def add_product_stock(request, product_id):
             product.stock = cd['quantity']
             product.save()
             return redirect(product.shop.owner.get_absolute_url())
+
+
+@login_required
+def profile1(request, business_name):
+    try:
+        shop = get_object_or_404(Shop, business_name=business_name)
+        user = shop.owner
+        products = shop.products.all().order_by('-created')
+        
+    except Shop.DoesNotExist:
+        products = None
+
+    form = UpdateProductForm()
+    return render(request,
+                  'vinestream/profile.html',
+                  {'user':user,
+                   'products':products,
+                   'form':form})        
+
+
+
+        
