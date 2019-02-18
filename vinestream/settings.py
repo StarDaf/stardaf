@@ -54,7 +54,7 @@ ABSOLUTE_URL_OVERRIDES = {
          args=[u.username])
  }
 
-LOGIN_URL = reverse_lazy('account:login')
+LOGIN_URL = reverse_lazy('account:register')
 LOGIN_REDIRECT_URL = reverse_lazy('account:stream')
 LOGOUT_URL = reverse_lazy('account:logout')
 

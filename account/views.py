@@ -46,7 +46,7 @@ def stream(request):
                             .select_related('user', 'user__profile') \
                             .prefetch_related('target')
 
-    paginator = Paginator(actions, 15)  # 15 actions/activities per page
+    paginator = Paginator(actions, 3)  # 15 actions/activities per page
     page = request.GET.get('page')  # get the page number
 
     try:
@@ -118,12 +118,33 @@ def profile(request, username):
 
     # get the user
     user = get_object_or_404(User, username=username)
+    form = UpdateProductForm()
 
     try:
         shop = user.shop
         products = shop.products.all().order_by('-created')
+        paginator = Paginator(products, 10)
+        page = request.GET.get('page')
 
+        try:
+            products = paginator.page(page)
 
+        except PageNotAnInteger:
+            products = paginator.page(1)
+
+        except EmptyPage:
+            if request.is_ajax():
+                return HttpResponse('')  # return an empty http response so as to stop ajax from making additional requests
+
+            products = paginator.page(paginator.num_pages)  # stop at the last page
+
+        if request.is_ajax():
+            return render(request,
+                      'vinestream/profile_ajax.html',
+                      {'products': products,
+                       'user':user,
+                       'form':form})
+                
     except Shop.DoesNotExist:
         products = None
 
@@ -131,7 +152,6 @@ def profile(request, username):
     """profile will contain personal infomations such as images, names, small cards of products uploaded,
     history of uploads, chats,edit of info, bussiness location etc."""
     # total_views = r.incr('product:{}:views'.format(product.id))
-    form = UpdateProductForm()
 
     return render(request,
                   'vinestream/profile.html',
@@ -333,7 +353,13 @@ def following(request, username):
 def contact(request):
     return render(request,
                     'vinestream/contact.html',
-                    {})            
+                    {})
+
+
+def terms(request):
+    return render(request,
+                    'vinestream/terms.html',
+                    {})                                
 
 
 

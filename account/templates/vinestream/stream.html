@@ -1,16 +1,52 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load account_tags %}
+
 
 {% block title %}
    stardaf Homepage
 {% endblock %}
 
 {% block style %}href="{% static 'css/scroll1.css' %}"{% endblock %}
+<head>
+
+
+<style>
+    body {
+        padding: 0px,
+        margin: 0px,
+        background-color: dimgray;
+    }
+</style>
+</head>
 
 {% block content %}
 
 <main role="main" style='padding: 0px; margin:0px'>
      <!--<div class="row">--> 
+                    
+
+{% if not request.user.is_authenticated %}
+    <div style='padding: 15px'>
+        <h3 class='text-muted'>
+            login/create account to stay in touch with your favourite sellers,
+            customize your feed and see what your friends are up to.
+        </h3>
+        <a href='{% url "account:register" %}'><button class='btn btn-primary btn-block'>Create an account</button></a><br/>
+    <a href='{% url "account:login" %}'> <button class='btn btn-danger btn-block'>Login</button></a>
+    </div>
+{% endif %}
+<hr/>
+<div class='one' style='padding:10px'>
+   
+    {% horizontal_scroll 9 %}
+    
+</div>
+<hr/>
+<div class='one' style='padding: 7px'>
+    <a href='{% url "account:stream" %}'><span class="badge badge-pill badge-secondary" style='padding:10px'>trending</span></a>
+    <a href='{% url "account:farmcenter" "private" %}'><span class="badge badge-pill badge-secondary" style='padding:10px'>private</span></a>
+</div>    
 
                     <div id="streams">
                         {% include 'vinestream/stream_ajax.html' %}
@@ -31,7 +67,7 @@
 
     $(window).scroll(function() {
 
-        var margin = $(document).height() - $(window).height() - 500;
+        var margin = $(document).height() - $(window).height() - 2000;
 
          if ($(window).scrollTop() > margin && block_request == false && empty_page == false) {
              block_request = true;

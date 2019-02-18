@@ -99,6 +99,8 @@
 <a href="{% url 'account:market' %}" style='color:inherit'><i class="fa fa-fw fa-fort-awesome fa-2x"></i></a>  
     {% if request.user.shop %}
         <a href="{% url 'bizz:add_product' request.user.shop.id %}" style='color:inherit'><i class="fa fa-fw fa-plus-circle  fa-2x"></i></a> 
+    {% else %}
+           <a href="{% url 'bizz:post' request.user.id %}" style='color:inherit'><i class="fa fa-fw fa-plus-circle  fa-2x"></i></a> 
     {% endif %}
 
   
@@ -228,6 +230,7 @@
                 e.preventDefault();
                 var id = $(this).attr('id')
                 var address = '#' + id;
+                id = 'followbutton_' + id
                 $.post('{% url 'account:follow' %}',
                 {
                         id : $(this).data('id'),

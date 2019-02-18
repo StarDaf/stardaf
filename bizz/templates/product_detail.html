@@ -42,7 +42,7 @@
                                 {% endif %}
                             </a> 
                             {% endif %}<br/>
-                            &nbsp;&nbsp;&nbsp;<small><i>Sold by {{ product.shop.owner.first_name }}</i></small>
+                            &nbsp;&nbsp;&nbsp;<small><i>Sold by <a href='{{ product.shop.owner.get_absolute_url }}'>{{ product.shop.owner.first_name }}</i></small></a>
                            
                                    
                             <!--{% if product.video %}

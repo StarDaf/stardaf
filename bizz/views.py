@@ -16,6 +16,7 @@ from django.views.decorators.http import require_POST
 from django.http import JsonResponse
 from django.db.models import Count
 from action.models import Action
+from .forms import AddPostForm
 
 
 # connect to redis.
@@ -282,5 +283,23 @@ def profile1(request, business_name):
                    'form':form})        
 
 
+@login_required
+def create_post(request, id):
+    user = User.objects.get(id=id)  # get user creating post.
 
-        
+    if request.method == 'POST':
+        form = AddPostForm(data=request.POST, files=request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.user = request.user
+            post.save()  # save post to database
+            create_action(user=user, verb='post', target=post)  
+            return redirect('account:stream')
+
+    else:
+        form = AddPostForm()  # empty form
+
+    return render(request,
+                    'post.html',
+                    {'form':form,
+                    'user':user})        

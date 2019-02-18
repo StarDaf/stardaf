@@ -1,5 +1,5 @@
 from django import forms
-from .models import Shop, Product
+from .models import Shop, Product, Post
 
 class CreateShopForm(forms.ModelForm):
     class Meta:
@@ -41,3 +41,12 @@ class UpdateProductForm(forms.Form):
 
 
 
+class AddPostForm(forms.ModelForm):
+    
+    def __init__(self, *args, **kwargs):
+        super(AddPostForm, self).__init__(*args, **kwargs)
+        self.fields['image'].required = True
+
+    class Meta:
+        model = Post
+        fields = ('message', 'image', 'video')

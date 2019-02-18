@@ -66,13 +66,15 @@
             {% endfor %}
 
         {% csrf_token %}
-        <div class="text-center">
+        <br/>
+        <input type="checkbox" name="terms" value="Teams and conditions" required> I agree with the <a href='{% url "account:term" %}'>Teams and conditions</a>
+        <div class="text-center"><br/>
         <button class="btn btn-primary btn-lg">Create account</button>
         </div>
         
 </form>
 <hr>
-    <p>Already have an account? <a href="{% url 'account:login' %}">Sign in</a></p>
+    <p>Already have an account? <a href="{% url 'account:login' %}">Log in</a></p>
 <footer class="mt-5 mb-10 text-muted text-center"><a href="{% url 'account:contact' %}">Contact us </a><br/>&copy; 2019 stardaf.com | All rights reserved</footer>
 </div>
 </div>

@@ -97,58 +97,8 @@ class='follow float-left' id='{{ user.id }}'>
           </li>
           <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                    <div class="row">
-                {% for product in products %}
-
-
-                      <div class="col-sm-3">
-                      <div class="card">
-                      {% if not product.video %}
-                        <a href='{{ product.get_absolute_url }}'><img class="card-img-top" src="{{ product.photo.url }}" alt="{{ product.id }}" style='height:auto'></a>
-                      {% else %}
-
-                        <a href='{{ product.get_absolute_url }}'><video width="100%" height="100%" controls {% if product.photo %}poster="{{ product.photo.url }}"{% endif %}>
-                            <source src="{{ product.video.url }}" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video></a>
-
-                      {% endif %}
-
-                        <div class="card-body">
-                          <h5 class="card-title"><a href='{{ product.get_absolute_url }}'>{{ product.name }}</a></h5>
-                          <p class="card-text">{{ product.description|truncatewords:15 }}<br/>
-                          stock: {{ product.stock }}<br/>
-                            {% if request.user.id == user.shop.owner.id %}
-                              <form action="{% url 'bizz:stock' product.id %}" method='post'>
-                                        {{ form.as_p }}
-                                            {% csrf_token %}
-                                            <!--<input type="submit" value="Update" class="btn btn-secondary btn-sm">-->
-                                            <button type='submit' class="btn btn-secondary btn-sm mx-3">update</button>
-                                </form>
-                              <a href="{% url 'bizz:delete' product.id %}">Delete</a></p>
-                            {% endif %}
-
-                        </div>
-                        <div class="card-footer">
-                          <small class="text-muted">
-                            {% with total_comments=product.comments.count %}
-                              {{ total_comments }} comment{{ total_comments|pluralize }}
-                            {% endwith %}
-                          </small><br/>
-                          <small class="text-muted">Uploaded {{ product.created|timesince }} ago</small><br/>
-                          <!--<small class="text-muted">Updated {{ product.updated|timesince }} ago</small>-->
-                        </div>
-                      </div>
-                      </div>
-              <!--</div>-->
-
-                {% empty %}
-                {% if request.user.shop %}
-                  
-                {% else %}
-                 
-                {% endif %}    
-                {% endfor %}
+                    <div class="row" id='profile_stream'>
+                    {% include 'vinestream/profile_ajax.html' %}
                 </div>
             </div>
 
@@ -161,4 +111,33 @@ class='follow float-left' id='{{ user.id }}'>
         <br/><br/><br/>
 {% endblock %}
 
+{% block domready %}
 
+
+    var page = 1;
+    var block_request = false;
+    var empty_page = false;
+
+    $(window).scroll(function() {
+
+        var margin = $(document).height() - $(window).height() - 500;
+
+         if ($(window).scrollTop() > margin && block_request == false && empty_page == false) {
+             block_request = true;
+             page += 1;
+
+             $.get('?page=' + page, function(data) {
+                 if (data == '') {
+                     empty_page = true;
+                 }
+                 else {
+                     block_request = false;
+                     $('#profile_stream').append(data);
+                 }
+             })
+         }
+    });
+
+
+  
+{% endblock %}

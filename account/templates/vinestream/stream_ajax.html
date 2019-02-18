@@ -5,53 +5,6 @@
 {% load thumbnail %}
 
 
-
-
-<head>
-
-
-
-<style>
-    body {
-        padding: 0px,
-        margin: 0px,
-        background-color: dimgray;
-    }
-</style>
-</head>
-
-
-{% if not request.user.is_authenticated %}
-    <div style='padding: 15px'>
-        <h3 class='text-muted'>
-            login/create account to stay in touch with your favourite sellers,
-            customize your feed and see what your friends are up to.
-        </h3>
-        <a href='{% url "account:register" %}'><button class='btn btn-primary btn-block'>Create an account</button></a><br/>
-    <a href='{% url "account:login" %}'> <button class='btn btn-danger btn-block'>Login</button></a>
-    </div>
-{% endif %}
-<hr/>
-<div class='one' style='padding:10px'>
-   
-    {% horizontal_scroll 9 %}
-    
-</div>
-<hr/>
-<div class='one' style='padding: 7px'>
-    <a href='{% url "account:stream" %}'><span class="badge badge-pill badge-secondary" style='padding:10px'>trending</span></a>
-    <a href='{% url "account:farmcenter" "private" %}'><span class="badge badge-pill badge-secondary" style='padding:10px'>private</span></a>
-    {% comment %} <a href='{% url "account:farmcenter" "farmcenter" %}'><span class="badge badge-pill badge-secondary" style='padding:10px'>farm center</span></a>
-    <a href='{% url "account:farmcenter" "kwari" %}'><span class="badge badge-pill badge-secondary" style='padding:10px'>kwari </span></a>
-    <a href='{% url "account:farmcenter" "beirut" %}'><span class="badge badge-pill badge-secondary" style='padding:10px'>beirut</span></a>
-    <a href='{% url "account:farmcenter" "sabongari" %}'><span class="badge badge-pill badge-secondary" style='padding:10px'>sabon gari</span></a>
-    <a href='{% url "account:farmcenter" "rimi" %}'><span class="badge badge-pill badge-secondary" style='padding:10px'>rimi</span></a>
-    <a href='{% url "account:farmcenter" "singer" %}'><span class="badge badge-pill badge-secondary" style='padding:10px'>restaurants</span></a>  {% endcomment %}
-    
-    
-</div>
-
-
 {% for action in actions %}
         {% with target=action.target %}
             {% with user=action.user %}
@@ -67,24 +20,40 @@
               <div class="card card-header">
              
 <span class='text-muted'>
-<a href='{{ target.shop.owner.get_absolute_url }}'><img src="{% if target.shop.owner.profile.image %}{{ target.shop.owner.profile.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" style="width:30px; height:30px; border-radius:50%"></a>
-  &nbsp;@{{ target.shop.business_name }}      {% if action.verb == 'recommended' %}<small>Re-broadcasted by <a href='{{ user.get_absolute_url }}'>{{ user }}</a></small>{% endif %}
+{% if not action.verb == 'post' %}
+    <a href='{{ target.shop.owner.get_absolute_url }}'><img src="{% if target.shop.owner.profile.image %}{{ target.shop.owner.profile.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" style="width:30px; height:30px; border-radius:50%"></a>
+{% else %}
+     <a href='{{ user.get_absolute_url }}'><img src="{% if user.profile.image %}{{ user.profile.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" style="width:30px; height:30px; border-radius:50%"></a>
+{% endif %}
+  &nbsp;{% if not action.verb == 'post' %}<a href='#'><i class="fa fa-check-circle "></i></a> @{{ target.shop.business_name }}{% else %}@{{ user.username }}{% endif %}      {% if action.verb == 'recommended' %}<small>Re-broadcasted by <a href='{{ user.get_absolute_url }}'>{{ user.first_name }}</a></small>{% endif %}
               {% if action.verb != 'recommended' %}<small><a href='{% url "account:farmcenter" "farmcenter" %}'>{{ user.shop.business_address }}</a></small>{% endif %}
+{% if not action.verb == 'post' %}
 {% if request.user != target.shop.owner %} 
     <a href='#' data-id="{{ target.shop.owner.id }}" 
     data-action="{% if request.user in target.shop.owner.followers.all %}un{% endif %}follow"
-    class='follow' id='{{ target.shop.owner.id }}'>
+    class='follow' id='followbutton_{{ action.id }}'>
     {% if not request.user in target.shop.owner.followers.all  %}
         <button class="btn btn-outline-primary btn-sm float-right">follow</button>
     {% else %}
         <button class="btn btn-outline-primary btn-sm float-right">unfollow</button>
     {% endif %}  
 {% endif %}      
+{% else %}
+    <a href='#' data-id="{{ user.id }}" 
+    data-action="{% if request.user in user.followers.all %}un{% endif %}follow"
+    class='follow' id='followbutton_{{ action.id }}'>
+    {% if not request.user in user.followers.all  %}
+        <button class="btn btn-outline-primary btn-sm float-right">follow</button>
+    {% else %}
+        <button class="btn btn-outline-primary btn-sm float-right">unfollow</button>
+    {% endif %}
+{% endif %}
 </a>
 </span>
 
 
             </div>
+            {% if not action.verb == 'post' %}
             <a href='{{ target.get_absolute_url }}'>
             <!--{% if not target.video %}
                 
@@ -170,7 +139,24 @@
 <!--/.Carousel Wrapper-->
             
             </a>
-            
+ {% else %}
+    <div class='text-muted' style='font-size:large; padding:15px'>
+        {{ target.message|truncatewords:30 }}<br/>
+        {% if not target.video %}
+            <a href='{{ user.get_absolute_url }}'>
+            <img src='{{ target.image.url }}' style='height:auto; width:100%; padding:0px; border-radius:15px 50px 30px'/>
+            </a>
+        {% else %}
+            <a href='{{ user.get_absolute_url }}'>
+                <video width="100%" height="100%" style='border-radius:15px 50px 30px'  controls {% if target.image %}poster="{{ target.image.url }}"{% endif %}>
+                        <source src="{{ target.video.url }}" type="video/mp4">
+                        Update your browser.
+                    </video>
+            </a>
+        {% endif %}
+    </div>
+ {% endif %}           
+            {% if not action.verb == 'post' %}
             <div class="card-body">
             {% with total_likes=target.users_like.count %}
 
@@ -197,9 +183,9 @@
                 &nbsp;
                 
                
-                <span class="float-right mx-2"><a href='{% if not request.user.is_authenticated %}{% url 'account:login' %}{% else %}{% url 'bizz:recommend' request.user.id target.id %}{% endif %}'><i class="fa fa-hand-spock-o pull-right icons"></i></a></span>
-                 <span class="float-right mx-2"><a href='{% url 'cart:home' target.pk %}'><i class="fa fa-plus-circle pull-right icons"></i></a></span>
-          <br/><br/><h4 class="card-title"><a href='{{ target.get_absolute_url }}' style='text-decoration:none'>{{ target.name }}</a><button type="button" class="btn btn-outline-primary btn-sm float-right">₦{{ target.price|intcomma }}</button></h4>
+                {% if not action.verb == 'post' %}<span class="float-right mx-2"><a href='{% if not request.user.is_authenticated %}{% url 'account:register' %}{% else %}{% url 'bizz:recommend' request.user.id target.id %}{% endif %}'><i class="fa fa-hand-spock-o pull-right icons"></i></a></span>{% endif %}
+                {% if not action.verb == 'post' %}<span class="float-right mx-2"><a href='{% url 'cart:home' target.pk %}'><i class="fa fa-plus-circle pull-right icons"></i></a></span>{% endif %}
+          <br/><br/><h4 class="card-title"><a href='{{ target.get_absolute_url }}' style='text-decoration:none'>{{ target.name }}</a>{% if not action.verb == 'post' %}<button type="button" class="btn btn-outline-primary btn-sm float-right">₦{{ target.price|intcomma }}</button>{% endif %}</h4>
               
               
                          
@@ -243,7 +229,7 @@
                                 {% endif %}
                             </a>
                             {{ target.comments.count }} comment{{ target.comments.count|pluralize }}
-                </span>
+                </span>{% endif %}
                 <span class="float-right">{{ target.created|timesince }} ago</span>
             </div>
               
@@ -255,7 +241,7 @@
                 {% endwith %}
             {% endwith %}
         {% endwith %}
-    {% endfor %}<br/><br/><br/><br/>
+    {% endfor %}
 
 
 

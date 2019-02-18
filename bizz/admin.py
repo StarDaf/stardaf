@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Shop, Product
+from .models import Shop, Product, Post
 # from comment.admin import CommentAdminTable
 
 # class ProductTable(admin.TabularInline):
@@ -29,5 +29,12 @@ class ShopAdmin(admin.ModelAdmin):
     # inlines = [ProductTable]
 
 admin.site.register(Shop, ShopAdmin)
+
+class PostAdmin(admin.ModelAdmin):
+    list_display = ('user', 'message', 'created', 'image', 'video')
+    list_filter = ('user', 'created')
+    raw_id_fields = ('user',)
+
+admin.site.register(Post, PostAdmin)    
 
 

@@ -12,5 +12,6 @@ urlpatterns = [
     url(r'^like/$', views.like, name='like'),
     url(r'^recommend/(?P<user_id>\d+)/(?P<product_id>\d+)/$', views.recommend, name='recommend'),
     url(r'update-stock/(?P<product_id>\d+)/', views.add_product_stock, name='stock'),
+    url(r'^create-post/(?P<id>\d+)/$', views.create_post, name='post'),
     #url(r'^(?P<business_name>[-\w]+)/', views.profile1, name='profile1'),
 ]

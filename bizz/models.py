@@ -129,6 +129,11 @@ class Product(models.Model):
         return 'This product belongs to shop: {}, owned by: {}'.format(self.shop.business_name, self.shop.owner.get_full_name())
 
 
-
-
+class Post(models.Model):
+    
+    user = models.ForeignKey(User, related_name='posts', on_delete=models.CASCADE)  # user.posts.all()
+    message = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+    image = models.ImageField(upload_to='post/%y/%m/%d', blank=True, null=True, default='')
+    video = models.FileField(upload_to='post_videos/%y/%m/%d', default='', null=True, blank=True)
 
