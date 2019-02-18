@@ -97,9 +97,11 @@ class='follow float-left' id='{{ user.id }}'>
           </li>
           <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            {% if user.shop %}
                     <div class="row" id='profile_stream'>
                     {% include 'vinestream/profile_ajax.html' %}
                 </div>
+            {% endif %}    
             </div>
 
             
