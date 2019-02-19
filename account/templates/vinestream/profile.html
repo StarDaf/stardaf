@@ -42,7 +42,7 @@
     	<div class="col-sm-9 mx-auto d-block">
         <h1>{% if user.shop %}<span style='color:purple'>{{ user.shop.business_name }}</span>{% endif %}  {{ user.get_full_name }}</h1>
         <h2>@{{ user.username }}  </h2>
-        
+        {% if user != request.user %}
           <a href='#' data-id="{{ user.id }}" 
 data-action="{% if request.user in user.followers.all %}unfollow{% else %}follow{% endif %}"
 class='follow float-left' id='{{ user.id }}'>
@@ -52,6 +52,7 @@ class='follow float-left' id='{{ user.id }}'>
     <button class="btn btn-outline-primary btn-sm float-right">unfollow</button>
 {% endif %}    
 </a>
+        {% endif %}
 
           {% if request.user.id == user.shop.owner.id %}
             {% if user.shop %}

@@ -38,8 +38,8 @@
                     <label id="field.id_for_label">{{ field.label }}</label>
                     {{ field|add_class:'form-control' }}
                 {% endfor %}
-                {% csrf_token %}
-                <input type="submit" value="edit account" class="btn btn-outline-primary">
+                {% csrf_token %}<br/>
+                <input type="submit" value="edit account" class="btn btn-primary mx-auto d-block">
             </div>
                     </form>
             </div>

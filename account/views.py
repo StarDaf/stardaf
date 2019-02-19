@@ -89,6 +89,8 @@ def register(request):
             new_user.set_password(cd['password'])  # set user password
             new_user.gender = str(cd['gender'])  # set the user's gender
             new_user.save()  # save user in database
+            # new user should follow himself
+            Contact.objects.get_or_create(user_from=new_user, user_to=new_user)
             #account_created.delay(new_user.id)  # set asynchronous task in queue.
             subject = 'Welcome to stardaf'
             message = 'Hello Dear!!, You have arrived at the first ultimate social commerce site in the world!\nWhere you can browse cool products and also set your business online\nThank you\n\nTeam StarDaf.'
