@@ -28,10 +28,10 @@
 
 {% if not request.user.is_authenticated %}
     <div style='padding: 15px'>
-        <h3 class='text-muted'>
-            login/create account to stay in touch with your favourite sellers,
-            customize your feed and see what your friends are up to.
-        </h3>
+        <h4 class='text-muted'>
+            <small>login/create an account to stay in touch with your favourite sellers,
+            customize your feed and see what your friends are up to.</small>
+        </h4>
         <a href='{% url "account:register" %}'><button class='btn btn-primary btn-block'>Create an account</button></a><br/>
     <a href='{% url "account:login" %}'> <button class='btn btn-danger btn-block'>Login</button></a>
     </div>
@@ -44,8 +44,8 @@
 </div>
 <hr/>
 <div class='one' style='padding: 7px'>
-    <a href='{% url "account:stream" %}'><span class="badge badge-pill badge-secondary" style='padding:10px'>trending</span></a>
-    <a href='{% url "account:farmcenter" "private" %}'><span class="badge badge-pill badge-secondary" style='padding:10px'>private</span></a>
+    <a href='{% url "account:stream" %}'><span class="badge badge-pill badge-light" style='padding:10px;box-shadow: 2px 2px 5px grey;'>trending</span></a>
+    <a href='{% url "account:farmcenter" "private" %}'><span class="badge badge-pill badge-light" style='padding:10px;box-shadow: 2px 2px 5px grey;'>private</span></a>
 </div>    
 
                     <div id="streams">

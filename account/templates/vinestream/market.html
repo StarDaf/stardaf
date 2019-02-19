@@ -38,11 +38,11 @@
             <a href='{{ product.get_absolute_url }}'> 
                     <div class="card">
                         <a href='{{ product.get_absolute_url }}'> 
-                        {% if not product.photo %}
+                        {% if not product.video %}
                             <img class="card-img-top" src='{{ product.photo.url }}' style='height:auto'>
                         {% else %}
                             {% if product.video %}
-                                <video width="100%" height="100%" controls {% if product.photo %}{% if product.photo %}poster="{{ product.photo.url }}{% endif %}"{% endif %}>
+                                <video width="100%" height="100%" controls {% if product.photo %}poster="{{ product.photo.url }}"{% endif %}>
                                     <source src="{{ product.video.url }}" type="video/mp4">
                                     Update your browser.
                                 </video>
@@ -100,7 +100,7 @@
     {% new_shops  %}
     
 </div><br/>
-<h3 class='text-muted'>New users </h3>
+<h3 class='text-muted'>New friends </h3>
 
     {% new_users  %} 
     <br/><br/><br/><br/>      

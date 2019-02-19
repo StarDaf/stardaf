@@ -117,7 +117,10 @@ def register(request):
 def profile(request, username):
 
     # get the user
-    user = get_object_or_404(User, username=username)
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        return HttpResponse('<h1>No User has that Username!!!</h1>')    
     form = UpdateProductForm()
 
     try:
