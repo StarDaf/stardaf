@@ -3,6 +3,6 @@
 {% for comment in all_comments %}
    <a href='{{ comment.user.get_absolute_url }}'>
         @{{ comment.user.username }}  
-   </a>{{ comment.body|truncatewords:10 }}<br/>
+   </a>{{ comment.body|truncatewords:7 }}<br/>
 
 {% endfor %}
