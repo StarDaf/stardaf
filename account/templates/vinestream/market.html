@@ -13,12 +13,38 @@
 {% endblock %}
 
 {% block style %}href="{% static 'css/scroll1.css' %}"{% endblock %}
+{% block css %}
+    {% comment %} <link rel='stylesheet' href="{% static 'css/all.min.css' %}"> {% endcomment %}
+    <link rel='stylesheet' href="{% static 'css/mason.css' %}">
+{% endblock %}
+
+
 
 
 
 {% block content %}
-    <br/>
-    {% if query %}
+    <div style='position:fixed;right:25px;bottom:70px;z-index:10'>    
+        <a href='{% url 'chat:chats' %}'>
+            <button class='btn btn-success' style='border-radius:50%'>
+                <i class='fa fa-align-right'></i>
+            </button>
+        </a>
+    </div>
+    <!--product search field--><br/>
+    <div class='one' style='padding:10px'>
+   
+        {% if request.user.is_authenticated %}{% new_shops request.user %}{% endif %}
+    
+    </div>
+
+    {% if request.user.id == 1 %}
+        <div class='one' style='padding:10px'>
+    
+            {% new_users_faisal  %}
+        
+        </div>
+    {% endif %}    
+    {% if query %}<br/><br/>
         <h1>Products containing "{{ query }}"</h1>
 
             <h3>
@@ -84,29 +110,117 @@
                     {{ field|add_class:'form-control' }}
                 </strong>
                 {% endfor %}
-                <input type='submit' value='Search'>
+                
             </form>
-    <br/>
+    
     {% comment %} <a href="{% url 'account:filter' 'farmcenter' %}">
         <header class="image" style='background-image: url({% static 'css/3D-Background-64.jpg' %}); height: 150px;'>
             <h1 class="display-10">Farm Center</h1>
             <p class="lead">Kano Largest phone Market</p>
         </header>
     </a> {% endcomment %}
-    {% endif %}    <br/>
-<h3 class='text-muted'>New shops </h3>
-<div class='one' style='padding:10px'>
-   
-    {% new_shops  %}
-    
-</div><br/>
-<h3 class='text-muted'>New friends </h3>
+    {% endif %}    
 
-    {% new_users  %} 
-    <br/><br/><br/><br/>      
+    <!--end-->
+
+    <!--search friends-->
+        {% if search %}
+    {% for user in results %}
+        
+                {% comment %} <div class='container' style='padding-left:22px'>
+                        <div class="row">
+                            <div class="col-xs-2">
+                                <a href='{{ user.get_absolute_url }}' style='text-decoration:none'><img src="{%  if user.profile.image %}{{ user.profile.image.url }}
+                        {% else %}{% static 'img/no_image.png'%}{% endif %}" style="border-radius:50%;width:50px; height:50px" class="img-circle"></a>
+                            </div>
+                            <div class="col-xs-8">&nbsp;&nbsp;&nbsp;&nbsp;
+                                    
+                                        <a href='{{ user.get_absolute_url }}'><strong style='vertical-align:baseline'>@{{ user.username }}</strong><br/>
+                                    
+                                    <small class='text-muted' style='vertical-align:text-bottom; padding-left:22px'>{{ user.get_full_name }}</small></a>
+
+                        <a href='#' data-id="{{ user.id }}" 
+                            data-action="{% if request.user in user.followers.all %}un{% endif %}follow"
+                            class='follow' id='followbutton_{{ user.id }}'>
+                            {% if not request.user in user.followers.all  %}
+                                <button class="btn btn-outline-primary btn-sm float-right">follow</button>
+                            {% else %}
+                                <button class="btn btn-outline-primary btn-sm float-right">unfollow</button>
+                            {% endif %}  
+                        </a>                    
+                        
+                </div> {% endcomment %}
+                <a href='{{ user.get_absolute_url }}' style='text-decoration:none'>
+                <div class='container-fluid' style='padding-left:22px'>
+                        <div class="row">
+                            <div class="col-xs-2">
+                                <img src="{%  if user.profile.image %}{{ user.profile.image.url }}
+                        {% else %}{% static 'img/no_image.png'%}{% endif %}" style="border-radius:50%;width:50px; height:50px" class="img-circle">
+                            </div>
+                            <div class="col-xs-8">
+                                         <a href='{{ user.get_absolute_url }}'><strong style='vertical-align:baseline'>@{{ user.username }}</strong><br/>
+                                    
+                                    <small class='text-muted' style='vertical-align:text-bottom; padding-left:22px'>{{ user.get_full_name }}</small></a>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+
+                                    <small class='text-muted float-right'>
+                                        <a href='#' data-id="{{ user.id }}" 
+                            data-action="{% if request.user in user.followers.all %}un{% endif %}follow"
+                            class='follow' id='followbutton_{{ user.id }}'>
+                            {% if not request.user in user.followers.all  %}
+                                <button class="btn btn-outline-primary btn-sm float-right">follow</button>
+                            {% else %}
+                                <button class="btn btn-outline-primary btn-sm float-right">unfollow</button>
+                            {% endif %}  
+                        </a>
+                                    </small>
+                                    
+                            </div>
+                        </div><hr width='70%' float='center' />
+                </div>     </a>
+    {% endfor %}
+{% else %}
+    <form action='.' method='get'>
+                {% for field in form1.visible_fields %}
+                <strong>
+                    <label id='field.id_for_label'>{{ field.label }}:</label>
+                    {{ field|add_class:'form-control' }}
+                </strong>
+                {% endfor %}
+                
+            </form>    
+{% endif %}
+    <!--end-->
+
+    <div id="place">
+        {% include 'vinestream/market_ajax.html' %}
+    </div><br/>
 {% endblock %}  
 
 
 {% block domready %}
-    
+    var page = 1;
+    var block_request = false;
+    var empty_page = false;
+
+    $(window).scroll(function() {
+
+        var margin = $(document).height() - $(window).height() - 40;
+
+         if ($(window).scrollTop() > margin && block_request == false && empty_page == false) {
+             block_request = true;
+             page += 1;
+
+             $.get('?page=' + page, function(data) {
+                 if (data == '') {
+                     empty_page = true;
+                 }
+                 else {
+                     block_request = false;
+                     $('#place').append(data);
+                 }
+             })
+         }
+    });
 {% endblock %}

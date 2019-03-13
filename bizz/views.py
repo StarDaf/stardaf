@@ -17,6 +17,9 @@ from django.http import JsonResponse
 from django.db.models import Count
 from action.models import Action
 from .forms import AddPostForm
+from order.forms import OrderCreateForm
+from bizz.models import Post
+import random
 
 
 # connect to redis.
@@ -43,7 +46,7 @@ def create_shop(request, user_id):
 
     else:
         form = CreateShopForm()
-        messages.success(request, 'You will be further authenticated by our team. Creating a shop is free')
+        messages.success(request, 'You will be further authenticated by our team. Creating a company is free')
 
     return render(request,
                   'add_shop.html',
@@ -134,6 +137,7 @@ def detail(request, id, slug, username):
     # product_users_likes = product_users_likes.annotate(taste=Count('product_liked')).order_by('-taste', '-created')[:5]
 
     form = CartAddForm()
+    form_1 = OrderCreateForm()
     # if request if post
     if request.method == 'POST':
         
@@ -161,7 +165,8 @@ def detail(request, id, slug, username):
                    'total_views':total_views,
                    'comment_form':comment_form,
                    'similar_products':similar_products,
-                   'form':form})
+                   'form':form,
+                   'form_1':form_1})
 
 @login_required
 def product_ranking(request):
@@ -303,3 +308,32 @@ def create_post(request, id):
                     'post.html',
                     {'form':form,
                     'user':user})        
+
+
+
+def post_detail(request, id, title):
+    post = Post.objects.get(id=id, title=title)
+    similar_posts = sorted(Post.objects.order_by('-id').exclude(id=post.id)[:3], key=lambda x: random.random())
+    
+    if request.method == 'POST':
+        
+        comment_form = CommentForm(data=request.POST)  # prepopulate data with existing form.
+
+        if comment_form.is_valid():
+            if request.user.is_authenticated:
+                comment = comment_form.save(commit=False)  # create comment instance but don't save to the database yet.
+                comment.post = post
+                comment.user = request.user
+                comment.email = str(request.user.email)
+                comment.save()   # save comment form
+            else:
+                return redirect('account:login')    
+
+    else:
+        # get comment form
+        comment_form = CommentForm()
+    return render(request,
+                'post_detail.html',
+                {'post':post,
+                'comment_form':comment_form,
+                'similar_posts':similar_posts})

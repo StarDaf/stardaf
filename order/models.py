@@ -1,28 +1,42 @@
 from django.db import models
 from django.contrib.auth.models import User
 from bizz.models import Product
+from django.conf import settings
+from django.utils import timezone
 
 # order form to be filled when placing an order
-
+now = timezone.now()
 class Order(models.Model):
 
     STATES_ACTIVE = (
         ('kano', 'Kano'),
     )
 
+    MAX_QUANTITY = (
+        ('1', str(1)),
+        ('2', str(2)),
+        ('3', str(3)),
+    )
+
     # user.order_created.all()
     user = models.ForeignKey(User, related_name='order_created', on_delete=models.CASCADE)
+    
     full_name = models.CharField(max_length=300)
     email = models.EmailField()
     address = models.CharField(max_length=500)
     city = models.CharField(choices=STATES_ACTIVE,
                             max_length=15,
                             default='kano')
+    quantity = models.CharField(choices=MAX_QUANTITY,
+                                max_length=5,
+                                default='1')
 
     phone_number = models.DecimalField(max_digits=13, decimal_places=0)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     paid = models.BooleanField(default=False)
+    product = models.ForeignKey(Product, related_name='order_products',on_delete=models.CASCADE, null=True)
+    pproduct = models.ForeignKey(Product, related_name='products', unique=False,on_delete=models.CASCADE, null=True)  # order.products.get
 
     class Meta:
         ordering = ('-created',)

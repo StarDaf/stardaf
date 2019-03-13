@@ -13,7 +13,16 @@
 
     <link rel="stylesheet" href="{% static 'font-awesome-4.7.0/css/font-awesome.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/images.css' %}">
-    <link rel='stylesheet' {% block style %}{% endblock %}> 
+    <link rel='stylesheet' {% block style %}{% endblock %}>
+    <script src='{% static "js/popper.min.js" %}'></script>
+    <script src='{% static "js/progress_bar.js" %}'></script>
+    {% block css %}
+
+    {% endblock %}
+
+    {% block js %}
+
+    {% endblock %}
     
     <style>
         body {
@@ -47,12 +56,10 @@
 
 </head>
 <body style='padding:0px; margin:0px' >
-
-
-     <!-- Navigation -->
-     <div class="navbar nav fixed-top bg-light" style='height:40px;'>
-           <a href='{% url "account:stream" %}' class='mx-auto d-block'><img  class="mx-auto d-block  header__logo" src="{% static 'img/stardaf.png' %}" style='height:100px; '></a>
-      </div><br/>
+         <!-- Navigation -->
+     <nav class="navbar navbar-light fixed-top bg-light" style='height:40px;'>
+           <a href='{% url "account:stream" %}' class=' navbar-brand mx-auto d-block'><img  src="{% static 'img/nav.png' %}" width="" height="30" alt="30"></a>
+      </nav><br/>
      {% if request.user.is_authenticated %}
      
       <div class="navbar fixed-bottom" style='background-color:whitesmoke' id='navbar_nav_authenticated'>
@@ -100,12 +107,12 @@
     {% if request.user.shop %}
         <a href="{% url 'bizz:add_product' request.user.shop.id %}" style='color:inherit'><i class="fa fa-fw fa-plus-circle  fa-2x"></i></a> 
     {% else %}
-           <a href="{% url 'bizz:post' request.user.id %}" style='color:inherit'><i class="fa fa-fw fa-plus-circle  fa-2x"></i></a> 
+            <a href="{% url 'bizz:post' request.user.id %}" style='color:inherit'><i class="fa fa-fw fa-plus-circle  fa-2x"></i></a>  
     {% endif %}
 
   
 
-<a href="{% url 'cart:detail' %}" style='{% if cart|length > 0%}color:red{% else %}color:inherit{% endif %}'><i class="fa fa-fw fa-shopping-basket  fa-2x"></i></a>
+{% comment %} <a href="{% url 'cart:detail' %}" style='{% if cart|length > 0%}color:red{% else %}color:inherit{% endif %}'><i class="fa fa-fw fa-shopping-basket  fa-2x"></i></a> {% endcomment %}
 <a href="{{ request.user.get_absolute_url }}" style='color:grey'><img src="{%  if request.user.profile.image %}{{ request.user.profile.image.url }}
               {% else %}{% static 'img/no_image.png'%}{% endif %}" style="border-radius:50%;width:35px; height:35px" class="img-circle"></a>
 </div>
@@ -117,12 +124,14 @@
           
 <a class="active" href="{% url 'account:stream' %}"><i class="fa fa-fw fa-hashtag fa-2x"></i></a> 
 
-<a href="{% url 'account:farmcenter' 'farmcenter' %}"><i class="fa fa-fw fa-fort-awesome fa-2x"></i></a>  
+<a href="{% url 'account:market' %}"><i class="fa fa-fw fa-fort-awesome fa-2x"></i></a>  
+
+
     
 
   
 
-<a href="{% url 'cart:detail' %}"><i class="fa fa-fw fa-shopping-basket  fa-2x"></i></a>
+{% comment %} <a href="{% url 'cart:detail' %}"><i class="fa fa-fw fa-shopping-basket  fa-2x"></i></a> {% endcomment %}
 
 </div>
 </div>
@@ -135,7 +144,7 @@
 
       </div>
     </nav>
-
+        <br/>
      {% if messages %}
          <ul class="messages">
              {% for message in messages %}
@@ -164,6 +173,7 @@
         
         <script src='{% static "js/jquery.cookie.js" %}'></script>
         <script src='{% static "js/bootstrap.min.js" %}'></script>
+        <script src='{% static "js/popper.min.js" %}'></script>
         <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>-->
 
          <script>

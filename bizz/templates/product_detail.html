@@ -2,12 +2,18 @@
 {% load static %}
 {% load widget_tweaks %}
 {% load humanize %}
-
+<head>
 <link rel="stylesheet" href="{% static 'style.css' %}">
 <link rel="stylesheet" href="{% static 'css/comment.css' %}">
 <link rel="stylesheet" href="{}">
+<meta property="og.description" content="product detail page" />
+<meta property='og:title' content='{{ product.name }}'/>
+<meta property='og:image' itemprop="image" content='{{ product.photo.url }}'/>
+<meta property='og:image:url' itemprop="image" content='{{ product.photo.url }}'/>
+<meta property='og:image:type' content="image/png"/>
+</head>
 
-{% block title %} {{ product.name }} {% endblock %}
+{% block title %} Checkout {{ product.name }} {% endblock %}
 
 <link rel='stylesheet' {% block style %}href="{% static 'css/comment.css' %}"{% endblock %}> 
 
@@ -142,16 +148,76 @@
                                 <span id='total_{{ product.id }}'>{{ total_likes }}</span>
                                 like{{ total_likes|pluralize }}
                             {% endwith %}
-                        </span>&nbsp;&nbsp;&nbsp;
+                        </span>&nbsp;
+                        <a><i class="fa fa-credit-card" data-toggle="modal" data-target="#exampleModalLong_{{ product.id }}"></i></a>
+                        <div class="modal fade" id="exampleModalLong_{{ product.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLong_{{ product.id }}Title"><a href='{{ product.get_absolute_url }}' style='text-decoration:none'>{{ target.name }}</a></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h2 style='align-center'>NGN ₦{{ product.price|intcomma }}</h2><br/>
+                            {% if form_1.errors %}
+                                {% for error in form_1.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            {% else %}    
+                                <form method='get' action='{% url 'order:buy' product.id %}'>
+                                    {% for field in form_1.visible_fields %}
+                                        <label id="field.id_for_label">{{ field.label }}</label>
+                                        {{ field|add_class:'form-control' }}
+                                        {% endfor %}
+                                    {% csrf_token %}<br/>
+                                    <button type='submit' class='btn btn-secondary mx-auto d-block'>buy</button>
+                                </form>
+                            {% endif %}    
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                        &nbsp;
                             {% with views=product.total_views %}
                                 <span class="text-muted"><i class="fa fa-eye"></i>
                                     {{ views }} view{{ views|pluralize }}
                                 </span>
                             {% endwith %}
                            
-
+                            <span class="float-right mx-2"><a onclick=''><span class='fa fa-share-alt pull-right icons' data-toggle="modal" data-target='#exampleModalCenter_{{ product.id }}'></a></span>
+                            <div class="modal fade" id="exampleModalCenter_{{ product.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Share to friends</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.stardaf.com/{{ product.get_absolute_url }}&t={{ product.name }}"
+   target="_blank" title="Share on Facebook"><i class='fa fa-facebook fa-2x'></i>
+</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://wa.me/?text=Checkout {{ product.name }} @ www.stardaf.com{{ product.get_absolute_url }}. www.stardaf.com"><i class='fa fa-whatsapp fa-2x'></i></a>
+{% comment %} <a href="https://twitter.com/share?url=https://www.stardaf.com/bizz/3/apple/Faisal/&via=TWITTER_HANDLE&text=Checkout my product"
+   onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');return false;"
+   target="_blank" title="Share on Twitter"><i class='fa fa-twitter'></i>
+</a> {% endcomment %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        
+      </div>
+    </div>
+  </div>
+</div>
                             <span class="float-right mx-2"><a href='{% if not request.user.is_authenticated %}{% url 'account:login' %}{% else %}{% url 'bizz:recommend' request.user.id product.id %}{% endif %}'><i class="fa fa-hand-spock-o pull-right icons"></i></a></span>
-                 <span class="float-right mx-2"><a href='{% url 'cart:home' product.pk %}'><i class="fa fa-plus-circle pull-right icons"></i></a></span>
+                            <span class="float-right mx-2"><a href='{% url 'chat:thread' product.shop.owner.username %}'><span class='fa fa-envelope pull-right icons'></a></span>
+                 {% comment %} <span class="float-right mx-2"><a href='{% url 'cart:home' product.pk %}'><i class="fa fa-plus-circle pull-right icons"></i></a></span> {% endcomment %}
                                     <div class="pull-right">
                         <h2 class="name">
                             {{ product.name }}  
@@ -203,17 +269,18 @@
                             Comment{{ product.comments.count|pluralize }}  {% if request.user.is_anonymous %}<small style="color:red"><a href='{% url 'account:register' %}'>Create account to comment</a></small> or
                             <small style='color:blue'><a href='{% url 'account:login' %}'>Login</a></small> to comment{% endif %}
 
-                                        <form action="." method="post">
-                                            <div class="form-group">
+                                        <form action="." method="post" class='form-inline' role='form'>
+                                            <div class="form-group mx-xm-3 mb-2">
+                                                {% csrf_token %}
+                                                
                                                 {% for field in comment_form.visible_fields %}
                                                 <label id="field.id_for_label">{{ field.label }}</label>
                                                 {{ field|add_class:'form-control' }}
+                                                
+                                    
+                                                <button class='btn btn-outline-primary'><span class='fa fa-paper-plane'></span></button>
+                                                
                                                 {% endfor %}
-                                                {% csrf_token %}
-                                                <!--<button type="submit" class="btn btn-primary btn-sm">-->
-                                                    <!--<i class="fa fa-paper-plane"></i>-->
-                                                <!--</button>-->
-                                                <button class='btn btn-outline-primary'><span class='fa fa-angle-double-right'></span></button
                                             </div>
                                         </form>
 

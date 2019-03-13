@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load paystack %}
+{% load humanize %}
+
+
+{% block title %}{% endblock %}
+
+
+{% block content %}<br/><br/>
+    
+    <div class='container'>
+    <div class='row'>
+        <div class='col-sm-4'></div>
+        <div class="card mx-auto d-block"  class='col-sm-4' style='width:100%'>
+            {% comment %} <img class="card-img-top" src="..." alt="Card image cap"> {% endcomment %}
+            <div class="card-body">
+                <h5 class="card-title">
+                    <img src='{% if user.profile.image %}{{ user.profile.image.url }}{% else %}
+                    {% static "img/no_image.png" %}{% endif %}' style='border-radius:50%; width:100px; height:100px'><br/>
+                    {{ user.get_full_name }}&nbsp;&nbsp;<br/>
+                    <span style='color:purple'>@{{ user.username }}</span>
+                </h5>
+                <p class="card-text">
+                    <h2>Purchase Details</h2>
+                    <img src='{% if product.photo %}{{ product.photo.url }}{% else %}
+                    {% static "img/no_image.png" %}{% endif %}' style='border-radius:10%; width:300px; height:auto'><br/>
+                    <b>{{ product.name }}</b><br/>
+                    <b>NGN ₦{{ price|intcomma }}</b><br/>
+                    <b>{{ order.quantity }}x {{ product.name }}</b>
+                    <p>
+                        your delivery address: {{ order.address|linebreaks }}
+                    </p>
+                    <h2>Seller Details</h2>
+                    <img src='{% if product.shop.owner.profile.image %}{{ product.shop.owner.profile.image.url }}{% else %}
+                    {% static "img/no_image.png" %}{% endif %}' style='border-radius:50%; width:70px; height:70px'>
+                    >>>
+                    <img src='{% if product.shop.logo %}{{ product.shop.logo.url }}{% else %}
+                    {% static "img/no_image.png" %}{% endif %}' style='border-radius:50%; width:70px; height:70px'><br/>
+                    <b>{{ product.shop.owner.get_full_name }}</b><br/>
+                    <span style='color:purple'>@{{ product.shop.owner.username }}</span><br/>
+                    <b>0{{ product.shop.owner.profile.phone }}</b><br/>
+                    <b>{{ product.shop.business_address }}</b><br/>
+                    <b>{{ product.shop.shop_address }}</b><br/>
+                    
+                </p>
+                {% paystack_button amount=price email=order.email  %}&nbsp;&nbsp;<b>NGN ₦{{ price|intcomma }}</b><br/><br/><br/><br/>
+            </div>
+        </div>
+        <div class='col-sm-4'></div>
+    </div>    
+    </div>    
+{% endblock %}

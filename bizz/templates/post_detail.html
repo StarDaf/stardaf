@@ -1,0 +1,221 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% load account_tags %}
+{% load humanize %}
+
+{% block css %}
+    <link href="{% static 'css/main.css' %}" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,700|Source+Sans+Pro:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/comment.css' %}">
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport'/>
+{% endblock %}
+
+{% block title %} Read '{{ post.title }}' by {{ post.user.get_full_name }} on www.stardaf.com{% url "bizz:post_text" post.id post.title %}{% endblock %}
+
+{% block content %}
+    <br/>
+    <div class="container">
+	<div class="jumbotron jumbotron-fluid mb-3 pl-0 pt-0 pb-0 bg-white position-relative">
+		
+			
+					<p class="text-uppercase font-weight-bold">
+						<a class="text-danger" href="./category.html">Stories</a>
+					</p>
+					<h1 class="display-4 secondfont mb-3 font-weight-bold">{{ post.title }}</h1>
+					<div class="d-flex align-items-center">
+						<img class="rounded-circle" src="{% if post.user.profile.image %}{{ post.user.profile.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" width="70">
+						<small class="ml-2">{{ post.user.get_full_name }} <span class="text-muted d-block">{{ post.created|timesince }} &middot; 
+                        <a href='#' data-id="{{ post.user.id }}" 
+    data-action="{% if request.user in post.user.followers.all %}un{% endif %}follow"
+    class='follow' id='followbutton_{{ post.id }}'>
+    {% if not request.user in post.user.followers.all  %}
+        <button class="btn btn-outline-primary btn-sm float-right">follow</button>
+    {% else %}
+        <button class="btn btn-outline-primary btn-sm float-right">unfollow</button>
+    {% endif %}  
+    </a></span>
+						</small>
+					</div>
+				
+				{% if not post.video %}
+            <a href='{% url "bizz:post_text" post.id post.title %}'>
+            <img src='{{ post.image.url }}' style='height:auto; width:100%; padding:0px; border-radius:10px 10px 10px 10px'/>
+            </a>
+            {% else %}
+            <a href='{% url "bizz:post_text" post.id post.title %}'>
+                <video width="100%" height="100%" style='border-radius:10px 10px 10px 10px'  controls {% if post.image %}poster="{{ post.image.url }}"{% endif %}>
+                        <source src="{{ post.video.url }}" type="video/mp4">
+                        Update your browser.
+                    </video>
+            </a>
+            {% endif %}<br/>
+			
+		
+	</div>
+</div>
+
+<div class="container pt-4 pb-4">
+	<div class="row justify-content-center">
+        
+
+				
+		</div>
+		<div class="col-md-12 col-lg-8">
+			<article class="article-post">
+			{% if post.introduction %}
+                <section>
+                    <p>
+                        {{ post.introduction }}
+                    </p>
+                </section>    
+            {% endif %}
+            {% if post.paragraph_1 %}
+                <section>
+                    <p>
+                        {{ post.paragraph_1 }}
+                    </p>
+                </section>    
+            {% endif %}
+            {% if post.paragraph_2 %}
+                <section>    
+                    <p>
+                        {{ post.paragraph_2 }}
+                    </p>
+                </section>    
+            {% endif %}
+            {% if post.paragraph_3 %}
+                <section>
+                    <p>
+                        {{ post.paragraph_3 }}
+                </section>    </p>
+            {% endif %}
+            {% if post.paragraph_4 %}
+                <section>
+                    <p>
+                        {{ post.paragraph_4 }}
+                    </p>
+                </section>
+            {% endif %}
+            {% if post.paragraph_5 %}
+                <section>
+                    <p>
+                        {{ post.paragraph_5 }}
+                    </p>
+                </section>
+            {% endif %}
+			</article>
+            
+			
+		</div>
+	</div>
+</div>
+<div class="sticky-top text-center">
+				<div class="text-muted">
+					Share this
+				</div>
+				<div class="share d-inline-block">
+					<span class="float-right mx-2"><a onclick=''><span class='fa fa-share-alt pull-right icons fa-2x' data-toggle="modal" data-target='#exampleModalCenter_{{ post.id }}'></a></span>
+				</div>
+			</div>
+		</div>
+
+<div class="modal fade" id="exampleModalCenter_{{ post.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Share to friends</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+                    <!-- AddToAny BEGIN -->
+            <div class="a2a_kit a2a_kit_size_32 a2a_default_style">
+            <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
+            <a class="a2a_button_facebook"></a>
+            <a class="a2a_button_twitter"></a>
+            <a class="a2a_button_google_gmail"></a>
+            <a class="a2a_button_whatsapp"></a>
+            <a class="a2a_button_sms"></a>
+            </div>
+            <script async src="https://static.addtoany.com/menu/page.js"></script>
+            <!-- AddToAny END -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        
+      </div>
+    </div>
+  </div>
+</div>
+    
+<div class="container pt-4 pb-4">
+	<h5 class="font-weight-bold spanborder"><span>Read next</span></h5>
+    {% for post in similar_posts %}
+	<div class="row">
+		
+		{% comment %} <div class="col-lg-6">
+					<a href='{% url "bizz:post_text" post.id post.title %}'><img height="80" src="{{ post.image.url }}"></a>
+					<div class="pl-3">
+						<h2 class="mb-2 h6 font-weight-bold">
+						<a class="text-dark" href="{% url "bizz:post_text" post.id post.title %}">{{ post.title }}</a>
+						</h2>
+						<div class="card-text text-muted small">
+							 <a href='{{ user.get_absolute_url }}'>{{ post.user.get_full_name }}</a>
+						</div>
+						<small class="text-muted">{{ post.created }}</small>
+					</div>	
+		</div> {% endcomment %}
+        <div class="col-lg-6">
+			<div class="card border-0 mb-4 box-shadow h-xl-300">
+				<a href='{% url "bizz:post_text" post.id post.title %}'><div style="background-image: url('{{ post.image.url }}'); height: 150px; background-size: cover; background-repeat: no-repeat;"></a>
+				</div>
+				<div class="card-body px-0 pb-0 d-flex flex-column align-items-start">
+					<h2 class="h4 font-weight-bold">
+					<a  href="{% url 'bizz:post_text' post.id post.title %}">{{ post.title }}</a>
+					</h2>
+					<p class="card-text">
+						<a class="text-dark" href="{% url 'bizz:post_text' post.id post.title %}">{{ post.introduction|truncatewords:20 }}</a> 
+					</p>
+					<div>
+						<small class="d-block"><a class="text-muted" href="{{ user.get_absolute_url }}">@{{ post.user.get_full_name }}</a></small>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div><br/>
+    {% endfor %}
+    <span class="fa fa-2x"><h5>({{ post.post_comments.count }}) </h5></span>
+    Comment{{ post.post_comments.count|pluralize }}  {% if request.user.is_anonymous %}<small style="color:red"><a href='{% url 'account:register' %}'>Create account to comment</a></small> or
+                            <small style='color:blue'><a href='{% url 'account:login' %}'>Login</a></small> to comment{% endif %}
+    <form action="." method="post" class='form-inline' role='form'>
+                                            <div class="form-group mx-xm-3 mb-2">
+                                                {% csrf_token %}
+                                                
+                                                {% for field in comment_form.visible_fields %}
+                                                <label id="field.id_for_label">{{ field.label }}</label>
+                                                {{ field|add_class:'form-control' }}
+                                                
+                                    
+                                                <button class='btn btn-outline-primary'><span class='fa fa-paper-plane'></span></button>
+                                                
+                                                {% endfor %}
+                                            </div>
+                                        </form>
+        {% for comment in post.post_comments.all %}
+                <div class='comment'>
+                <p class='info'>
+                Comment {{ forloop.counter }} by {{ comment.user.username }} on
+                    {{ comment.created|timesince }} ago
+                    </p>
+                        {{ comment.body|linebreaks }}
+                </div>
+        {% empty %}
+            <p>Be the first to comment.</p>
+        {% endfor %}                                    
+</div><br/>
+
+
+{% endblock %}

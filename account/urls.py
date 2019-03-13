@@ -1,5 +1,6 @@
 from django.conf.urls import url
 from . import views
+from paystack import views as v
 from django.contrib.auth import views as v
 
 app_name='account'
@@ -21,6 +22,8 @@ urlpatterns = [
     url(r'^edit/$', views.edit, name='edit'),
     url(r'^terms-and-conditions/$', views.terms, name='term'),
     url(r'^contact-us/$', views.contact, name='contact'),
+    url(r'^success/$', views.success, name='success'),
+    url(r'^failure/$', views.failure, name='failure'),
     url(r'^(?P<username>[-\w]+)/$', views.profile, name='profile'),
     #url(r'^(?P<business_name>[-\w]+)/', views.profile1, name='profile1'),
     url(r'^filter/(?P<market>[-\w]+)/$', views.filter_shops, name='filter'),

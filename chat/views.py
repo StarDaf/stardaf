@@ -14,6 +14,7 @@ def thread(request, username):
     other_user = User.objects.get(username=username)  # get the other user
     thread = Thread.objects.get_or_new(user, other_user)[0]  # get_or_create thread between users.
     # this is returning None.
+    form = ChatForm()
 
 
     if request.method == 'POST':

@@ -24,6 +24,14 @@
 
 <main role="main" style='padding: 0px; margin:0px'>
      <!--<div class="row">--> 
+     <div style='position:fixed;right:25px;bottom:70px;z-index:10'>    
+        <a href='{% url 'chat:chats' %}'>
+            <button class='btn btn-success' style='border-radius:50%'>
+                <i class='fa fa-align-right'></i>
+            </button>
+        </a>
+    </div>
+     
                     
 
 {% if not request.user.is_authenticated %}

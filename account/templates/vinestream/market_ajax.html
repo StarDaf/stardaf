@@ -1,0 +1,36 @@
+<div id="columns">
+{% for item in all %}
+    
+         {% if item.video %}
+            <figure>
+            <a href='{{ item.get_absolute_url }}'>
+                <video  id= "packt" controls= "controls" poster="{{ item.photo.url }}"><source src="{{ item.video.url }}"></video>
+            </a>
+            </figure>
+        {% endif %}  
+        {% if item.photo %}
+        <a href='{{ item.get_absolute_url }}'>
+            <figure>
+                <img src="{{ item.photo.url }}">
+            </figure>
+        </a>    
+        {% endif %}
+        
+          {% if item.business_name %} 
+          <a href='{{ item.owner.get_absolute_url }}'>
+            <figure>
+                <img src="{{ item.logo.url }}">
+            </figure>
+            </a>
+         {% endif %}  
+         {% if item.title %} 
+          <a href='{{ item.get_absolute_url }}'>
+            <figure>
+                <img src="{{ item.image.url }}">
+            </figure>
+            </a>
+         {% endif %}
+         
+    
+{% endfor %}   
+</div>

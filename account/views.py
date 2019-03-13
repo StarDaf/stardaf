@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .forms import UserRegistrationForm, UserEditForm, ProfileEditForm, SearchForm
+from .forms import UserRegistrationForm, UserEditForm, ProfileEditForm, SearchForm, FriendSearchForm
+from order.forms import OrderCreateForm
 from bizz.forms import UpdateProductForm
 from .tasks import account_created
 from .models import Profile
@@ -20,6 +21,19 @@ from django.conf import settings
 from cart.forms import CartAddForm
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 from django.core.mail import send_mail
+from order.models import Order
+import random
+from bizz.models import Post
+from itertools import chain
+
+from django.http import HttpResponse
+from django.views.generic import View
+from order.utils import render_to_pdf #created in step 4
+from django.template.loader import get_template
+from django.conf import settings
+from io import BytesIO
+from xhtml2pdf import pisa
+from django.core.mail import send_mail, EmailMultiAlternatives, EmailMessage
 
 r = redis.StrictRedis(host=settings.REDIS_HOST,
                       port=settings.REDIS_PORT,
@@ -41,7 +55,7 @@ def stream(request):
         # if the user follows anyone limit actions to those he follows only.
         # (in next version add actions_follow and actions to store actions of those you follow and those you dont)
         # (so as to allow the users access other people)
-        if user_following_ids:
+        if len(user_following_ids) > 20:
             actions = actions.filter(user_id__in=user_following_ids) \
                             .select_related('user', 'user__profile') \
                             .prefetch_related('target')
@@ -64,19 +78,22 @@ def stream(request):
         actions = paginator.page(1)
 
     form = CartAddForm()  # render empty form.
+    form_1 = OrderCreateForm()
 
     if request.is_ajax():
         return render(request,
                       'vinestream/stream_ajax.html',
                       {'actions': actions,
                        'section':'streams',
-                       'form':form})
+                       'form':form,
+                       'form_1':form_1})
 
     # this will render for normal requests
     return render(request,'vinestream/stream.html',
                   {'section':'streams',
                    'actions':actions,
-                   'form':form})
+                   'form':form,
+                   'form_1':form_1})
 
 
 def register(request):
@@ -91,20 +108,20 @@ def register(request):
             new_user.save()  # save user in database
             # new user should follow himself
             Contact.objects.get_or_create(user_from=new_user, user_to=new_user)
+            Contact.objects.get_or_create(user_from=new_user, user_to=User.objects.get(id=1))
             #account_created.delay(new_user.id)  # set asynchronous task in queue.
+            # create profile for user
+            Profile.objects.create(user=new_user)
             subject = 'Welcome to stardaf'
             message = 'Hello Dear!!, You have arrived at the first ultimate social commerce site in the world!\nWhere you can browse cool products and also set your business online\nThank you\n\nTeam StarDaf.'
 
             send_mail(subject, message, 'postmaster@stardaf.com', [new_user.email], fail_silently=False)
-
-            # create profile for user
-            Profile.objects.create(user=new_user)
             # give a success notification.
             messages.success(request, 'Welcome {},'.format(new_user.get_full_name()))
             messages.success(request, 'Use the plus (+) button to add items to your bag',)
 
             # send new user to streams
-            return redirect('account:login')
+            #return redirect('account:login')
             # check from other platforms if users after creating an account login directly.
 
     else:
@@ -157,12 +174,14 @@ def profile(request, username):
     """profile will contain personal infomations such as images, names, small cards of products uploaded,
     history of uploads, chats,edit of info, bussiness location etc."""
     # total_views = r.incr('product:{}:views'.format(product.id))
+    form_1 = OrderCreateForm()
 
     return render(request,
                   'vinestream/profile.html',
                   {'user':user,
                    'products':products,
-                   'form':form})
+                   'form':form,
+                   'form_1':form_1})
 
 
 @login_required
@@ -236,15 +255,52 @@ def follow(request):
         return JsonResponse({'status':'ko'})
 
 
-@login_required
+
 def market(request):
     # get all shops
     shops = Shop.objects.all()
     new_shops = Shop.objects.order_by('-created')[:20]
 
+    # new code
+    shops = Shop.objects.order_by('-created')[:5]
+    products = sorted(Product.objects.all(), key=lambda x: random.random())
+    posts = sorted(Post.objects.all(), key=lambda x: random.random())
+    shops = sorted(Shop.objects.all(), key=lambda x: random.random())
+
+    all = list(chain(products, shops, posts)) 
+
+    paginator = Paginator(all, 10)  # 15 actions/activities per page
+    page = request.GET.get('page')  # get the page number
+
+    try:
+        all = paginator.page(page)  # get he actions of a certain page
+
+    except EmptyPage:
+        if request.is_ajax():
+            return HttpResponse('')  # return an empty http response so as to stop ajax from making additional requests
+
+        all = paginator.page(paginator.num_pages)  # stop at the last page
+
+    except PageNotAnInteger:
+        # return page 1
+
+        all = paginator.page(1)
+
+    if request.is_ajax():
+        return render(request,
+                      'vinestream/market_ajax.html',
+                      {'all':all})    
+
+
+    #end of new code
+
     results = []
     query = None
+    search = None
     form = SearchForm()  # empty form
+    form1 = FriendSearchForm()  # empty form to be rendered
+    #friends = request.user.followers.all()
+    me = request.user # the user in the current session
 
     if 'query' in request.GET:
         form = SearchForm(data=request.GET)
@@ -258,6 +314,18 @@ def market(request):
 
             results = Product.objects.annotate(search=search_vector, rank=SearchRank(search_vector, search_query)) \
                                 .filter(search=search_query).order_by('-rank')  # search results
+    elif 'search' in request.GET:
+        form1 = FriendSearchForm(data=request.GET)
+        if form1.is_valid():
+            search = form1.cleaned_data['search']  # getting the search term
+
+            # main search code
+            search_vector = SearchVector('username', 'first_name', 'last_name', 'email')
+            search_query = SearchQuery(search)
+
+            results = User.objects.annotate(search=search_vector, rank=SearchRank(search_vector, search_query)) \
+                                .filter(search=search_query).order_by('-rank')  # search results
+
 
     return render(request,
                  'vinestream/market.html',
@@ -266,7 +334,11 @@ def market(request):
                  'results':results,
                  'query':query,
                  'form':form,
-                 'query':query})
+                 'form1':form1,
+                 'query':query,
+                 'me':me,
+                 'search':search,
+                 'all':all})
 
 
 # @login_required
@@ -366,5 +438,39 @@ def terms(request):
                     'vinestream/terms.html',
                     {})                                
 
+@login_required
+def success(request):
+    order = Order.objects.filter(user=request.user).order_by('-created')[0]  # get recent order created by the request.user
+    product = order.product
+    remaining = product.stock - int(order.quantity)
+    product.stock = remaining
+    product.save()  # save product
+
+    # send email
+    subject = '{}, Your stardaf order id is: {}'.format(order.user.username, order.id)
+    message = '{}, Your product is coming to you. Your purchase is successful. \n A pdf containing your order details is attached with this email.\n Thank you \nTeam StarDaf '.format(order.user.username)
+    template = get_template('vinestream/invoice.html')
+    context = {
+        'order':order
+        }
+    html = template.render(context)
+             
+    result = BytesIO()
+    pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+    email = EmailMessage(subject, message, 'postmaster@stardaf.com', ['teamstardaf@gmail.com', order.email, order.product.shop.owner.email])
 
 
+    email.attach('order_{}.pdf'.format(order.id), result.getvalue(), 'application/pdf')
+    email.send()
+    messages.success(request, 'Purchase completed successfully.')
+
+
+    return render(request, 
+                'vinestream/success.html',
+                {'order':order})
+
+@login_required
+def failure(request):
+    return render(request,
+                    'vinestream/failure.html',
+                    {})                

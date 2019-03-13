@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{%  block title %}
+Thank you, {{ request.user.username }}
+{% endblock %}
+
+
+{% block content %}
+
+    <h1>Thank you</h1>
+    <p>Your Transaction is  successful. Your order number is
+    <strong>{{ order.id }}</strong>.<br/>
+    We have sent you an e-mail containing your purchase summary. your purchase shall be delivered to you.
+     {% comment %} <a href='{% url "order:pdf" order.id %}?download=True'>download purchase summary</a></p> {% endcomment %}
+
+{% endblock %}

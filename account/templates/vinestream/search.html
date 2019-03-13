@@ -1,6 +1,14 @@
 <!--<a href='{% url 'chat:thread' target.shop.owner.username %}'><span class='fa fa-circle-thin'></a>-->
 <!--<a href="{% url 'account:login' %}"><i class="fa fa-fw fa-circle-thin fa-2x"></i></a>-->
 <!--<a href="{% url 'chat:chats' %}" style='color:inherit'><i class="fa fa-fw fa-circle-thin fa-2x"></i></a>-->
+<div style='position:fixed;right:25px;bottom:70px;z-index:10'>    
+        <a href='{% url 'chat:chats' %}'>
+            <button class='btn btn-success' style='border-radius:50%'>
+                <i class='fa fa-whatsapp'></i>
+            </button>
+        </a>
+    </div>
+    {% comment %} {% if not action.verb == 'post' %}<a href='{% url 'chat:thread' target.shop.owner.username %}'><span class='fa fa-envelope'></a>{% endif %} {% endcomment %}
 
 <div id="carousel-example-1z" class="carousel slide carousel-fade" data-interval="false" data-ride="carousel">
   <!--Indicators-->
@@ -53,3 +61,210 @@
   </a>
 </div>
 </div>
+
+
+<html>
+     <head>
+          <meta property='og:title' content='Here's the title of my share!'/>
+          <meta property='og:image' content='https://www.google.com/intl/en_com/images/srpr/logo3w.png'/>
+          <meta property='og:description' content='Here's a description for Facebook that will show as a block of text!'/>
+     </head>
+<html>          
+
+
+
+<!--market.html-->
+
+  {% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% load account_tags %}
+
+
+
+<link rel='stylesheet' href={% static 'css/ccc.css' %}>
+<link rel='stylesheet' href={% static 'css/base.css' %}>
+
+{% block title %}
+    Market
+{% endblock %}
+
+{% block style %}href="{% static 'css/scroll1.css' %}"{% endblock %}
+
+
+
+{% block content %}
+    
+    <br/>
+    
+    {% if query %}
+        <h1>Products containing "{{ query }}"</h1>
+
+            <h3>
+                <!-- to avo id hitting the database more than once (efficiency matters) -->
+                {% with results.count as total_results %}
+                    Found {{ total_results }} result{{ total_results|pluralize }}
+                {% endwith %}
+
+            </h3>
+
+        <div class='row'>
+            {% for product in results %}
+            {% with product.shop as shop %}
+                {% with total_followers=shop.owner.followers.count %}
+
+            <div class='col-sm-3'>   
+            <a href='{{ product.get_absolute_url }}'> 
+                    <div class="card">
+                        <a href='{{ product.get_absolute_url }}'> 
+                        {% if not product.video %}
+                            <img class="card-img-top" src='{{ product.photo.url }}' style='height:auto'>
+                        {% else %}
+                            {% if product.video %}
+                                <video width="100%" height="100%" controls {% if product.photo %}poster="{{ product.photo.url }}"{% endif %}>
+                                    <source src="{{ product.video.url }}" type="video/mp4">
+                                    Update your browser.
+                                </video>
+                            {% endif %}    
+                        {% endif %}    
+
+                        </a>
+                        <div class="card-body">
+                        <h5 class="card-title">
+                        <a href='{{ shop.owner.get_absolute_url }}'>
+                            <img src='{% if shop.owner.profile.image %}{{ shop.owner.profile.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}' style='width:50px; height:50px; border-radius:50%'>
+                            <span class='text-muted'>{{ shop.owner }} ~ {{ shop.business_name }}</span>
+                            
+                        </h5>
+                        <p class="card-text text-muted">
+                            address: {{ shop.business_address }}<br/> 
+                            uploads {{ shop.products.count }}
+                        </p>
+                        <p class="card-text">{{ product.description }}</p>
+                        <p class="card-text"><small class="text-muted">{{ product.created|timesince }} ago</small></p>
+                        </div>
+                    </div><br/>
+            </a>        
+            </div>    
+
+        {% endwith %}
+        {% endwith %}
+            {% empty %}
+
+                    <p>Their are no results for your query.</p>
+
+            {% endfor %}
+        </div>    
+    {% else %}
+        <form action='.' method='get'>
+                {% for field in form.visible_fields %}
+                <strong>
+                    <label id='field.id_for_label'>{{ field.label }}:</label>
+                    {{ field|add_class:'form-control' }}
+                </strong>
+                {% endfor %}
+                <input type='submit' value='Search'>
+            </form>
+    <br/>
+    {% comment %} <a href="{% url 'account:filter' 'farmcenter' %}">
+        <header class="image" style='background-image: url({% static 'css/3D-Background-64.jpg' %}); height: 150px;'>
+            <h1 class="display-10">Farm Center</h1>
+            <p class="lead">Kano Largest phone Market</p>
+        </header>
+    </a> {% endcomment %}
+    {% endif %}    <br/>
+<h3 class='text-muted'>New shops </h3>
+<div class='one' style='padding:10px'>
+   
+    {% new_shops  %}
+    
+</div><br/> 
+<form action='.' method='get'>
+                {% for field in form1.visible_fields %}
+                <strong>
+                    <label id='field.id_for_label'>{{ field.label }}:</label>
+                    {{ field|add_class:'form-control' }}
+                </strong>
+                {% endfor %}
+                <input type='submit' value='Search'>
+            </form><br/>
+  
+<h3 class='text-muted'>Your friends </h3>
+<br/>
+    {% for user in request.user.following.all %} 
+    {% if user.profile.image %}
+        <a href='{{ user.get_absolute_url }}'><img src="{{ user.profile.image.url }}" style="height:50px; width:50px; border-radius:50%;"></a>
+    {% else %}
+         <a href='{{ user.get_absolute_url }}'><img src="{% static 'img/no_image.png' %}" style="height:50px; width:50px; border-radius:50%"></a>
+    {% endif %}
+    {% empty %}
+    You have no friends yet.    
+    {% endfor %}
+
+    {% if search %}
+    {% for user in results %}
+        
+                {% comment %} <div class='container' style='padding-left:22px'>
+                        <div class="row">
+                            <div class="col-xs-2">
+                                <a href='{{ user.get_absolute_url }}' style='text-decoration:none'><img src="{%  if user.profile.image %}{{ user.profile.image.url }}
+                        {% else %}{% static 'img/no_image.png'%}{% endif %}" style="border-radius:50%;width:50px; height:50px" class="img-circle"></a>
+                            </div>
+                            <div class="col-xs-8">&nbsp;&nbsp;&nbsp;&nbsp;
+                                    
+                                        <a href='{{ user.get_absolute_url }}'><strong style='vertical-align:baseline'>@{{ user.username }}</strong><br/>
+                                    
+                                    <small class='text-muted' style='vertical-align:text-bottom; padding-left:22px'>{{ user.get_full_name }}</small></a>
+
+                        <a href='#' data-id="{{ user.id }}" 
+                            data-action="{% if request.user in user.followers.all %}un{% endif %}follow"
+                            class='follow' id='followbutton_{{ user.id }}'>
+                            {% if not request.user in user.followers.all  %}
+                                <button class="btn btn-outline-primary btn-sm float-right">follow</button>
+                            {% else %}
+                                <button class="btn btn-outline-primary btn-sm float-right">unfollow</button>
+                            {% endif %}  
+                        </a>                    
+                        
+                </div> {% endcomment %}
+                <a href='{{ user.get_absolute_url }}' style='text-decoration:none'>
+                <div class='container-fluid' style='padding-left:22px'>
+                        <div class="row">
+                            <div class="col-xs-2">
+                                <img src="{%  if user.profile.image %}{{ user.profile.image.url }}
+                        {% else %}{% static 'img/no_image.png'%}{% endif %}" style="border-radius:50%;width:50px; height:50px" class="img-circle">
+                            </div>
+                            <div class="col-xs-8">
+                                         <a href='{{ user.get_absolute_url }}'><strong style='vertical-align:baseline'>@{{ user.username }}</strong><br/>
+                                    
+                                    <small class='text-muted' style='vertical-align:text-bottom; padding-left:22px'>{{ user.get_full_name }}</small></a>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+
+                                    <small class='text-muted float-right'>
+                                        <a href='#' data-id="{{ user.id }}" 
+                            data-action="{% if request.user in user.followers.all %}un{% endif %}follow"
+                            class='follow' id='followbutton_{{ user.id }}'>
+                            {% if not request.user in user.followers.all  %}
+                                <button class="btn btn-outline-primary btn-sm float-right">follow</button>
+                            {% else %}
+                                <button class="btn btn-outline-primary btn-sm float-right">unfollow</button>
+                            {% endif %}  
+                        </a>
+                                    </small>
+                                    
+                            </div>
+                        </div><hr width='70%' float='center' />
+                </div>     </a>
+    {% endfor %}
+{% endif %}
+    <br/><br/><br/><br/>      
+{% endblock %}  
+
+
+{% block domready %}
+    
+{% endblock %}
+
+
+<!--end of market.html-->

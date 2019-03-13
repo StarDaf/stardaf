@@ -1,10 +1,19 @@
 {% load static %}
 
-{% for shop in shops %} 
+{% comment %} {% for shop in shops %} 
     {% if shop.logo %}
         <a href='{{ shop.owner.get_absolute_url }}'><img src="{{ shop.logo.url }}" style="height:90px; width:90px; border-radius:15%;"></a>
     {% else %}
          <a href='{{ shop.owner.get_absolute_url }}'><img src="{% static 'css/UUUU.jpg' %}" style="height:90px; width:90px; border-radius:15%"></a>
     {% endif %}
     
+{% endfor %} {% endcomment %}
+
+{% for user in friends %}
+    {% if user.profile.image %}
+        <a href='{{ user.get_absolute_url }}'><img src="{{ user.profile.image.url }}" style="height:30px; width:30px; border-radius:50%;"></a>
+    {% else %}
+         <a href='{{ user.get_absolute_url }}'><img src="{% static 'css/UUUU.jpg' %}" style="height:30px; width:30px; border-radius:50%"></a>
+    {% endif %}
 {% endfor %}
+

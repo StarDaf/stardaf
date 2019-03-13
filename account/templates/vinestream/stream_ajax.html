@@ -3,6 +3,7 @@
 {% load account_tags %}
 {% load humanize %}
 {% load thumbnail %}
+{% load paystack %}
 
 
 {% for action in actions %}
@@ -37,6 +38,7 @@
     {% else %}
         <button class="btn btn-outline-primary btn-sm float-right">unfollow</button>
     {% endif %}  
+    </a>
 {% endif %}      
 {% else %}
     <a href='#' data-id="{{ user.id }}" 
@@ -141,19 +143,47 @@
             </a>
  {% else %}
     <div class='text-muted' style='font-size:large; padding:15px'>
-        {{ target.message|truncatewords:30 }}<br/>
+        {{ target.introduction|truncatewords:30 }}<br/>
+        <a href='{% url "bizz:post_text" target.id target.title %}'>read more>></a>
+        
         {% if not target.video %}
-            <a href='{{ user.get_absolute_url }}'>
-            <img src='{{ target.image.url }}' style='height:auto; width:100%; padding:0px; border-radius:15px 50px 30px'/>
+            <a href='{% url "bizz:post_text" target.id target.title %}'>
+            <img src='{{ target.image.url }}' style='height:auto; width:100%; padding:0px; border-radius:10px 10px 10px 10px'/>
             </a>
         {% else %}
-            <a href='{{ user.get_absolute_url }}'>
-                <video width="100%" height="100%" style='border-radius:15px 50px 30px'  controls {% if target.image %}poster="{{ target.image.url }}"{% endif %}>
+            <a href='{% url "bizz:post_text" target.id target.title %}'>
+                <video width="100%" height="100%" style='border-radius:10px 10px 10px 10px'  controls {% if target.image %}poster="{{ target.image.url }}"{% endif %}>
                         <source src="{{ target.video.url }}" type="video/mp4">
                         Update your browser.
                     </video>
             </a>
-        {% endif %}
+        {% endif %}<br/>
+        <span class="float-right mx-2"><a onclick=''><span class='fa fa-share-alt pull-right icons' data-toggle="modal" data-target='#exampleModalCenterPost_{{ action.id }}'></a></span>
+        <div class="modal fade" id="exampleModalCenterPost_{{ action.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Share post</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=www.stardaf.com{% url 'bizz:post_text' target.id target.title %}&t={{ target.title }}"
+   target="_blank" title="Share on Facebook"><i class='fa fa-facebook fa-2x'></i>
+</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://wa.me/?text=Read '{{ target.title }}' by @{{ target.user }} on www.stardaf.com{% url 'bizz:post_text' target.id target.title %}"><i class='fa fa-whatsapp fa-2x '></i></a>
+{% comment %} <a href="https://twitter.com/share?url=https://www.stardaf.com/bizz/3/apple/Faisal/&via=TWITTER_HANDLE&text=Checkout my product"
+   onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');return false;"
+   target="_blank" title="Share on Twitter"><i class='fa fa-twitter'></i>
+</a> {% endcomment %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        
+      </div>
+    </div>
+  </div>
+</div>
     </div>
  {% endif %}           
             {% if not action.verb == 'post' %}
@@ -174,7 +204,9 @@
                 </a>
 
                {% endwith %}
-               &nbsp;
+               &nbsp;&nbsp;
+               {% if not action.verb == 'post' %}<a><i class="fa fa-credit-card" data-toggle="modal" data-target="#exampleModalLong_{{ action.id }}"></i></a>{% endif %}
+               &nbsp;&nbsp;
                <span><a href="{{ target.get_absolute_url }}"  style="text-decoration: none;">
                     <span class="text-muted"><i class="fa fa-eye"></i>
                             {{ views }}
@@ -182,10 +214,72 @@
                 </a></span>
                 &nbsp;
                 
-               
+                
+                {% if not action.verb == 'post' %}<span class="float-right mx-2"><a onclick=''><span class='fa fa-share-alt pull-right icons' data-toggle="modal" data-target='#exampleModalCenter_{{ action.id }}'></a></span>{% endif %}
                 {% if not action.verb == 'post' %}<span class="float-right mx-2"><a href='{% if not request.user.is_authenticated %}{% url 'account:register' %}{% else %}{% url 'bizz:recommend' request.user.id target.id %}{% endif %}'><i class="fa fa-hand-spock-o pull-right icons"></i></a></span>{% endif %}
-                {% if not action.verb == 'post' %}<span class="float-right mx-2"><a href='{% url 'cart:home' target.pk %}'><i class="fa fa-plus-circle pull-right icons"></i></a></span>{% endif %}
-          <br/><br/><h4 class="card-title"><a href='{{ target.get_absolute_url }}' style='text-decoration:none'>{{ target.name }}</a>{% if not action.verb == 'post' %}<button type="button" class="btn btn-outline-primary btn-sm float-right">₦{{ target.price|intcomma }}</button>{% endif %}</h4>
+                {% comment %} {% if not action.verb == 'post' %}<span class="float-right mx-2"><a href='{% url 'cart:home' target.pk %}'><i class="fa fa-plus-circle pull-right icons"></i></a></span>{% endif %} {% endcomment %}
+                {% if not action.verb == 'post' %}<span class="float-right mx-2"><a href='{% url 'chat:thread' target.shop.owner.username %}'><span class='fa fa-envelope pull-right icons'></a></span>{% endif %}
+
+                <div class="modal fade" id="exampleModalLong_{{ action.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLong_{{ action.id }}Title"><a href='{{ target.get_absolute_url }}' style='text-decoration:none'>{{ target.name }}</a></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h2 style='align-center'>NGN ₦{{ target.price|intcomma }}</h2><br/>
+                            {% if form_1.errors %}
+                                {% for error in form_1.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            {% else %}    
+                                <form method='get' action='{% url 'order:buy' target.id %}'>
+                                    {% for field in form_1.visible_fields %}
+                                        <label id="field.id_for_label">{{ field.label }}</label>
+                                        {{ field|add_class:'form-control' }}
+                                        {% endfor %}
+                                    {% csrf_token %}<br/>
+                                    <button type='submit' class='btn btn-secondary mx-auto d-block'>buy</button>
+                                </form>
+                            {% endif %}    
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal -->
+<div class="modal fade" id="exampleModalCenter_{{ action.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Share to friends</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.stardaf.com/{{ target.get_absolute_url }}&t={{ target.name }}"
+   target="_blank" title="Share on Facebook"><i class='fa fa-facebook fa-2x'></i>
+</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://wa.me/?text=Checkout {{ target.name }} @ www.stardaf.com{{ target.get_absolute_url }}.  \n www.stardaf.com"><i class='fa fa-whatsapp fa-2x'></i></a>
+{% comment %} <a href="https://twitter.com/share?url=https://www.stardaf.com/bizz/3/apple/Faisal/&via=TWITTER_HANDLE&text=Checkout my product"
+   onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');return false;"
+   target="_blank" title="Share on Twitter"><i class='fa fa-twitter'></i>
+</a> {% endcomment %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        
+      </div>
+    </div>
+  </div>
+</div>
+            <br/><h4 class="card-title"><a href='{{ target.get_absolute_url }}' style='text-decoration:none'>{{ target.name }}</a><!--{% if not action.verb == 'post' %}<button type="button" class="btn btn-outline-primary btn-sm float-right">₦{{ target.price|intcomma }}</button>{% endif %}--></h4>  
               
               
                          
@@ -241,6 +335,11 @@
                 {% endwith %}
             {% endwith %}
         {% endwith %}
+    {% empty %}
+        You have followed no one yet. hence you can't see their updates 
+        <h3>Suggested pages</h3>
+        {% new_user_suggestions %}
+
     {% endfor %}
 
 

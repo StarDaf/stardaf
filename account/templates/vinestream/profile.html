@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load humanize %}
 
 
 {% block title %}@{{ user.get_full_name }}{% endblock %}
 
 {% block content %}
+        
     <!-- Custom styles for this template -->
     <!--<link href="starter-template.css" rel="stylesheet">-->
     <!--<link rel="stylesheet" type="text/css" href="signpage.css">-->
@@ -56,7 +58,7 @@ class='follow float-left' id='{{ user.id }}'>
 
           {% if request.user.id == user.shop.owner.id %}
             {% if user.shop %}
-            <button class="btn btn-outline-danger float-right"><a href="{% url 'bizz:edit' %}">Edit Shop info</a></button><br/>
+            <button class="btn btn-outline-danger float-right"><a href="{% url 'bizz:edit' %}">Edit company info</a></button><br/>
               <button class="btn btn-lg  btn-block"><a href="{% url 'bizz:add_product' user.shop.id %}">Add Product</a></button>
               
             {% endif %}
@@ -66,7 +68,7 @@ class='follow float-left' id='{{ user.id }}'>
           
           {% if user.shop %}
           
-            <!--<button class="btn btn-lg btn-dark btn-block"><a href="{% url 'bizz:create' user.id %}">Create shop</a></button>-->
+            {% comment %} <button class="btn btn-lg btn-dark btn-block"><a href="{% url 'bizz:create' user.id %}">Create company</a></button> {% endcomment %}
            
           <br/>
           <p class='text-muted float-left'>

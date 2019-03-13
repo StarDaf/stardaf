@@ -1,0 +1,134 @@
+
+<html>
+
+    <head>
+    
+        <style>
+            body {
+    font-family:Helvetica, sans-serif;
+    color:#222;
+    line-height:1.5;
+}
+
+table {
+    width:100%;
+    border-spacing:0;
+    border-collapse: collapse;
+    margin:20px 0;
+}
+
+table th, table td {
+    text-align:left;
+    font-size:14px;
+    padding:10px;
+    margin:0;
+}
+
+tbody tr:nth-child(odd) {
+    background:#efefef;
+}
+
+thead th, tbody tr.total {
+    background:#5993bb;
+    color:#fff;
+    font-weight:bold;
+}
+
+h1 {
+    margin:0;
+}
+
+
+.secondary {
+    color:#bbb;
+    margin-bottom:20px;
+}
+
+.num {
+    text-align:right;
+}
+
+.paid, .pending {
+    color:#1bae37;
+    border:4px solid #1bae37;
+    text-transform:uppercase;
+    font-weight:bold;
+    font-size:22px;
+    padding:12px;
+    float:right;
+    transform: rotate(-15deg);
+    margin-right:40px;
+}
+
+.pending {
+    color:#a82d2d;
+    border:4px solid #a82d2d;
+}
+        </style>
+    </head>
+
+    <body>
+    <h1 style='align:center'><em>Stardaf.com</em></h1>
+    <small>The 1st social e-commerce platform</small><br/>
+    <h1>{{ order.user.username }}'s order invoice</h1>
+    <p>
+        Order no. {{ order.id }}</br>
+        <span class="secondary">
+        {{ order.created|date:"M d, Y" }}
+        </span>
+    </p>
+        <h3>Bill to</h3>
+    <p>
+        {{ order.full_name }}<br>
+        {{ order.email }}<br>
+        {{ order.address }}<br>
+        {{ order.city }}<br/>
+        0{{ order.phone_number }}
+    </p>
+        <h3>Seller</h3>
+    <p>
+        {{ order.product.shop.owner.get_full_name }}<br>
+        @{{ order.product.shop.owner.username }}<br>
+        {{ order.product.shop.owner.email }}<br>
+        {{ order.product.shop.business_address }}
+        {{ order.product.shop.shop_address }}<br>
+        0{{ order.product.shop.owner.profile.phone }}
+    </p>
+    <h3>Items bought</h3>
+    <table style='border:1px solid black; padding:5px'>
+        <thead>
+            <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Cost</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in order.items.all %}
+                <tr class="row{% cycle "1" "2" %}">
+                <td>{{ item.product.name }}</td>
+                <td class="num">#{{ item.price }}(naira)</td>
+                <td class="num">{{ item.quantity }}</td>
+                <td class="num">#{{ item.get_cost }}(naira)</td>
+                </tr>
+            {% endfor %}<br/>
+            <tr class="total">
+            <td colspan="3">Total</td>
+            <td class="num">#{{ order.get_total_cost }}(naira)</td>
+            </tr>
+        </tbody>
+    </table><br/>
+    Delivery : #150(naira)
+    <p>Sellers signature: <hr width='20%'/></p>
+    <p>Deliver's signature: <hr width='20%'/></p>
+    <p>Buyer's signature: <hr width='20%'></p>
+    <p>Paid: <hr width='20%'></p><br/>
+    <span class="{% if order.paid %}paid{% else %}pending{% endif %}">
+        {% if order.paid %}Paid{% else %}Paid{% endif %}
+    </span>
+    <p>
+        <small>Note: We have sent you an email of your order summary<br/>This is your  receipt.</small>
+    </p>
+    </body>
+</html>

@@ -18,6 +18,9 @@ class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug':('shop',)}
     # inlines=[CommentAdminTable]
 
+    class Media:
+        js = ['/static/js/progress_bar.js']
+
 admin.site.register(Product, ProductAdmin)
 
 
@@ -31,7 +34,7 @@ class ShopAdmin(admin.ModelAdmin):
 admin.site.register(Shop, ShopAdmin)
 
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('user', 'message', 'created', 'image', 'video')
+    list_display = ('user', 'title', 'introduction', 'created', 'image', 'video')
     list_filter = ('user', 'created')
     raw_id_fields = ('user',)
 
