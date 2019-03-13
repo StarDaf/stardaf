@@ -121,7 +121,7 @@ def register(request):
             messages.success(request, 'Use the plus (+) button to add items to your bag',)
 
             # send new user to streams
-            #return redirect('account:login')
+            return redirect('account:login')
             # check from other platforms if users after creating an account login directly.
 
     else:
