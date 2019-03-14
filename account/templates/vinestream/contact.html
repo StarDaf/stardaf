@@ -5,15 +5,180 @@
     Contact us
 {% endblock %}
 
+{% block css %}
+    <link rel='stylesheet' href="{% static 'css/animate.min.css' %}">
+    <link rel='stylesheet' href="{% static 'css/ionicons.min.css' %}">
+    <link rel='stylesheet' href="{% static 'css/about.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Montserrat:300,400,500,700" rel="stylesheet">
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/about.js' %}"></script>
+    <script src="{% static 'js/wow.js' %}"></script>
+{% endblock %}
+
 
 {% block content %}
     <br/><br/>
-    <h1 class='text-muted text-center'>StarDaf.com</h1>
-    <p class='text-center'>
-        <h3>
-            Phone Number: 07039071981(MTN)<br/>
-            email: teamstardaf@gmail.com<br/><br/>
-            <small>All rights reserved.</small>
-        </h3>    
-    </p>
+    
+        
+    <div><img src="{% static 'img/hero.jpg' %}"></div>
+      &nbsp;
+    <section id="about">
+      <div class="container">
+          
+        <header class="section-header">
+          <h3>About Us</h3>
+          <p>Stardaf.com is a Nigerian based social e-commerce site that is primarily built like a social media platform, where you can post, share, and connect with other users. You will also be able to see great products put up by other users or sellers on the platform. You have the ability to interact with such posts displaying these unique products by rebroadcasting, sharing, liking, bookmarking, and buying on site (without being redirected to a different site). Isn’t your mind blown by these unique and encompassing capabilities? .</p>
+        </header>
+
+        <div class="row about-container">
+
+          <div class="col-lg-6 content order-lg-1 order-2">
+    
+            <p>
+              .
+          </p>
+<h3>Pillars of Stardaf</h3>
+            <div class="icon-box wow fadeInUp">
+              <div class="icon"><i class="fa fa-shopping-basket"></i></div>
+              <h4 class="title"><a href="">Instant Purchase</a></h4>
+              <p class="description">With your credit card you can buy product at an instant stop market with out adding to cart.</p>
+            </div>
+
+            <div class="icon-box wow fadeInLeft" data-wow-delay="0.2s">
+              <div class="icon"><i class="fa fa-youtube-play"></i></div>
+              <h4 class="title"><a href="">Video is King</a></h4>
+              <p class="description">The most important – 84% of consumers felt convinced enough to buy a product after watching a video about it.So we offer you videos of Products.</p>
+            </div>
+              
+            <div class="icon-box wow fadeInUp" data-wow-delay="0.2s">
+              <div class="icon"><i class="fa fa-photo"></i></div>
+              <h4 class="title"><a href=""></a>Product Images</h4>
+              <p class="description">visually clear pictures appealing to the eyes.</p>
+            </div>
+
+            <div class="icon-box wow fadeInUp" data-wow-delay="0.4s">
+              <div class="icon"><i class="fa fa-bus"></i></div>
+              <h4 class="title"><a href="">Instant Delivery</a></h4>
+              <p class="description">Sellers are close to you no need to worry about delivery time</p>
+            </div>
+
+          </div>
+
+          <div class="col-lg-6 background order-lg-2 order-1 wow fadeInUp">
+            <img src="{% static 'img/email.svg' %}" class="img-fluid" alt="">
+          </div>
+        </div>
+
+        <div class="row about-extra">
+          <div class="col-lg-6 wow fadeInUp">
+            <img src="{% static 'img/about-extra-1.svg' %}" class="img-fluid" alt="">
+          </div>
+          <div class="col-lg-6 wow fadeInUp pt-5 pt-lg-0">
+            <h4>What you Think</h4>
+            <p>
+              Remember the last time you saw something awesome that was for sale on a social media site? Didn’t you wish you could just press one button and buy it? Well at stardaf.com we hope to take online shopping to a whole new and different frontier. We’re merging the experience you get from a conventional online store with the community based nature of social media. Being a member of our community on Stardaf.com means you can have the same great experience of connecting with your friends and seeing what they’re up to and what interests them, while interacting with great content and having the ability to buy products that speak to you almost instantly. .
+            </p>
+          </div>
+        </div>
+
+        <div class="row about-extra">
+          <div class="col-lg-6 wow fadeInUp order-1 order-lg-2">
+            <img src="{% static 'img/social.svg' %}" class="img-fluid" alt="">
+          </div>
+
+          <div class="col-lg-6 wow fadeInUp pt-4 pt-lg-0 order-2 order-lg-1">
+            <h4>What we think</h4>
+            <p>
+              We have the usual feed and a market where you see product and services posts from people and sellers you follow and posts rebroadcasted by those same people. You are bound to be interested by some products, so you can also rebroadcast that product to your friends so that they may take joy from sharing similar interests. When you feel like you have to add something to a post or express admiration, you can easily make a comment. Or maybe you’d just like to show love and support? That’s just as simple as pressing the like button. However, when someone does post a product, you can easily tap on the card button to unveil the price of the product, and tap on the price if interested to make payment on site and instantly.
+            </p>
+            <p>
+              I’m sure you have the same enthusiasm as we do, so why not join stardaf.com and keep connecting with your friends in a great community where you can have your own voice and space in a unique environment that transcends the virtual realm and you can become a merchant/seller on our platform if you agree with the terms and conditions. You’ll be getting great products that speak to your heart at the tip of your fingers. With the wide variety of products that will be on our site, I doubt you wouldn’t see something before even thinking of it.
+            </p>
+            <p>
+              As the entrepreneurs we all are, we know that people would love their products to have maximum exposure and where better to get that than at Stardaf.com so why not join us as we embark on this journey. We are more than a business, we are a community that share common social ties.
+I know what you’re thinking right now. You feel pumped up and would like to be part of this great community, so I’ll just leave it to you. 
+See you on the other side of the signup page! 
+
+            </p>
+          </div>
+          
+        </div>
+
+      </div>
+    </section><!-- #about -->
+        <!-- Bottom widget -->
+  <section id="bottom-widget" class="home-section bg-white">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="contact-widget wow bounceInLeft">
+            <i class="fa fa-map-marker fa-4x"></i>
+            <h5>Main Office</h5>
+            <p>
+              704 Rijiyar Zaki Accountant Street,<br />Kano Nigeria 
+            </p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="contact-widget wow bounceInUp">
+            <i class="fa fa-phone fa-4x"></i>
+            <h5>Call</h5>
+            <p>
+              +23407066691871<br> +23407039071981<br>+23408028590249
+
+            </p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="contact-widget wow bounceInRight">
+            <i class="fa fa-envelope fa-4x"></i>
+            <h5>Email us</h5>
+            <p>
+              teamstardaf@gmail.com<br />
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="row mar-top30">
+        <div class="col-md-12">
+          <h3>We're on social networks</h3>
+          <ul class="social-network">
+            <li><a href="https://www.facebook.com/stardafng">
+                <span class="fa-stack fa-2x">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                </span></a>
+            </li>
+            <li><a href="https://www.instagram.com/teamstardaf/">
+                <span class="fa-stack fa-2x">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-instagram fa-stack-1x fa-inverse"></i>
+                </span></a>
+            </li>
+            <li><a href="https://twitter.com/Stardaf1">
+                <span class="fa-stack fa-2x">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                </span></a>
+            </li>
+            <li><a href="https://chat.whatsapp.com/DrRPzGjBvFHGK4eHcQbDOV">
+                <span class="fa-stack fa-2x">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-whatsapp fa-stack-1x fa-inverse"></i>
+                </span></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+      <br><br>
+  </section>
+        
+
+ 
+
+  
+    
 {% endblock %}
