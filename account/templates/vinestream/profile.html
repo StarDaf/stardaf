@@ -97,6 +97,41 @@ class='follow float-left' id='{{ user.id }}'>
           <li class="nav-item">
             <a class="nav-link" id="like-tab" href="{% url 'account:favourites' user.id %}" ><span class='fa fa-heart'></span></a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" id="like-tab" href="{% url 'chat:thread' user.username %}" ><span class='fa fa-envelope'></span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="like-tab"><span class='fa fa-share-alt' data-toggle="modal" data-target='#exampleModalCenter_{{ user.id }}'></span></a>
+          </li>
+          <div class="modal fade" id="exampleModalCenter_{{ user.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Share to friends</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+                    <!-- AddToAny BEGIN -->
+            <div class="a2a_kit a2a_kit_size_32 a2a_default_style">
+            <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
+            <a class="a2a_button_facebook"></a>
+            <a class="a2a_button_twitter"></a>
+            <a class="a2a_button_google_gmail"></a>
+            <a class="a2a_button_whatsapp"></a>
+            <a class="a2a_button_sms"></a>
+            </div>
+            <script async src="https://static.addtoany.com/menu/page.js"></script>
+            <!-- AddToAny END -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        
+      </div>
+    </div>
+  </div>
+</div>
           <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
             {% if user.shop %}
