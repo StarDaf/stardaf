@@ -118,7 +118,7 @@ def register(request):
             send_mail(subject, message, 'postmaster@stardaf.com', [new_user.email], fail_silently=False)
             # give a success notification.
             messages.success(request, 'Welcome {},'.format(new_user.get_full_name()))
-            messages.success(request, 'Use the plus (+) button to add items to your bag',)
+            messages.success(request, 'use the credit card button to buy items',)
 
             # send new user to streams
             return redirect('account:login')
