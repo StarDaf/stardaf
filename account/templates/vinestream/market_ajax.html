@@ -4,7 +4,7 @@
          {% if item.video %}
             <figure>
             <a href='{{ item.get_absolute_url }}'>
-                <video  id= "packt" controls= "controls" poster="{{ item.photo.url }}"><source src="{{ item.video.url }}"></video>
+                <video  id= "packt" controls= "controls" poster="{% if item.image %}{{ item.image.url }}{% else %}{{ item.photo.url }}{% endif %}"><source src="{{ item.video.url }}"></video>
             </a>
             </figure>
         {% endif %}  
