@@ -35,7 +35,7 @@ class Order(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     paid = models.BooleanField(default=False)
-    product = models.ForeignKey(Product, related_name='order_products',on_delete=models.CASCADE, null=True)
+    #product = models.ForeignKey(Product, related_name='order_products',on_delete=models.CASCADE, null=True)
     pproduct = models.ForeignKey(Product, related_name='products', unique=False,on_delete=models.CASCADE, null=True)  # order.products.get
 
     class Meta:
