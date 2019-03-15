@@ -87,7 +87,7 @@ class Shop(models.Model):
     #logo = models.ImageField(upload_to='bizz/%y/%m/%d', blank=True)  # his companies logo ('Or any image of choice')
     logo = ImageField(upload_to='bizz/%y/%m/%d', blank=True)
     #auth_image = models.ImageField(upload_to='auth/%y/%m/%d', blank=True)  # to be filled by our authentication agents.
-    Bank = models.CharField(max_length=20, choices=BANKS, default='')
+    Bank = models.CharField(max_length=250, choices=BANKS, default='')
     account_number = models.DecimalField(max_digits=10, decimal_places=0, null=True)
     account_name = models.CharField(max_length=250, default='')
 
