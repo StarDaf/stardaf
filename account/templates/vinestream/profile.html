@@ -72,7 +72,7 @@ class='follow float-left' id='{{ user.id }}'>
            
           <br/>
           <p class='text-muted float-left'>
-            <i class='fa fa-map-marker'></i> {{ user.shop.business_address }} {{ user.shop.shop_address }}
+            <i class='fa fa-map-marker'></i> {{ user.shop.business_address }} {{ user.shop.shop_address|linebreaks }}
           </p>
           {% endif %}
           {% if request.user == user %}<a href="{% url 'account:logout_then_login' %}" class='float-right'><button class='btn btn-outline-primary btn-sm'>Sign-out</button></a>{% endif %}
