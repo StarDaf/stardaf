@@ -25,7 +25,7 @@
 					<h1 class="display-4 secondfont mb-3 font-weight-bold">{{ post.title }}</h1>
 					<div class="d-flex align-items-center">
 						<img class="rounded-circle" src="{% if post.user.profile.image %}{{ post.user.profile.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" width="70">
-						<small class="ml-2">{{ post.user.get_full_name }} <span class="text-muted d-block">{{ post.created|timesince }} &middot; 
+						<small class="ml-2">{{ post.user.get_full_name }} <span class="text-muted d-block">{{ post.created|timesince }} ago &middot; 
                         <a href='#' data-id="{{ post.user.id }}" 
     data-action="{% if request.user in post.user.followers.all %}un{% endif %}follow"
     class='follow' id='followbutton_{{ post.id }}'>

@@ -42,7 +42,6 @@ class AddProductForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(AddProductForm, self).__init__(*args, **kwargs)
         self.fields['photo'].required = True
-        self.fields['video'].required = True
 
     class Meta:
         model = Product
@@ -72,7 +71,6 @@ class AddPostForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(AddPostForm, self).__init__(*args, **kwargs)
         self.fields['image'].required = True
-        self.fields['video'].required = True
         self.fields['title'].required = True
 
     class Meta:
