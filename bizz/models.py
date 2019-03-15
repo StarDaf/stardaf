@@ -6,6 +6,7 @@ from django.utils import timezone
 from django.utils.text import slugify
 from django.conf import settings
 from sorl.thumbnail import ImageField
+from django.core.validators import MaxValueValidator
 # import datetime
 
 #user.shop.products.all()
@@ -88,7 +89,8 @@ class Shop(models.Model):
     logo = ImageField(upload_to='bizz/%y/%m/%d', blank=True)
     #auth_image = models.ImageField(upload_to='auth/%y/%m/%d', blank=True)  # to be filled by our authentication agents.
     Bank = models.CharField(max_length=250, choices=BANKS, default='')
-    account_number = models.DecimalField(max_digits=10, decimal_places=0, null=True)
+    #account_number = models.DecimalField(max_digits=10, decimal_places=0, null=True)
+    account_number = models.CharField(max_length=10, blank=True, null=True)
     account_name = models.CharField(max_length=250, default='')
 
     
