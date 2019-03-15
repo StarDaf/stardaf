@@ -108,9 +108,9 @@ class Product(models.Model):
     """user.shop.products.all()"""
 
     CATEGORY_OF_PRODUCTS = (
-        ('phones', 'Phones'),
+        ('electronics', 'Electronics'),
         ('clothing', 'Clothing'),
-        ('shoes', 'Shoes'),
+        ('food', 'Food'),
     )
 
     shop = models.ForeignKey(Shop, related_name='products', on_delete=models.CASCADE)
