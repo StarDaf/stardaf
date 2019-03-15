@@ -33,7 +33,7 @@
     {% if product.video  %}
         <div class="carousel-item active">
             
-                <video width="100%" height="100%"  controls {% if product.photo %}poster="{{ product.photo.url }}"{% endif %}>
+                <video width="100%" height="100%"  controls {% if product.photo %}poster="{{ product.photo.url }}"{% endif %} preload="none">
                         <source src="{{ product.video.url }}" type="video/mp4">
                         Update your browser.
                     </video>

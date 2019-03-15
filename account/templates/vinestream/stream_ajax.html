@@ -87,7 +87,7 @@
     {% if target.video  %}
         <div class="carousel-item active">
             
-                <video width="100%" height="100%"  controls {% if target.photo %}poster="{{ target.photo.url }}"{% endif %}>
+                <video width="100%" height="100%"  controls {% if target.photo %}poster="{{ target.photo.url }}"{% endif %} preload="none">
                         <source src="{{ target.video.url }}" type="video/mp4">
                         Update your browser.
                     </video>
@@ -152,7 +152,7 @@
             </a>
         {% else %}
             <a href='{% url "bizz:post_text" target.id target.title %}'>
-                <video width="100%" height="100%" style='border-radius:10px 10px 10px 10px'  controls {% if target.image %}poster="{{ target.image.url }}"{% endif %}>
+                <video width="100%" height="100%" style='border-radius:10px 10px 10px 10px'  controls {% if target.image %}poster="{{ target.image.url }}"{% endif %} preload="none">
                         <source src="{{ target.video.url }}" type="video/mp4">
                         Update your browser.
                     </video>
