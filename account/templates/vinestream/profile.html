@@ -97,9 +97,11 @@ class='follow float-left' id='{{ user.id }}'>
           <li class="nav-item">
             <a class="nav-link" id="like-tab" href="{% url 'account:favourites' user.id %}" ><span class='fa fa-heart'></span></a>
           </li>
+          {% if user.shop %}
           <li class="nav-item">
-            <a class="nav-link" id="like-tab" href="{% url 'chat:thread' user.username %}" ><span class='fa fa-envelope'></span></a>
+            <a class='nav-link' href="https://wa.me/234{{ user.profile.phone }}?text=Hey {{ user.username }}, amazing stuff on stardaf :-)"><span class='fa fa-whatsapp'></a>
           </li>
+          {% endif %}
           <li class="nav-item">
             <a class="nav-link" id="like-tab"><span class='fa fa-share-alt' data-toggle="modal" data-target='#exampleModalCenter_{{ user.id }}'></span></a>
           </li>
