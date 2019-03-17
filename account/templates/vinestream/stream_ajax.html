@@ -219,7 +219,7 @@
                 {% if not action.verb == 'post' %}<span class="float-right mx-2"><a href='{% if not request.user.is_authenticated %}{% url 'account:register' %}{% else %}{% url 'bizz:recommend' request.user.id target.id %}{% endif %}'><i class="fa fa-hand-spock-o pull-right icons"></i></a></span>{% endif %}
                 {% comment %} {% if not action.verb == 'post' %}<span class="float-right mx-2"><a href='{% url 'cart:home' target.pk %}'><i class="fa fa-plus-circle pull-right icons"></i></a></span>{% endif %} {% endcomment %}
                 {% comment %} {% if not action.verb == 'post' %}<span class="float-right mx-2"><a href='{% url 'chat:thread' target.shop.owner.username %}'><span class='fa fa-envelope pull-right icons'></a></span>{% endif %} {% endcomment %}
-                {% if not action.verb == 'post' %}<span class="float-right mx-2"><a href="https://wa.me/234{{ target.shop.owner.profile.phone }}?text=I'm interested in your {{ target.name }} for sell"><span class='fa fa-whatsapp pull-right icons'></a></span>{% endif %}
+                {% if not action.verb == 'post' %}<span class="float-right mx-2"><a href="https://wa.me/234{{ target.shop.owner.profile.phone }}?text=I'm interested in your {{ target.name }} for sell, I want a discount." style='color:green'><span class='fa fa-whatsapp pull-right icons'></a></span>{% endif %}
 
                 <div class="modal fade" id="exampleModalLong_{{ action.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                     <div class="modal-dialog" role="document">

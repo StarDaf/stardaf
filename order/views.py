@@ -8,6 +8,8 @@ from .tasks import order_faisal_created
 from django.core.mail import send_mail, EmailMultiAlternatives, EmailMessage
 from bizz.models import Product
 from order.forms import OrderCreateForm
+from coupon.models import Coupon
+from django.utils import timezone
 
 from django.http import HttpResponse
 from django.views.generic import View
@@ -131,6 +133,17 @@ def buy(request, product_id):
             order.full_name = str(request.user.get_full_name())
             order.email = str(request.user.email)
             price = product.price * int(order.quantity)
+            if order.discount_code:
+                now = timezone.now().today()
+                try:
+                    coupon = Coupon.objects.get(code=order.discount_code,
+                                                    active=True,
+                                                    product=order.product)
+                except:
+                       return HttpResponse('The discount code you used is expired. get a new one from the seller. and make sure you use it on the day he gave you.')                                 
+                else:
+                    price = price - (int(coupon.discount) * int(order.quantity)) 
+
             order.save()
             if int(order.quantity) > product.stock:
                 return HttpResponse('There are only "{}" {}\'s remaining, change the quantity of your purchase and try again. thank you'.format(product.stock, product.name))

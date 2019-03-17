@@ -220,7 +220,7 @@
   </div>
 </div>
                             <span class="float-right mx-2"><a href='{% if not request.user.is_authenticated %}{% url 'account:login' %}{% else %}{% url 'bizz:recommend' request.user.id product.id %}{% endif %}'><i class="fa fa-hand-spock-o pull-right icons"></i></a></span>
-                            <span class="float-right mx-2"><a href='{% url 'chat:thread' product.shop.owner.username %}'><span class='fa fa-envelope pull-right icons'></a></span>
+                            <span class="float-right mx-2"><a href="https://wa.me/234{{ product.shop.owner.profile.phone }}?text=I'm interested in your {{ product.name }} for sell. I want a discount." style='color:green'><span class='fa fa-whatsapp pull-right icons'></a></span>
                  {% comment %} <span class="float-right mx-2"><a href='{% url 'cart:home' product.pk %}'><i class="fa fa-plus-circle pull-right icons"></i></a></span> {% endcomment %}
                                     <div class="pull-right">
                         <h2 class="name">

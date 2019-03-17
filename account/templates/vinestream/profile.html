@@ -6,6 +6,13 @@
 {% block title %}@{{ user.get_full_name }}{% endblock %}
 
 {% block content %}
+<div style='position:fixed;right:25px;bottom:70px;z-index:10'>    
+        <a href="https://wa.me/2347039071981?text=Hello customer support, Am having some issues.">
+            <button class='btn btn-success' style='border-radius:50%'>
+                <i class='fa fa-envelope-square'></i>
+            </button>
+        </a>
+    </div>
         
     <!-- Custom styles for this template -->
     <!--<link href="starter-template.css" rel="stylesheet">-->
@@ -99,7 +106,7 @@ class='follow float-left' id='{{ user.id }}'>
           </li>
           {% if user.shop %}
           <li class="nav-item">
-            <a class='nav-link' href="https://wa.me/234{{ user.profile.phone }}?text=Hey {{ user.username }}, amazing stuff on stardaf :-)"><span class='fa fa-whatsapp'></a>
+            <a class='nav-link' href="https://wa.me/234{{ user.profile.phone }}?text=Hey {{ user.username }}, amazing stuff on stardaf :-)" style='color:green'><span class='fa fa-whatsapp'></a>
           </li>
           {% endif %}
           <li class="nav-item">

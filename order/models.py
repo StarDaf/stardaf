@@ -37,6 +37,7 @@ class Order(models.Model):
     paid = models.BooleanField(default=False)
     #product = models.ForeignKey(Product, related_name='order_products',on_delete=models.CASCADE, null=True)
     pproduct = models.ForeignKey(Product, related_name='products', unique=False,on_delete=models.CASCADE, null=True)  # order.products.get
+    discount_code = models.CharField(max_length=50, blank=True)
 
     class Meta:
         ordering = ('-created',)
