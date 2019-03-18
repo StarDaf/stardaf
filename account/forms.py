@@ -15,6 +15,7 @@ class UserRegistrationForm(forms.ModelForm):
 
     password2 = forms.CharField(label='Repeat password',
                                 widget=forms.PasswordInput)
+    phone_number = forms.CharField(label='Phone Number')                            
 
     gender = forms.TypedChoiceField(choices=GENDER, coerce=str)
 
@@ -22,6 +23,10 @@ class UserRegistrationForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('first_name', 'username', 'email')
+
+        widgets = {
+            'username':forms.TextInput(attrs={'placeholder':'No space and symbols, just text eg abdul, farida12, tosiFashion'}),
+        }
 
     def clean_password2(self):
         cd = self.cleaned_data
