@@ -12,7 +12,7 @@ from .models import Shop, Product, Post
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('shop', 'name', 'category', 'price', 'stock', 'created', 'updated', 'available', 'video')
-    list_filter = ('created', 'updated', 'available')
+    list_filter = ('shop', 'created', 'updated', 'available')
     list_editable = ('price', 'stock', 'available')
     raw_id_fields = ('shop',)
     prepopulated_fields = {'slug':('shop',)}

@@ -42,6 +42,11 @@ class AddProductForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(AddProductForm, self).__init__(*args, **kwargs)
         self.fields['photo'].required = True
+        self.fields['photo1'].required = True
+        self.fields['photo2'].required = True
+        self.fields['photo3'].required = True
+        self.fields['video'].required = True
+        self.fields['description'].required = True
 
     class Meta:
         model = Product
