@@ -73,8 +73,8 @@
 <div id="carousel_{{ action.id }}" class="carousel slide" data-interval="false">
   <!--Indicators-->
   <ol class="carousel-indicators">
-    {% if target.video %}<li data-target="#carousel_{{ action.id }}" data-slide-to="0" {% if target.video %}class='active'{% endif %}></li>{% endif %}
-    <li data-target="#carousel_{{ action.id }}" data-slide-to="1" {% if not target.video %}class='active'{% endif %}></li>
+    {% if target.video %}<li data-target="#carousel_{{ action.id }}" data-slide-to="0" ></li>{% endif %}
+    <li data-target="#carousel_{{ action.id }}" data-slide-to="1" class='active'></li>
     {% if target.photo1 %}<li data-target="#carousel_{{ action.id }}" data-slide-to="2"></li>{% endif %}
     {% if target.photo2 %}<li data-target="#carousel_{{ action.id }}" data-slide-to="3"></li>{% endif %}
     {% if target.photo3 %}<li data-target="#carousel_{{ action.id }}" data-slide-to="4"></li>{% endif %}
@@ -85,9 +85,9 @@
   <div class="carousel-inner" role="listbox">
     <!--First slide-->
     {% if target.video  %}
-        <div class="carousel-item active">
+        <div class="carousel-item">
             
-                <video width="100%" height="100%"  controls {% if target.photo %}poster="{{ target.photo.url }}"{% endif %} preload="none">
+                <video width="100%" height="100%"  controls {% if target.photo %}poster="{{ target.photo.url }}"{% endif %}>
                         <source src="{{ target.video.url }}" type="video/mp4">
                         Update your browser.
                     </video>
@@ -97,7 +97,7 @@
     <!--/First slide-->
     <!--Second slide-->
     {% if target.photo %}
-    <div class="carousel-item {% if not target.video %}active{% endif %}">
+    <div class="carousel-item active">
         
             <img class="card-img-top" src="{{ target.photo.url }}" style='height:auto; width:100%;' alt="First slide">
            
@@ -152,7 +152,7 @@
             </a>
         {% else %}
             <a href='{% url "bizz:post_text" target.id target.title %}'>
-                <video width="100%" height="100%" style='border-radius:10px 10px 10px 10px'  controls {% if target.image %}poster="{{ target.image.url }}"{% endif %} preload="none">
+                <video width="100%" height="100%" style='border-radius:10px 10px 10px 10px'  controls {% if target.image %}poster="{{ target.image.url }}"{% endif %}>
                         <source src="{{ target.video.url }}" type="video/mp4">
                         Update your browser.
                     </video>
