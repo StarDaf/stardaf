@@ -188,6 +188,8 @@
  {% endif %}           
             {% if not action.verb == 'post' %}
             <div class="card-body">
+            <button type="button" class="btn btn-outline-primary btn-sm" style='width:47%' data-toggle="modal" data-target="#exampleModalLong_{{ action.id }}">check price</button>
+            <button type="button" class="btn btn-outline-primary btn-sm float-right mx-2" style='width:47%' ><a href="https://wa.me/234{{ target.shop.owner.profile.phone }}?text=I'm interested in your {{ target.name }} for sell.">chat with seller</a></button><br/>
             {% with total_likes=target.users_like.count %}
 
                 
@@ -205,8 +207,8 @@
 
                {% endwith %}
                &nbsp;&nbsp;
-               {% if not action.verb == 'post' %}<a><i class="fa fa-credit-card" data-toggle="modal" data-target="#exampleModalLong_{{ action.id }}"></i></a>{% endif %}
-               &nbsp;&nbsp;
+               {% comment %} {% if not action.verb == 'post' %}<a><i class="fa fa-credit-card" data-toggle="modal" data-target="#exampleModalLong_{{ action.id }}"></i></a>{% endif %} {% endcomment %}
+               {% comment %} &nbsp;&nbsp; {% endcomment %}
                <span><a href="{{ target.get_absolute_url }}"  style="text-decoration: none;">
                     <span class="text-muted"><i class="fa fa-eye"></i>
                             {{ views }}
@@ -219,13 +221,13 @@
                 {% if not action.verb == 'post' %}<span class="float-right mx-2"><a href='{% if not request.user.is_authenticated %}{% url 'account:register' %}{% else %}{% url 'bizz:recommend' request.user.id target.id %}{% endif %}'><i class="fa fa-hand-spock-o pull-right icons"></i></a></span>{% endif %}
                 {% comment %} {% if not action.verb == 'post' %}<span class="float-right mx-2"><a href='{% url 'cart:home' target.pk %}'><i class="fa fa-plus-circle pull-right icons"></i></a></span>{% endif %} {% endcomment %}
                 {% comment %} {% if not action.verb == 'post' %}<span class="float-right mx-2"><a href='{% url 'chat:thread' target.shop.owner.username %}'><span class='fa fa-envelope pull-right icons'></a></span>{% endif %} {% endcomment %}
-                {% if not action.verb == 'post' %}<span class="float-right mx-2"><a href="https://wa.me/234{{ target.shop.owner.profile.phone }}?text=I'm interested in your {{ target.name }} for sell." style='color:green'><span class='fa fa-whatsapp pull-right icons'></a></span>{% endif %}
+                {% comment %} {% if not action.verb == 'post' %}<span class="float-right mx-2"><a href="https://wa.me/234{{ target.shop.owner.profile.phone }}?text=I'm interested in your {{ target.name }} for sell." style='color:green'><span class='fa fa-whatsapp pull-right icons'></a></span>{% endif %} {% endcomment %}
 
                 <div class="modal fade" id="exampleModalLong_{{ action.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLong_{{ action.id }}Title"><a href='{{ target.get_absolute_url }}' style='text-decoration:none'>{{ target.name }}</a></h5>
+                            <h5 class="modal-title" id="exampleModalLong_{{ action.id }}Title"><a href='{{ target.get_absolute_url }}' style='text-decoration:none'>{{ target.name }}</a>  &nbsp;&nbsp;&nbsp;<b>free delivery within kano</b><br/><small>7 days return policy</small></h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                             </button>

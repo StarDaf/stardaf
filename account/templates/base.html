@@ -101,11 +101,11 @@
          </div>-->
           
           
-<a class="active" href="{% url 'account:stream' %}" style='color:inherit'><i class="fa fa-fw fa-hashtag fa-2x"></i></a> 
+<a class="active" href="{% url 'account:stream' %}" {% if section == 'streams' %}style='color:grey'{% else %}style='color:inherit'{% endif %}><i class="fa fa-fw fa-home fa-2x"></i></a> 
 
-<a href="{% url 'account:market' %}" style='color:inherit'><i class="fa fa-fw fa-fort-awesome fa-2x"></i></a>  
+<a href="{% url 'account:market' %}" {% if section == 'market' %}style='color:grey'{% else %}style='color:inherit'{% endif %}><i class="fa fa-fw fa-search fa-2x"></i></a>  
     {% if request.user.shop %}
-        <a href="{% url 'bizz:add_product' request.user.shop.id %}" style='color:inherit'><i class="fa fa-fw fa-plus-circle  fa-2x"></i></a> 
+        <a href="{% url 'bizz:add_product' request.user.shop.id %}" {% if section == 'add' %}style='color:grey'{% else %}style='color:inherit'{% endif %}><i class="fa fa-fw fa-plus-circle  fa-2x"></i></a> 
     {% else %}
             <a href="{% url 'bizz:post' request.user.id %}" style='color:inherit'><i class="fa fa-fw fa-plus-circle  fa-2x"></i></a>  
     {% endif %}
@@ -114,7 +114,7 @@
 
 {% comment %} <a href="{% url 'cart:detail' %}" style='{% if cart|length > 0%}color:red{% else %}color:inherit{% endif %}'><i class="fa fa-fw fa-shopping-basket  fa-2x"></i></a> {% endcomment %}
 <a href="{{ request.user.get_absolute_url }}" style='color:grey'><img src="{%  if request.user.profile.image %}{{ request.user.profile.image.url }}
-              {% else %}{% static 'img/no_image.png'%}{% endif %}" style="border-radius:50%;width:35px; height:35px" class="img-circle"></a>
+              {% else %}{% static 'img/no_image.png'%}{% endif %}" style="border-radius:50%;width:25px; height:25px" class="img-circle"></a>
 </div>
 </div>
 {% else %}
@@ -122,9 +122,9 @@
       <div class="navbar fixed-bottom" style='background-color:whitesmoke' id='navbar_nav_anonymous'>
                 
           
-<a class="active" href="{% url 'account:stream' %}"><i class="fa fa-fw fa-hashtag fa-2x"></i></a> 
+<a class="active" href="{% url 'account:stream' %}" {% if section == 'streams' %}style='color:grey'{% endif %}><i class="fa fa-fw fa-home fa-2x"></i></a> 
 
-<a href="{% url 'account:market' %}"><i class="fa fa-fw fa-fort-awesome fa-2x"></i></a>  
+<a href="{% url 'account:market' %}" {% if section == 'market' %}style='color:grey'{% endif %}><i class="fa fa-fw fa-search fa-2x"></i></a>  
 
 
     
@@ -174,9 +174,7 @@
         <script src='{% static "js/jquery.cookie.js" %}'></script>
         <script src='{% static "js/bootstrap.min.js" %}'></script>
         <script src='{% static "js/popper.min.js" %}'></script>
-        <script src='{% static "js/popper.min.js" %}'></script>
-        <script src="{% static 'js/about.js' %}"></script>
-        <script src="{% static 'js/wow.js' %}"></script>
+        
         
         <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>-->
 

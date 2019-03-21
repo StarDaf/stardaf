@@ -338,7 +338,8 @@ def market(request):
                  'query':query,
                  'me':me,
                  'search':search,
-                 'all':all})
+                 'all':all,
+                 'section':'market'})
 
 
 # @login_required

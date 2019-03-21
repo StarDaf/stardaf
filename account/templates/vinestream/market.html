@@ -30,6 +30,24 @@
             </button>
         </a>
     </div>
+    {% if not request.user.is_authenticated %}
+    <div style='position:fixed;bottom:70px;left:20%;right:20%;z-index:10;background-color:lavender; padding:10px; border-radius:10%' class='float-center'>  
+          Get in there !
+        <br/>
+        <span class='mx-auto d-block'>
+        <a href='{% url "account:login" %}'>
+            <button type="button" class="btn btn-secondary btn-sm ">
+                login
+            </button>
+        </a>
+        <a href='{% url "account:register" %}'>
+            <button type="button" class="btn btn-secondary btn-sm ">
+                create account
+            </button>
+        </a>
+        </span>
+    </div>
+    {% endif %}
     <!--product search field--><br/>
     <div class='one' style='padding:10px'>
    
@@ -206,7 +224,7 @@
 
     $(window).scroll(function() {
 
-        var margin = $(document).height() - $(window).height() - 40;
+        var margin = $(document).height() - $(window).height() - 200;
 
          if ($(window).scrollTop() > margin && block_request == false && empty_page == false) {
              block_request = true;

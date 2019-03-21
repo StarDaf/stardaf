@@ -14,7 +14,26 @@
 {% block title %} Read '{{ post.title }}' by {{ post.user.get_full_name }} on www.stardaf.com{% url "bizz:post_text" post.id post.title %}{% endblock %}
 
 {% block content %}
+{% if not request.user.is_authenticated %}
+    <div style='position:fixed;bottom:70px;left:20%;right:20%;z-index:10;background-color:lavender; padding:10px; border-radius:10%' class='float-center'>  
+          Get in there !
+        <br/>
+        <span class='mx-auto d-block'>
+        <a href='{% url "account:login" %}'>
+            <button type="button" class="btn btn-secondary btn-sm ">
+                login
+            </button>
+        </a>
+        <a href='{% url "account:register" %}'>
+            <button type="button" class="btn btn-secondary btn-sm ">
+                create account
+            </button>
+        </a>
+        </span>
+    </div>
+    {% endif %}
     <br/>
+    
     <div class="container">
 	<div class="jumbotron jumbotron-fluid mb-3 pl-0 pt-0 pb-0 bg-white position-relative">
 		

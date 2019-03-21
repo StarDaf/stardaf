@@ -99,7 +99,8 @@ def add_product(request, shop_id):
     return render(request,
                   'add_product.html',
                   {'shop':shop,
-                   'form':form})
+                   'form':form,
+                   'section':'add'})
 
 
 def detail(request, id, slug, username):

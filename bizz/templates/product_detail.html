@@ -18,6 +18,24 @@
 <link rel='stylesheet' {% block style %}href="{% static 'css/comment.css' %}"{% endblock %}> 
 
 {% block content %}
+    {% if not request.user.is_authenticated %}
+    <div style='position:fixed;bottom:70px;left:20%;right:20%;z-index:10;background-color:lavender; padding:10px; border-radius:10%' class='float-center'>  
+          Get in there !
+        <br/>
+        <span class='mx-auto d-block'>
+        <a href='{% url "account:login" %}'>
+            <button type="button" class="btn btn-secondary btn-sm ">
+                login
+            </button>
+        </a>
+        <a href='{% url "account:register" %}'>
+            <button type="button" class="btn btn-secondary btn-sm ">
+                create account
+            </button>
+        </a>
+        </span>
+    </div>
+    {% endif %}
       <div class="container" style='padding: 0px;'>
       <div class='card'>
         <div class="jumbotron mx-auto d-block">
@@ -132,7 +150,8 @@
 <!--/.Carousel Wrapper-->
                                 
                                 <!--</div>--><br/><br/>
-
+                            <button type="button" class="btn btn-outline-primary btn-sm" style='width:47%' data-toggle="modal" data-target="#exampleModalLong_{{ product.id }}">check price</button>
+            <button type="button" class="btn btn-outline-primary btn-sm float-right mx-2" style='width:47%' ><a href="https://wa.me/234{{ product.shop.owner.profile.phone }}?text=I'm interested in your {{ product.name }} for sell.">chat with seller</a></button><br/>
                             <a href='#' data-id='{{ product.id }}'
                          data-action='{% if request.user in product.users_like.all %}un{% endif %}like' class='like' id='{{ product.id }}'>
                         {% if request.user not in product.users_like.all %}
@@ -148,13 +167,13 @@
                                 <span id='total_{{ product.id }}'>{{ total_likes }}</span>
                                 like{{ total_likes|pluralize }}
                             {% endwith %}
-                        </span>&nbsp;
-                        <a><i class="fa fa-credit-card" data-toggle="modal" data-target="#exampleModalLong_{{ product.id }}"></i></a>
+                        </span>
+                        {% comment %} <a><i class="fa fa-credit-card" data-toggle="modal" data-target="#exampleModalLong_{{ product.id }}"></i></a> {% endcomment %}
                         <div class="modal fade" id="exampleModalLong_{{ product.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLong_{{ product.id }}Title"><a href='{{ product.get_absolute_url }}' style='text-decoration:none'>{{ target.name }}</a></h5>
+                            <h5 class="modal-title" id="exampleModalLong_{{ product.id }}Title"><a href='{{ product.get_absolute_url }}' style='text-decoration:none'>{{ product.name }}</a> &nbsp;&nbsp;<b>free delivery within kano</b><br/><small>7 days return policy</small></h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                             </button>
@@ -220,7 +239,7 @@
   </div>
 </div>
                             <span class="float-right mx-2"><a href='{% if not request.user.is_authenticated %}{% url 'account:login' %}{% else %}{% url 'bizz:recommend' request.user.id product.id %}{% endif %}'><i class="fa fa-hand-spock-o pull-right icons"></i></a></span>
-                            <span class="float-right mx-2"><a href="https://wa.me/234{{ product.shop.owner.profile.phone }}?text=I'm interested in your {{ product.name }} for sell." style='color:green'><span class='fa fa-whatsapp pull-right icons'></a></span>
+                            {% comment %} <span class="float-right mx-2"><a href="https://wa.me/234{{ product.shop.owner.profile.phone }}?text=I'm interested in your {{ product.name }} for sell." style='color:green'><span class='fa fa-whatsapp pull-right icons'></a></span> {% endcomment %}
                  {% comment %} <span class="float-right mx-2"><a href='{% url 'cart:home' product.pk %}'><i class="fa fa-plus-circle pull-right icons"></i></a></span> {% endcomment %}
                                     <div class="pull-right">
                         <h2 class="name">

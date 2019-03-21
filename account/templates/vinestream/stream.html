@@ -31,10 +31,28 @@
             </button>
         </a>
     </div>
+    {% if not request.user.is_authenticated %}
+    <div style='position:fixed;bottom:70px;left:20%;right:20%;z-index:10;background-color:lavender; padding:10px; border-radius:10%' class='float-center'>  
+          Get in there !
+        <br/>
+        <span class='mx-auto d-block'>
+        <a href='{% url "account:login" %}'>
+            <button type="button" class="btn btn-secondary btn-sm ">
+                login
+            </button>
+        </a>
+        <a href='{% url "account:register" %}'>
+            <button type="button" class="btn btn-secondary btn-sm ">
+                create account
+            </button>
+        </a>
+        </span>
+    </div>
+    {% endif %}
      
                     
 
-{% if not request.user.is_authenticated %}
+{% comment %} {% if not request.user.is_authenticated %}
     <div style='padding: 15px'>
         <h4 class='text-muted'>
             <small>login/create an account to stay in touch with your favourite sellers,
@@ -43,7 +61,7 @@
         <a href='{% url "account:register" %}'><button class='btn btn-primary btn-block'>Create an account</button></a><br/>
     <a href='{% url "account:login" %}'> <button class='btn btn-danger btn-block'>Login</button></a>
     </div>
-{% endif %}
+{% endif %} {% endcomment %}
 <hr/>
 <div class='one' style='padding:10px'>
    
