@@ -19,6 +19,12 @@
 
 
 {% block content %}
+<button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="right" title="Tooltip on me">
+  Tooltip on top
+</button>
+<button type="button" class="btn btn-secondary" data-toggle="tooltip" data-html="true" title="<em>Tooltip</em> <u>with</u> <b>HTML</b>">
+  Tooltip with HTML
+</button>
     <br/><br/>
     
         
@@ -181,4 +187,10 @@ See you on the other side of the signup page!
 
   
     
+{% endblock %}
+
+{% block domready %}
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
 {% endblock %}

@@ -224,7 +224,7 @@
 
     $(window).scroll(function() {
 
-        var margin = $(document).height() - $(window).height() - 200;
+        var margin = $(document).height() - $(window).height() - 400;
 
          if ($(window).scrollTop() > margin && block_request == false && empty_page == false) {
              block_request = true;
@@ -241,4 +241,8 @@
              })
          }
     });
+
+    $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
 {% endblock %}

@@ -6,7 +6,7 @@ from django.contrib.auth import views as v
 app_name='account'
 
 urlpatterns = [
-    url(r'^$', views.stream, name='stream'),
+    url(r'^$', views.market, name='market'),
     url(r'^sign-in/', v.login, name='login'),
     url(r'^sign-out/', v.logout, name='logout'),
     url(r'^logout-then-login/$', v.logout_then_login, name='logout_then_login'),
@@ -18,7 +18,7 @@ urlpatterns = [
     url(r'^password-reset/complete/$', v.password_reset_complete, name='password_reset_complete'),
     url(r'^register/$', views.register, name='register'),
     url(r'^user-follow/$', views.follow, name='follow'),
-    url(r'^market/$', views.market, name='market'),
+    url(r'^home/$', views.stream, name='stream'),
     url(r'^edit/$', views.edit, name='edit'),
     url(r'^terms-and-conditions/$', views.terms, name='term'),
     url(r'^contact-us/$', views.contact, name='contact'),

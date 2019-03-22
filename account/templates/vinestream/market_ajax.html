@@ -1,3 +1,4 @@
+
 <div id="columns">
 {% for item in all %}
     
@@ -10,7 +11,7 @@
         {% endif %}  
         {% if item.photo %}
         <a href='{{ item.get_absolute_url }}'>
-            <figure>
+            <figure data-toggle="tooltip" data-placement="top"  title="{{ item.name }}">
                 <img src="{{ item.photo.url }}">
             </figure>
         </a>    

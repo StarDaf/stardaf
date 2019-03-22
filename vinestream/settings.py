@@ -55,7 +55,7 @@ ABSOLUTE_URL_OVERRIDES = {
  }
 
 LOGIN_URL = reverse_lazy('account:register')
-LOGIN_REDIRECT_URL = reverse_lazy('account:stream')
+LOGIN_REDIRECT_URL = reverse_lazy('account:market')
 LOGOUT_URL = reverse_lazy('account:logout')
 
 PAYSTACK_FAILED_URL = reverse_lazy('order:order_create')
