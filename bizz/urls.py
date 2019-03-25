@@ -11,8 +11,14 @@ urlpatterns = [
     url(r'^post/(?P<id>\d+)/(?P<title>[-\w ]+)/', views.post_detail, name='post_text'),
     url(r'^(?P<product_id>\d+)/$', views.delete, name='delete'),
     url(r'^like/$', views.like, name='like'),
+    url(r'^hate/$', views.hate, name='hate'),
     url(r'^recommend/(?P<user_id>\d+)/(?P<product_id>\d+)/$', views.recommend, name='recommend'),
     url(r'update-stock/(?P<product_id>\d+)/', views.add_product_stock, name='stock'),
     url(r'^create-post/(?P<id>\d+)/$', views.create_post, name='post'),
-    #url(r'^(?P<business_name>[-\w]+)/', views.profile1, name='profile1'),
+    # # url(r'^election/(?P<voter_id>\d+)/$', views.election, name='election'),
+    # url(r'^kano/elections/(?P<voter_id>\d+)/$', views.election, name='kano_election'),
+    # url(r'^kano/elections/(?P<voter_id>\d+)/(?P<governor_id>\d+)/$', views.election, name='kano_election_vote'),
+    # url(r'^user-vote/$', views.elect, name='elect'),
+    # #url(r'^(?P<business_name>[-\w]+)/', views.profile1, name='profile1'),
+    
 ]

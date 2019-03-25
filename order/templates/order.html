@@ -15,25 +15,25 @@
             <div class="order-info">
                 <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Your order</h3>
                     <ul>
-                        {% for item in cart %}
+                        
                                         
                             <li>
-                                <a href='{% url 'cart:remove' item.product.id  %}'>
-                                            ✖
-                                        </a>
-                                &nbsp;&nbsp;&nbsp;&nbsp;{{ item.quantity }}x {{ item.product.name }}
-                                <span>₦{{ item.total_price|intcomma }}</span>
+                                
+                                &nbsp;&nbsp;&nbsp;&nbsp;{{ quantity }}x {{ product.name }}
+                                <span>₦{{ product.price|intcomma }}</span>
                             </li>
-                            {% paystack_button amount=item.total_price email=request.user.email %}
-                        {% endfor %}
+                            
+                        
                     </ul>
-                <p>Total: ₦{{ cart.get_total_cost|intcomma }}</p>
+                    <p>Delivery fee: ₦100</P><br/>
+                <p>Total: ₦{{ product.price|intcomma }}</p>
+                
             </div>
 
-            {% comment %} <form action="." method="post" class="order-form mx-5">
+            <form action="." method="post" class="order-form mx-5">
             <br>
                 {{ form.as_p }}
-                <p><input type="submit" value="Place order"></p> {% endcomment %}
+                <p><input type="submit" value="Place order"></p> 
 <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/> 
                 
                 {% csrf_token %}

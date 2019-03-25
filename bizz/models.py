@@ -119,7 +119,8 @@ class Product(models.Model):
     slug = models.SlugField(max_length=500, default='', unique_for_date='created')
     name = models.CharField(max_length=250) # the name of the product
     category = models.CharField(max_length=20,
-                                choices=CATEGORY_OF_PRODUCTS)  # category the product belong's to.
+                                choices=CATEGORY_OF_PRODUCTS,
+                                default='clothing')  # category the product belong's to.
 
     # price of the product (price can be left blank hence users negotiate with the sellers)
     price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
@@ -135,11 +136,15 @@ class Product(models.Model):
     available = models.BooleanField(default=False)  # can be user to disable products
     description = models.TextField()
     users_like = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='product_liked', blank=True) # user.product_liked.all()
+    users_hate = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='product_hated', blank=True)
     total_views = models.PositiveIntegerField(default=0)
     total_likes = models.IntegerField(default=0)
     video = models.FileField(upload_to='videos/%y/%m/%d', default='', null=True, blank=True)
 
     # product.users_like.all()
+
+    def rank(self):
+        return (self.users_like.count() - self.users_hate.count())
 
     def save(self, *args, **kwargs):
         """to automatically generate the slug field based on the.
@@ -175,3 +180,26 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse('bizz:post_text', args=[self.id, self.title])
+
+
+
+
+class Governor(models.Model):
+    name = models.CharField(max_length=500)
+    party = models.CharField(max_length=500)
+    image = models.FileField(upload_to='election/%y/%m/%d')
+    party_logo = models.FileField(upload_to='election_logo/%y/%m/%d')
+    counts = models.DecimalField(max_digits=7, decimal_places=0)
+    percent = models.CharField(max_length=50, default="")
+
+class Supporter(models.Model):
+    user = models.ForeignKey(User, related_name='supporters', on_delete=models.CASCADE)  # governor.supporters.create(user=user)
+    # governors.supporters.count()
+    # # algorithim
+    # total_counts = 2,000,000
+    #governor1 = Governor.objects.get(id=1)
+    #governor2 = Governor.objects.get(id=2)
+    # percent1 = int(governor1.count * 100) / 2,000,000
+    # percent2 = int(governor2.count * 100) / 2, 000,000 
+    # total vosts cast = int(governor1.count) + int(governor2.count)
+    # remaining votes = 2, 000,000 - total vosts cast   

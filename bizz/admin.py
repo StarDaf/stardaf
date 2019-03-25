@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Shop, Product, Post
+from .models import Shop, Product, Post, Governor, Supporter
 # from comment.admin import CommentAdminTable
 
 # class ProductTable(admin.TabularInline):
@@ -39,5 +39,13 @@ class PostAdmin(admin.ModelAdmin):
     raw_id_fields = ('user',)
 
 admin.site.register(Post, PostAdmin)    
+
+class GovernorAdmin(admin.ModelAdmin):
+    list_display = ('name', 'party', 'image', 'party_logo', 'counts')
+    list_filter = ('party',)
+    
+
+admin.site.register(Governor, GovernorAdmin)    
+
 
 

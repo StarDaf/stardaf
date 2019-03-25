@@ -256,18 +256,22 @@ def follow(request):
 
 
 
-def market(request):
+def market(request, category=None):
     # get all shops
     shops = Shop.objects.all()
     new_shops = Shop.objects.order_by('-created')[:20]
 
     # new code
     shops = Shop.objects.order_by('-created')[:5]
-    products = sorted(Product.objects.all(), key=lambda x: random.random())
+    products = sorted(Product.objects.filter(available=True), key=lambda x: random.random())
     posts = sorted(Post.objects.all(), key=lambda x: random.random())
     shops = sorted(Shop.objects.all(), key=lambda x: random.random())
+    if category:
+        products = sorted(Product.objects.filter(available=True, category=category), key=lambda x: random.random())
+        all = list(chain(products))
 
-    all = list(chain(products, shops, posts)) 
+    else:
+        all = list(chain(products, shops, posts)) 
 
     paginator = Paginator(all, 10)  # 15 actions/activities per page
     page = request.GET.get('page')  # get the page number

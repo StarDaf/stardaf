@@ -101,11 +101,12 @@
          </div>-->
           
           
-<a class="active" href="{% url 'account:stream' %}" {% if section == 'streams' %}style='color:grey'{% else %}style='color:inherit'{% endif %}><i class="fa fa-fw fa-home fa-2x"></i></a> 
+<a class="active" href="{% url 'account:stream' %}" {% if section == 'streams' %}style='color:red'{% else %}style='color:inherit'{% endif %}><i class="fa fa-fw fa-home fa-2x"></i></a> 
 
-<a href="{% url 'account:market' %}" {% if section == 'market' %}style='color:grey'{% else %}style='color:inherit'{% endif %}><i class="fa fa-fw fa-search fa-2x"></i></a>  
+ <a href="{% url 'account:market' %}" {% if section == 'market' %}style='color:red'{% else %}style='color:inherit'{% endif %}><i class="fa fa-fw fa-search fa-2x"></i></a>  
+{% comment %} <a href="{% url 'bizz:election' request.user.id %}" {% if section == 'election' %}style='color:red'{% else %}style='color:inherit'{% endif %}><i class="fa fa-fw fa-percent fa-2x"></i></a>    {% endcomment %}
     {% if request.user.shop %}
-        <a href="{% url 'bizz:add_product' request.user.shop.id %}" {% if section == 'add' %}style='color:grey'{% else %}style='color:inherit'{% endif %}><i class="fa fa-fw fa-plus-circle  fa-2x"></i></a> 
+        <a href="{% url 'bizz:add_product' request.user.shop.id %}" {% if section == 'add' %}style='color:red'{% else %}style='color:inherit'{% endif %}><i class="fa fa-fw fa-plus-circle  fa-2x"></i></a> 
     {% else %}
             <a href="{% url 'bizz:post' request.user.id %}" style='color:inherit'><i class="fa fa-fw fa-plus-circle  fa-2x"></i></a>  
     {% endif %}
@@ -223,12 +224,47 @@
                     $(address).data('action', previous_action == 'like' ? 'unlike':'like');
 
                     //toggle text value
-                    $(address).html(previous_action == 'like' ? '<i class="fa fa-heart"></i>' : '<i class="fa fa-heart-o"></i>');
+                    $(address).html(previous_action == 'like' ? '<i class="fa fa-level-down"></i>' : '<i class="fa fa-level-up"></i>');
 
                     // get text value of total likes and convert to int.
                     var previous_likes = parseInt($(count).text());
+                    
 
                     $(count).text(previous_action == 'like' ? previous_likes += 1:previous_likes -= 1);
+                    
+
+                    
+
+                })
+
+            })
+
+            $(document).on('click', '.hate' , function(e){
+                var id = $(this).attr('id');  //convert to string
+                var address = '#' + id;  //attach # to id
+                var count = '.total_' + id;
+               e.preventDefault();
+               $.post('{% url "bizz:hate" %}',
+                {
+                    id: $(this).data('id'),
+                    action: $(this).data('action')
+                }, function (data) {
+                    // get text
+                    
+                        var previous_action = $(address).data('action');
+
+                        //toggle data-action value
+                        $(address).data('action', previous_action == 'unlike' ? 'like':'unlike');
+
+                        //toggle text value
+                        $(address).html(previous_action == 'unlike' ? '<i class="fa fa-level-up"></i>' : '<i class="fa fa-level-down"></i>');
+
+                        // get text value of total likes and convert to int.
+                        var previous_likes = parseInt($(count).text());
+                        
+
+                        $(count).text(previous_action == 'unlike' ? previous_likes -= 1:previous_likes += 1);
+                    
 
                     
 

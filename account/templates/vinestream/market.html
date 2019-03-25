@@ -15,7 +15,7 @@
 {% block style %}href="{% static 'css/scroll1.css' %}"{% endblock %}
 {% block css %}
     {% comment %} <link rel='stylesheet' href="{% static 'css/all.min.css' %}"> {% endcomment %}
-    <link rel='stylesheet' href="{% static 'css/mason.css' %}">
+    <link rel='stylesheet' href="{% static 'css/mason1.css' %}">
 {% endblock %}
 
 
@@ -210,6 +210,12 @@
             </form>    
 {% endif %}
     <!--end-->
+<div class='one' style='padding: 7px'>
+    <a href='{% url "account:market" %}'><span class="badge badge-pill badge-light" style='padding:10px;box-shadow: 2px 2px 5px grey;'>all</span></a>
+    <a href='{% url "account:market_category" "clothing" %}'><span class="badge badge-pill badge-light" style='padding:10px;box-shadow: 2px 2px 5px grey;'>clothing</span></a>
+    <a href='{% url "account:market_category" "food" %}'><span class="badge badge-pill badge-light" style='padding:10px;box-shadow: 2px 2px 5px grey;'>food</span></a>
+    <a href='{% url "account:market_category" "electronics" %}'><span class="badge badge-pill badge-light" style='padding:10px;box-shadow: 2px 2px 5px grey;'>electronics</span></a>
+</div> 
 
     <div id="place">
         {% include 'vinestream/market_ajax.html' %}

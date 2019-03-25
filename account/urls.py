@@ -7,6 +7,7 @@ app_name='account'
 
 urlpatterns = [
     url(r'^$', views.market, name='market'),
+    url(r'^category/(?P<category>[-\w]+)/$', views.market, name='market_category'),
     url(r'^sign-in/', v.login, name='login'),
     url(r'^sign-out/', v.logout, name='logout'),
     url(r'^logout-then-login/$', v.logout_then_login, name='logout_then_login'),

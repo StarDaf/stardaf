@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}Kano online Governorship Elections{% endblock %}
+
+{% block content %}
+    {% for governor in governors %}
+        
+                <div class='container-fluid' style='padding-left:22px'>
+                        <div class="row">
+                            <div class="col-xs-2">
+                                <img src="{{ governor.image.url }}" style="border-radius:50%;width:50px; height:50px" class="img-circle">
+                            </div>
+                            <div class="col-xs-8">
+                                        <strong>{{ governor.name }}</strong>
+                                        <a href=''><i class='fa fa-check-circle'></i></a>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+
+                                    <small class='text-muted float-right'>
+                                        <a href='#' data-id="{{ governor.id }}" 
+                                        data-action="{% if request.user in governor.supporters.all %}un{% endif %}vote"
+                                        class='voting' id='votebutton_{{ governor.id }}'>
+                                        {% if not request.user in governor.supporters.all  %}
+                                            <button class="btn btn-outline-primary btn-sm float-right">vote</button>
+                                        {% else %}
+                                            <button class="btn btn-success btn-sm float-right">unvote</button>
+                                        {% endif %}  
+                                          
+                                    </a>
+                                    </small>
+                                    
+                            </div>
+                        </div>
+                        <br/>
+                            <div class='progress'>
+                                <div class='progress-bar progress-bar-striped <active></active>' role='progressbar' 
+                                aria-valuenow="{{ governor.percent }}" aria-valuemin="0" aria-valuemax="100" style="width:{{ governor.percent }}%">
+                                    {{ governor.percent }}%
+                                </div>
+                            </div>
+                        <hr width='70%' float='center'/>
+                </div>     </a><br/>      
+    {% endfor %}
+{% endblock %}
+
+
+
+{% block domready %}
+    $(document).on('click', '.voting' , function(e){
+                e.preventDefault();
+                var id = $(this).attr('id')
+                var address = '#' + id;
+                id = 'votebutton_' + id
+                $.post('{% url 'bizz:elect' %}',
+                {
+                        id : $(this).data('id'),
+                        action : $(this).data('action')
+                },  function (data) {
+                        if (data['status'] == 'ok') {
+
+                            previous_action = $(address).data('action');
+
+
+                            $(address).data('action', previous_action == 'vote' ? 'unvote':'vote')
+
+                            $(address).html(previous_action == 'vote' ? '<button class="btn btn-success btn-sm float-right">unvote</button>':'<button class="btn btn-outline-primary btn-sm float-right">vote</button>')
+                        }
+                })
+            })
+{% endblock %}

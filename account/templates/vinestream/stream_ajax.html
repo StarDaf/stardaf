@@ -143,6 +143,7 @@
             </a>
  {% else %}
     <div class='text-muted' style='font-size:large; padding:15px'>
+        <h4>{{ target.title }}</h4>
         {{ target.introduction|truncatewords:30 }}<br/>
         <a href='{% url "bizz:post_text" target.id target.title %}'>read more>></a>
         
@@ -190,21 +191,32 @@
             <div class="card-body">
             <button type="button" class="btn btn-outline-primary btn-sm" style='width:47%' data-toggle="modal" data-target="#exampleModalLong_{{ action.id }}">check price</button>
             <button type="button" class="btn btn-outline-primary btn-sm float-right mx-2" style='width:47%' ><a href="https://wa.me/234{{ target.shop.owner.profile.phone }}?text=I'm interested in your {{ target.name }} for sell.">chat with seller</a></button><br/>
+            <br/>
             {% with total_likes=target.users_like.count %}
-
-                
                 <a href='#' data-id='{{ target.id }}'
                          data-action='{% if request.user in target.users_like.all %}un{% endif %}like' class='like'
                            id='{{ action.id }}'>
                         {% if request.user not in target.users_like.all %}
-                            <i class="fa fa-heart-o "></i>
+                            <i class="fa fa-level-up "></i>
                             <!--Like-->
                         {% else %}
-                            <i class="fa fa-heart "></i>
+                            <i class="fa fa-level-down "></i>
                             <!--Like-->
                         {% endif %}
                 </a>
-
+               {% endwith %}&nbsp;&nbsp;
+               {% with total_likes=target.users_hate.count %}
+                <a href='#' data-id='{{ target.id }}'
+                         data-action='{% if request.user not in target.users_hate.all %}unlike{% else %}like{% endif %}' class='hate'
+                           id='hate_{{ action.id }}' style='color:red'>
+                        {% if request.user not in target.users_hate.all %}
+                            <i class="fa fa-level-down "></i>
+                            <!--Like-->
+                        {% else %}
+                            <i class="fa fa-level-up "></i>
+                            <!--Like-->
+                        {% endif %}
+                </a>
                {% endwith %}
                &nbsp;&nbsp;
                {% comment %} {% if not action.verb == 'post' %}<a><i class="fa fa-credit-card" data-toggle="modal" data-target="#exampleModalLong_{{ action.id }}"></i></a>{% endif %} {% endcomment %}
@@ -227,7 +239,7 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLong_{{ action.id }}Title"><a href='{{ target.get_absolute_url }}' style='text-decoration:none'>{{ target.name }}</a>  &nbsp;&nbsp;&nbsp;<b>free delivery within kano</b><br/><small>7 days return policy</small></h5>
+                            <h5 class="modal-title" id="exampleModalLong_{{ action.id }}Title"><a href='{{ target.get_absolute_url }}' style='text-decoration:none'>{{ target.name }}</a>  &nbsp;&nbsp;&nbsp;<b>free delivery within kano</b><br/><small>7 days return policy</small><br/><small>delivery time: 1 day</small></h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                             </button>
@@ -249,6 +261,7 @@
                                 </form>
                             {% endif %}    
                         </div>
+                         <p>&nbsp;&nbsp;<a href='{% url "order:order_create_pay" target.id %}'>or use payment on delivery?</a></p> 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             
@@ -269,7 +282,7 @@
       <div class="modal-body">
             <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.stardaf.com/{{ target.get_absolute_url }}&t={{ target.name }}"
    target="_blank" title="Share on Facebook"><i class='fa fa-facebook fa-2x'></i>
-</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://wa.me/?text=Checkout {{ target.name }} @ www.stardaf.com{{ target.get_absolute_url }}.  \n www.stardaf.com"><i class='fa fa-whatsapp fa-2x'></i></a>
+</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://wa.me/?text=Checkout {{ target.name }} @ www.stardaf.com{{ target.get_absolute_url }}"><i class='fa fa-whatsapp fa-2x'></i></a>
 {% comment %} <a href="https://twitter.com/share?url=https://www.stardaf.com/bizz/3/apple/Faisal/&via=TWITTER_HANDLE&text=Checkout my product"
    onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');return false;"
    target="_blank" title="Share on Twitter"><i class='fa fa-twitter'></i>
@@ -282,19 +295,30 @@
     </div>
   </div>
 </div>
-            <br/><h4 class="card-title"><a href='{{ target.get_absolute_url }}' style='text-decoration:none'>{{ target.name }}</a><!--{% if not action.verb == 'post' %}<button type="button" class="btn btn-outline-primary btn-sm float-right">₦{{ target.price|intcomma }}</button>{% endif %}--></h4>  
+<div class='progress'>
+                        {% with total_likes=target.rank %}
+                                <div class='progress-bar' role='progressbar' 
+                                aria-valuenow="{{ total_likes }}" aria-valuemin="0" aria-valuemax="100" style="width:{{ total_likes }}%">
+                                    <span id='total_{{ action.id }}' class='total_hate_{{ action.id }}'>{{ total_likes }}</span>
+                                </div>
+                        {% endwith %}
+                            </div>
+
+            <h4 class="card-title"><a href='{{ target.get_absolute_url }}' style='text-decoration:none'>{{ target.name }}</a><!--{% if not action.verb == 'post' %}<button type="button" class="btn btn-outline-primary btn-sm float-right">₦{{ target.price|intcomma }}</button>{% endif %}--></h4>  
               
               
                          
 
 
                         <!--</span>-->
-                        <span class='count text-muted'>
+                        {% comment %} <span class='count text-muted'>
                             {% with total_likes=target.users_like.count %}
                                 <span id='total_{{ action.id }}'>{{ total_likes }}</span>
                                 like{{ total_likes|pluralize }}
                             {% endwith %}
-                        </span>&nbsp;
+                        </span>&nbsp; {% endcomment %}
+
+                        
                 
                        
                 
@@ -311,7 +335,7 @@
                 
                 
 
-                <br/>
+                
               
                 {% if target.comments.count > 0 %}
                     {% users_comment target.id %}            

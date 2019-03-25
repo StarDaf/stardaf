@@ -18,8 +18,9 @@ from django.db.models import Count
 from action.models import Action
 from .forms import AddPostForm
 from order.forms import OrderCreateForm
-from bizz.models import Post
+from bizz.models import Post, Governor
 import random
+from django.http import HttpResponse
 
 
 # connect to redis.
@@ -247,6 +248,31 @@ def like(request):
 
     return JsonResponse({'status':'ko'})
 
+@ajax_required
+@login_required
+@require_POST
+def hate(request):
+    """This view will attend to only post requests."""
+
+    # retrieve data that are submitted with post request
+    product_id = request.POST.get('id')
+    product_action = request.POST.get('action')
+
+    if product_id and product_action:
+        try:
+            product = Product.objects.get(pk=product_id)  # get the image that is to be liked or unliked
+            if product_action == 'unlike':
+                # if user like image add him to users_like attribute of the image
+                product.users_hate.add(request.user)
+                # create_action(request.user, 'likes', image)
+            else:
+                product.users_hate.remove(request.user)
+            return JsonResponse({'status':'ok'})
+        except:
+            pass
+
+    return JsonResponse({'status':'ko'})
+
 
 @login_required
 def recommend(request, user_id, product_id):
@@ -338,3 +364,52 @@ def post_detail(request, id, title):
                 {'post':post,
                 'comment_form':comment_form,
                 'similar_posts':similar_posts})
+
+
+@login_required
+def election(request, voter_id, governor_id=None):
+    user = User.objects.get(id=voter_id)
+    governor1 = Governor.objects.get(id=1)
+    governor2 = Governor.objects.get(id=2) 
+    total_registered_voters = 2000000
+    governors = Governor.objects.all()
+    tally1 = (int(governor1.counts) * 100) / (total_registered_voters)
+    tally2 = (int(governor2.counts) * 100) / (total_registered_voters)
+    governor1.percent = tally1
+    governor2.percent = tally2
+    governor1.save()
+    governor2.save()
+
+    
+    return render(request,
+                'election.html',
+                {'governor1':governor1,
+                'governor2':governor2,
+                'total_registered_voters':total_registered_voters,
+                'tally1':tally1,
+                'tally2':tally2,
+                'section':'election',
+                'governors':governors})
+
+@login_required
+def elect(request):
+    user_id = request.POST.get('id')  # get user_id from ajax post
+    action = request.POST.get('action')  # get data-action from ajax post
+    number = 1
+
+    try:
+        governor = get_object_or_404(Governor, id=user_id)  # get user from the database
+
+        if action == 'vote':
+            governor.supporters.get_or_create(user=request.user)  # request.user follows user
+            governor.count +=1
+            governor.save()
+            
+        else:
+            governor.supporters.get(user=request.user).delete()  # not request.user follows user
+            governor.count -= 1
+            governor.save()
+        return JsonResponse({'status':'ok'})
+
+    except Governor.DoesNotExist:
+        return JsonResponse({'status':'ko'})                
