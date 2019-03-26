@@ -246,19 +246,23 @@
                         </div>
                         <div class="modal-body">
                             <h2 style='align-center'>NGN ₦{{ target.price|intcomma }}</h2><br/>
-                            {% if form_1.errors %}
-                                {% for error in form_1.errors %}
-                                    {{ error }}
-                                {% endfor %}
-                            {% else %}    
-                                <form method='get' action='{% url 'order:buy' target.id %}'>
-                                    {% for field in form_1.visible_fields %}
-                                        <label id="field.id_for_label">{{ field.label }}</label>
-                                        {{ field|add_class:'form-control' }}
-                                        {% endfor %}
-                                    {% csrf_token %}<br/>
-                                    <button type='submit' class='btn btn-secondary mx-auto d-block'>buy</button>
-                                </form>
+                            {% if target.price > 2500.00 %}
+                                {% if form_1.errors %}
+                                    {% for error in form_1.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                {% else %}    
+                                    <form method='get' action='{% url 'order:buy' target.id %}'>
+                                        {% for field in form_1.visible_fields %}
+                                            <label id="field.id_for_label">{{ field.label }}</label>
+                                            {{ field|add_class:'form-control' }}
+                                            {% endfor %}
+                                        {% csrf_token %}<br/>
+                                        <button type='submit' class='btn btn-secondary mx-auto d-block'>buy</button>
+                                    </form>
+                                {% endif %}    
+                            {% else %}
+                                <b><a href='{% url "order:order_create_pay" target.id %}'>payment on delivery available</a></b>
                             {% endif %}    
                         </div>
                          <p>&nbsp;&nbsp;<a href='{% url "order:order_create_pay" target.id %}'>or use payment on delivery?</a></p> 
@@ -295,9 +299,9 @@
     </div>
   </div>
 </div>
-<div class='progress'>
+<div class='progress' style='height:13px'>
                         {% with total_likes=target.rank %}
-                                <div class='progress-bar' role='progressbar' 
+                                <div class='progress-bar progress-bar-striped progress-bar-animated' role='progressbar' 
                                 aria-valuenow="{{ total_likes }}" aria-valuemin="0" aria-valuemax="100" style="width:{{ total_likes }}%">
                                     <span id='total_{{ action.id }}' class='total_hate_{{ action.id }}'>{{ total_likes }}</span>
                                 </div>

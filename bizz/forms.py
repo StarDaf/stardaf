@@ -42,10 +42,6 @@ class AddProductForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(AddProductForm, self).__init__(*args, **kwargs)
         self.fields['photo'].required = True
-        self.fields['photo1'].required = True
-        self.fields['photo2'].required = True
-        self.fields['photo3'].required = True
-        self.fields['video'].required = True
         self.fields['description'].required = True
 
     class Meta:
@@ -83,6 +79,8 @@ class AddPostForm(forms.ModelForm):
         fields = ('title', 'introduction', 'paragraph_1', 'paragraph_2', 'paragraph_3', 'paragraph_4', 'paragraph_5','image', 'video')
 
         widgets = {
+            'introduction' : forms.Textarea(attrs={'placeholder':'optional(can be left blank)'}),
+            'paragraph_1' : forms.Textarea(attrs={'placeholder':'optional(can be left blank)'}),
             'paragraph_2' : forms.Textarea(attrs={'placeholder':'optional(can be left blank)'}),
             'paragraph_3' : forms.Textarea(attrs={'placeholder':'optional(can be left blank)'}),
             'paragraph_4' : forms.Textarea(attrs={'placeholder':'optional(can be left blank)'}),

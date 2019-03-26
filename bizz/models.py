@@ -166,8 +166,8 @@ class Post(models.Model):
     
     title = models.CharField(max_length=250, default='')
     user = models.ForeignKey(User, related_name='posts', on_delete=models.CASCADE)  # user.posts.all()
-    introduction = models.TextField()
-    paragraph_1 = models.TextField(default='')
+    introduction = models.TextField(blank=True, null=True)
+    paragraph_1 = models.TextField(default='', blank=True, null=True)
     paragraph_2 = models.TextField(default='', blank=True, null=True)
     paragraph_3 = models.TextField(default='', blank=True, null=True)
     paragraph_4 = models.TextField(default='', blank=True, null=True)

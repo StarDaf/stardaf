@@ -19,7 +19,7 @@ urlpatterns = [
     url(r'^password-reset/complete/$', v.password_reset_complete, name='password_reset_complete'),
     url(r'^register/$', views.register, name='register'),
     url(r'^user-follow/$', views.follow, name='follow'),
-    url(r'^home/$', views.stream, name='stream'),
+    url(r'^buk/$', views.stream, name='stream'),
     url(r'^edit/$', views.edit, name='edit'),
     url(r'^terms-and-conditions/$', views.terms, name='term'),
     url(r'^contact-us/$', views.contact, name='contact'),
@@ -32,8 +32,7 @@ urlpatterns = [
     url(r'^market/(?P<market>[-\w]+)/$', views.filter_shops, name='farmcenter'),
     url(r'(?P<username>[-\w]+)/followers/', views.followers, name='followers'),
     url(r'(?P<username>[-\w]+)/following/', views.following, name='following'),
-   
-                                                     
+                                                       
 ]
 
 
