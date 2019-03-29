@@ -4,6 +4,10 @@ from django.contrib.auth.models import User
 from sorl.thumbnail import ImageField
 # from django.utils import timezone
 from django.utils import timezone
+from PIL import Image
+from io import BytesIO
+from django.core.files.uploadedfile import InMemoryUploadedFile
+import sys
 
 
 class Contact(models.Model):
@@ -26,6 +30,21 @@ class Profile(models.Model):
     phone = models.DecimalField(max_digits=13, decimal_places=0, blank=True, null=True, db_index=True)  # can also be left out.
     gender = models.CharField(max_length=50)  # male or female
     created = models.DateTimeField(default=timezone.now)
+
+
+    def save(self, *args, **kwargs):
+        self.image = self.compressImage(self.image)
+        super(Profile, self).save(*args, **kwargs)
+
+    def compressImage(self,image):
+        imageTemproary = Image.open(image)
+        imi = imageTemproary.convert('RGB')
+        outputIoStream = BytesIO()
+        imageTemproaryResized = imageTemproary.resize( (1020,573) ) 
+        imi.save(outputIoStream , format='JPEG', quality=50)
+        outputIoStream.seek(0)
+        image = InMemoryUploadedFile(outputIoStream,'ImageField', "%s.jpg" % image.name.split('.')[0], 'image/jpeg', sys.getsizeof(outputIoStream), None)
+        return image
 
     def __str__(self):
         return 'Profile for {}'.format(self.user.username)

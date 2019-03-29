@@ -36,6 +36,7 @@ def order_create(request, id=None):
         if form.is_valid():
             order = form.save(commit=False)
             order.user = request.user  # the current user in the session.
+            order.product = product
             order.full_name = str(request.user.get_full_name())
             order.email = str(request.user.email)
             order.save()
@@ -46,7 +47,9 @@ def order_create(request, id=None):
                 
             remaining = product.stock - quantity
             product.stock = remaining
+            price = product.price
             product.save()
+            OrderItem.objects.create(order=order, quantity=order.quantity, price=price, product=order.product)
             
 
             #order_faisal_created.delay(order.id)

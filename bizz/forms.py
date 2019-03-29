@@ -72,11 +72,12 @@ class AddPostForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(AddPostForm, self).__init__(*args, **kwargs)
         self.fields['image'].required = True
+        self.fields['post'].required = True
         self.fields['title'].required = True
 
     class Meta:
         model = Post
-        fields = ('title', 'introduction', 'paragraph_1', 'paragraph_2', 'paragraph_3', 'paragraph_4', 'paragraph_5','image', 'video')
+        fields = ('title', 'post', 'image', 'video', 'question')
 
         widgets = {
             'introduction' : forms.Textarea(attrs={'placeholder':'optional(can be left blank)'}),
@@ -85,4 +86,5 @@ class AddPostForm(forms.ModelForm):
             'paragraph_3' : forms.Textarea(attrs={'placeholder':'optional(can be left blank)'}),
             'paragraph_4' : forms.Textarea(attrs={'placeholder':'optional(can be left blank)'}),
             'paragraph_5' : forms.Textarea(attrs={'placeholder':'optional(can be left blank)'}),
+            'question' : forms.Textarea(attrs={'placeholder':'can be left blank'}),
         }

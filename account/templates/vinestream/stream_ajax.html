@@ -143,21 +143,65 @@
             </a>
  {% else %}
     <div class='text-muted' style='font-size:large; padding:15px'>
-        <h4>{{ target.title }}</h4>
-        {{ target.introduction|truncatewords:30 }}<br/>
+        {{ target.title }}<br/>
+        <i>{{ target.post|truncatewords:30 }}</i><br/>
         <a href='{% url "bizz:post_text" target.id target.title %}'>read more>></a>
         
         {% if not target.video %}
             <a href='{% url "bizz:post_text" target.id target.title %}'>
-            <img src='{{ target.image.url }}' style='height:auto; width:100%; padding:0px; border-radius:10px 10px 10px 10px'/>
+            <img src='{{ target.image.url }}' style='height:auto; width:100%; padding:0px; border-radius:15px 50px 30px'/>
             </a>
         {% else %}
             <a href='{% url "bizz:post_text" target.id target.title %}'>
-                <video width="100%" height="100%" style='border-radius:10px 10px 10px 10px'  controls {% if target.image %}poster="{{ target.image.url }}"{% endif %}>
+                <video width="100%" height="100%" style='border-radius:15px 50px 30px'  controls {% if target.image %}poster="{{ target.image.url }}"{% endif %}>
                         <source src="{{ target.video.url }}" type="video/mp4">
                         Update your browser.
                     </video>
             </a>
+        {% endif %}
+        {% if target.question %}
+                <b>{{ target.question }}?</b><br/>
+                {% with total_likes=target.users_like.count %}
+                <a href='#' data-id='{{ target.id }}'
+                         data-action='{% if request.user in target.users_like.all %}un{% endif %}like' class='post_like'
+                           id='{{ action.id }}'>
+                        {% if request.user not in target.users_like.all %}
+                            <b>yes</b>
+                            <!--Like-->
+                        {% else %}
+                        {% endif %}
+                </a>
+                
+                <div class='progress' style='height:9px'>
+                        
+                                <div class='progress-bar progress-bar-striped progress-bar-animated' role='progressbar' 
+                                aria-valuenow="{{ total_likes }}" aria-valuemin="0" aria-valuemax="100" style="width:{{ total_likes }}%">
+                                    <span id='total_{{ action.id }}'>{{ total_likes }}</span>
+                                </div>
+                        
+                            </div>
+                            {% endwith %}<br/>
+                {% with total_likes=target.users_hate.count %}
+                <a href='#' data-id='{{ target.id }}'
+                         data-action='{% if request.user in target.users_hate.all %}un{% endif %}hate' class='post_hate'
+                           id='post_{{ action.id }}'>
+                        {% if request.user not in target.users_hate.all %}
+                            <b>no</b>
+                            <!--Like-->
+                        {% else %}
+                            <i class="fa fa-level-up "></i>
+                            <!--Like-->
+                        {% endif %}
+                </a><div class='progress' style='height:9px'>
+                        
+                                <div class='progress-bar progress-bar-striped progress-bar-animated' role='progressbar' 
+                                aria-valuenow="{{ total_likes }}" aria-valuemin="0" aria-valuemax="100" style="width:{{ total_likes }}%">
+                                    <span class='total_post_{{ action.id }}'>{{ total_likes }}</span>
+                                </div>
+                        
+                            </div>
+               
+               {% endwith %}
         {% endif %}<br/>
         <span class="float-right mx-2"><a onclick=''><span class='fa fa-share-alt pull-right icons' data-toggle="modal" data-target='#exampleModalCenterPost_{{ action.id }}'></a></span>
         <div class="modal fade" id="exampleModalCenterPost_{{ action.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -189,8 +233,8 @@
  {% endif %}           
             {% if not action.verb == 'post' %}
             <div class="card-body">
-            <button type="button" class="btn btn-outline-primary btn-sm" style='width:47%' data-toggle="modal" data-target="#exampleModalLong_{{ action.id }}">check price</button>
-            <button type="button" class="btn btn-outline-primary btn-sm float-right mx-2" style='width:47%' ><a href="https://wa.me/234{{ target.shop.owner.profile.phone }}?text=I'm interested in your {{ target.name }} for sell.">chat with seller</a></button><br/>
+            <button type="button" class="btn btn-outline-primary btn-sm" style='width:47%' data-toggle="modal" data-target="#exampleModalLong_{{ action.id }}">buy</button>
+            <button type="button" class="btn btn-outline-primary btn-sm float-right mx-2" style='width:47%' ><a href="https://wa.me/234{{ target.shop.owner.profile.phone }}?text=I'm interested in your {{ target.name }} for sell.">chat</a></button><br/>
             <br/>
             {% with total_likes=target.users_like.count %}
                 <a href='#' data-id='{{ target.id }}'
@@ -262,10 +306,10 @@
                                     </form>
                                 {% endif %}    
                             {% else %}
-                                <b><a href='{% url "order:order_create_pay" target.id %}'>payment on delivery available</a></b>
+                                <b><a href='{% url "order:order_create_pay" target.id %}'>Pay on Delivery</a></b>
                             {% endif %}    
                         </div>
-                         <p>&nbsp;&nbsp;<a href='{% url "order:order_create_pay" target.id %}'>or use payment on delivery?</a></p> 
+                         
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             

@@ -7,6 +7,10 @@ from django.utils.text import slugify
 from django.conf import settings
 from sorl.thumbnail import ImageField
 from django.core.validators import MaxValueValidator
+from PIL import Image
+from io import BytesIO
+from django.core.files.uploadedfile import InMemoryUploadedFile
+import sys
 # import datetime
 
 #user.shop.products.all()
@@ -91,7 +95,7 @@ class Shop(models.Model):
     Bank = models.CharField(max_length=250, choices=BANKS, default='')
     #account_number = models.DecimalField(max_digits=10, decimal_places=0, null=True)
     account_number = models.CharField(max_length=10, blank=True, null=True)
-    account_name = models.CharField(max_length=250, default='')
+    account_name = models.CharField(max_length=250, default='', blank=True)
 
     
 
@@ -100,6 +104,20 @@ class Shop(models.Model):
 
     def __str__(self):
         return self.business_name
+
+    def save(self, *args, **kwargs):
+        
+        self.logo = self.compressImage(self.logo)
+        super(Shop, self).save(*args, **kwargs)
+    def compressImage(self,logo):
+        imageTemproary = Image.open(logo)
+        im = imageTemproary.convert('RGB')
+        outputIoStream = BytesIO()
+        imageTemproaryResized = imageTemproary.resize( (1020,573) ) 
+        im.save(outputIoStream , format='JPEG', quality=50)
+        outputIoStream.seek(0)
+        logo = InMemoryUploadedFile(outputIoStream,'ImageField', "%s.jpg" % logo.name.split('.')[0], 'image/jpeg', sys.getsizeof(outputIoStream), None)
+        return logo
 
     # returns total number of products in the shop.
     def get_total_products(self):
@@ -150,9 +168,29 @@ class Product(models.Model):
         """to automatically generate the slug field based on the.
         shop owner's first_name"""
 
+        self.photo = self.compressImage(self.photo)
+        if self.photo1:
+            self.photo1 = self.compressImage(self.photo1)
+        if self.photo2:
+            self.photo2 = self.compressImage(self.photo2)    
+        if self.photo3:
+            self.photo3 = self.compressImage(self.photo3)    
+
         if not self.slug:
             self.slug = slugify(self.name)
         return super(Product, self).save(*args, **kwargs)
+
+    def compressImage(self,logo):
+        imageTemproary = Image.open(logo)
+        imi = imageTemproary.convert('RGB')
+        outputIoStream = BytesIO()
+        imageTemproaryResized = imageTemproary.resize( (1020,573) ) 
+        imi.save(outputIoStream , format='JPEG', quality=50)
+        outputIoStream.seek(0)
+        logo = InMemoryUploadedFile(outputIoStream,'ImageField', "%s.jpg" % logo.name.split('.')[0], 'image/jpeg', sys.getsizeof(outputIoStream), None)
+        return logo
+
+
 
 
     def get_absolute_url(self):
@@ -167,11 +205,14 @@ class Post(models.Model):
     title = models.CharField(max_length=250, default='')
     user = models.ForeignKey(User, related_name='posts', on_delete=models.CASCADE)  # user.posts.all()
     introduction = models.TextField(blank=True, null=True)
-    paragraph_1 = models.TextField(default='', blank=True, null=True)
+    post = models.TextField(default='', blank=True, null=True)
     paragraph_2 = models.TextField(default='', blank=True, null=True)
     paragraph_3 = models.TextField(default='', blank=True, null=True)
     paragraph_4 = models.TextField(default='', blank=True, null=True)
     paragraph_5 = models.TextField(default='', blank=True, null=True)
+    question = models.CharField(max_length=200, blank=True)
+    users_like = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='post_liked', blank=True) # user.product_liked.all()
+    users_hate = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='post_hated', blank=True)
     
     
     created = models.DateTimeField(auto_now_add=True)
@@ -180,6 +221,20 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse('bizz:post_text', args=[self.id, self.title])
+
+    def save(self, *args, **kwargs):
+        
+        self.image = self.compressImage(self.image)
+        super(Post, self).save(*args, **kwargs)
+    def compressImage(self,image):
+        imageTemproary = Image.open(image)
+        imi = imageTemproary.convert('RGB')
+        outputIoStream = BytesIO()
+        imageTemproaryResized = imageTemproary.resize( (1020,573) ) 
+        imi.save(outputIoStream , format='JPEG', quality=50)
+        outputIoStream.seek(0)
+        image = InMemoryUploadedFile(outputIoStream,'ImageField', "%s.jpg" % image.name.split('.')[0], 'image/jpeg', sys.getsizeof(outputIoStream), None)
+        return image
 
 
 

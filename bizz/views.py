@@ -251,6 +251,56 @@ def like(request):
 @ajax_required
 @login_required
 @require_POST
+def post_like(request):
+    """This view will attend to only post requests."""
+
+    # retrieve data that are submitted with post request
+    post_id = request.POST.get('id')
+    product_action = request.POST.get('action')
+
+    if post_id and product_action:
+        try:
+            post = Post.objects.get(pk=post_id)  # get the image that is to be liked or unliked
+            if product_action == 'like':
+                # if user like image add him to users_like attribute of the image
+                post.users_like.add(request.user)
+                # create_action(request.user, 'likes', image)
+            else:
+                post.users_like.remove(request.user)
+            return JsonResponse({'status':'ok'})
+        except:
+            pass
+
+    return JsonResponse({'status':'ko'})
+
+@ajax_required
+@login_required
+@require_POST
+def post_hate(request):
+    """This view will attend to only post requests."""
+
+    # retrieve data that are submitted with post request
+    post_id = request.POST.get('id')
+    product_action = request.POST.get('action')
+
+    if post_id and product_action:
+        try:
+            post = Post.objects.get(pk=post_id)  # get the image that is to be liked or unliked
+            if product_action == 'hate':
+                # if user like image add him to users_like attribute of the image
+                post.users_hate.add(request.user)
+                # create_action(request.user, 'likes', image)
+            else:
+                post.users_hate.remove(request.user)
+            return JsonResponse({'status':'ok'})
+        except:
+            pass
+
+    return JsonResponse({'status':'ko'})
+
+@ajax_required
+@login_required
+@require_POST
 def hate(request):
     """This view will attend to only post requests."""
 

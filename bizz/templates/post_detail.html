@@ -82,10 +82,10 @@
 		</div>
 		<div class="col-md-12 col-lg-8">
 			<article class="article-post">
-			{% if post.introduction %}
+			{% if post.post %}
                 <section>
                     <p>
-                        {{ post.introduction }}
+                        {{ post.post }}
                     </p>
                 </section>    
             {% endif %}
@@ -195,7 +195,7 @@
 					<a  href="{% url 'bizz:post_text' post.id post.title %}">{{ post.title }}</a>
 					</h2>
 					<p class="card-text">
-						<a class="text-dark" href="{% url 'bizz:post_text' post.id post.title %}">{{ post.introduction|truncatewords:20 }}</a> 
+						<a class="text-dark" href="{% url 'bizz:post_text' post.id post.title %}">{{ post.post|truncatewords:20 }}</a> 
 					</p>
 					<div>
 						<small class="d-block"><a class="text-muted" href="{{ user.get_absolute_url }}">@{{ post.user.get_full_name }}</a></small>

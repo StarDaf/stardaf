@@ -272,6 +272,71 @@
 
             })
 
+            $(document).on('click', '.post_like' , function(e){
+                var id = $(this).attr('id');  //convert to string
+                var address = '#' + id;  //attach # to id
+                var count = '#total_' + id;
+               e.preventDefault();
+               $.post('{% url "bizz:post_like" %}',
+                {
+                    id: $(this).data('id'),
+                    action: $(this).data('action')
+                }, function (data) {
+                    // get text
+                    var previous_action = $(address).data('action');
+
+                    //toggle data-action value
+                    $(address).data('action', previous_action == 'like' ? 'unlike':'like');
+
+                    //toggle text value
+                    $(address).html(previous_action == 'like' ? '<i class="fa fa-level-down"></i>' : '<i class="fa fa-level-up"></i>');
+
+                    // get text value of total likes and convert to int.
+                    var previous_likes = parseInt($(count).text());
+                    
+
+                    $(count).text(previous_action == 'like' ? previous_likes += 1:previous_likes -= 1);
+                    
+
+                    
+
+                })
+
+            })
+
+            $(document).on('click', '.post_hate' , function(e){
+                var id = $(this).attr('id');  //convert to string
+                var address = '#' + id;  //attach # to id
+                var count = '.total_' + id;
+               e.preventDefault();
+               $.post('{% url "bizz:post_hate" %}',
+                {
+                    id: $(this).data('id'),
+                    action: $(this).data('action')
+                }, function (data) {
+                    // get text
+                    
+                        var previous_action = $(address).data('action');
+
+                        //toggle data-action value
+                    $(address).data('action', previous_action == 'hate' ? 'unhate':'hate');
+
+                    //toggle text value
+                    $(address).html(previous_action == 'hate' ? '<i class="fa fa-level-down"></i>' : '<i class="fa fa-level-up"></i>');
+
+                    // get text value of total likes and convert to int.
+                    var previous_likes = parseInt($(count).text());
+                    
+
+                    $(count).text(previous_action == 'hate' ? previous_likes += 1:previous_likes -= 1);
+                    
+
+                    
+
+                })
+
+            })
+
 
             $(document).on('click', '.follow' , function(e){
                 e.preventDefault();

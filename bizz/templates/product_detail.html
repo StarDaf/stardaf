@@ -150,8 +150,8 @@
 <!--/.Carousel Wrapper-->
                                 
                                 <!--</div>--><br/><br/>
-                            <button type="button" class="btn btn-outline-primary btn-sm" style='width:47%' data-toggle="modal" data-target="#exampleModalLong_{{ product.id }}">check price</button>
-            <button type="button" class="btn btn-outline-primary btn-sm float-right mx-2" style='width:47%' ><a href="https://wa.me/234{{ product.shop.owner.profile.phone }}?text=I'm interested in your {{ product.name }} for sell.">chat with seller</a></button><br/>
+                            <button type="button" class="btn btn-outline-primary btn-sm" style='width:47%' data-toggle="modal" data-target="#exampleModalLong_{{ product.id }}">buy</button>
+            <button type="button" class="btn btn-outline-primary btn-sm float-right mx-2" style='width:47%' ><a href="https://wa.me/234{{ product.shop.owner.profile.phone }}?text=I'm interested in your {{ product.name }} for sell.">chat</a></button><br/>
                             <a href='#' data-id='{{ product.id }}'
                          data-action='{% if request.user in product.users_like.all %}un{% endif %}like' class='like' id='{{ product.id }}'>
                         {% if request.user not in product.users_like.all %}
@@ -180,22 +180,26 @@
                         </div>
                         <div class="modal-body">
                             <h2 style='align-center'>NGN ₦{{ product.price|intcomma }}</h2><br/>
-                            {% if form_1.errors %}
-                                {% for error in form_1.errors %}
-                                    {{ error }}
-                                {% endfor %}
-                            {% else %}    
-                                <form method='get' action='{% url 'order:buy' product.id %}'>
-                                    {% for field in form_1.visible_fields %}
-                                        <label id="field.id_for_label">{{ field.label }}</label>
-                                        {{ field|add_class:'form-control' }}
-                                        {% endfor %}
-                                    {% csrf_token %}<br/>
-                                    <button type='submit' class='btn btn-secondary mx-auto d-block'>buy</button>
-                                </form>
-                            {% endif %}    
+                            {% if product.price > 2500.00 %}
+                                {% if form_1.errors %}
+                                    {% for error in form_1.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                {% else %}    
+                                    <form method='get' action='{% url 'order:buy' product.id %}'>
+                                        {% for field in form_1.visible_fields %}
+                                            <label id="field.id_for_label">{{ field.label }}</label>
+                                            {{ field|add_class:'form-control' }}
+                                            {% endfor %}
+                                        {% csrf_token %}<br/>
+                                        <button type='submit' class='btn btn-secondary mx-auto d-block'>buy</button>
+                                    </form>
+                                {% endif %}
+                            {% else %}
+                                <p>&nbsp;&nbsp;<a href='{% url 'order:order_create_pay' product.id %}'>Pay on Delivery</a></p>
+                            {% endif %}        
                         </div>
-                        <p>&nbsp;&nbsp;<a href='{% url 'order:order_create_pay' product.id %}'>or use payment on delivery?</a></p>
+                        
                         <div class="modal-footer">
 
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
