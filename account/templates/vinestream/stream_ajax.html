@@ -203,6 +203,7 @@
                
                {% endwith %}
         {% endif %}<br/>
+        <span class="float-right mx-2"><a href="https://wa.me/234{{ target.user.profile.phone }}?text=" style='color:green'><span class='fa fa-whatsapp pull-right icons'></a></span>
         <span class="float-right mx-2"><a onclick=''><span class='fa fa-share-alt pull-right icons' data-toggle="modal" data-target='#exampleModalCenterPost_{{ action.id }}'></a></span>
         <div class="modal fade" id="exampleModalCenterPost_{{ action.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -233,9 +234,9 @@
  {% endif %}           
             {% if not action.verb == 'post' %}
             <div class="card-body">
-            <button type="button" class="btn btn-outline-primary btn-sm" style='width:47%' data-toggle="modal" data-target="#exampleModalLong_{{ action.id }}">buy</button>
-            <button type="button" class="btn btn-outline-primary btn-sm float-right mx-2" style='width:47%' ><a href="https://wa.me/234{{ target.shop.owner.profile.phone }}?text=I'm interested in your {{ target.name }} for sell.">chat</a></button><br/>
-            <br/>
+            {% comment %} <button type="button" class="btn btn-outline-primary btn-sm" style='width:47%' data-toggle="modal" data-target="#exampleModalLong_{{ action.id }}">buy</button> {% endcomment %}
+            {% comment %} <button type="button" class="btn btn-outline-primary btn-sm float-right mx-2" style='width:47%' ><a href="https://wa.me/234{{ target.shop.owner.profile.phone }}?text=I'm interested in your {{ target.name }} for sell.">chat</a></button><br/> {% endcomment %}
+        
             {% with total_likes=target.users_like.count %}
                 <a href='#' data-id='{{ target.id }}'
                          data-action='{% if request.user in target.users_like.all %}un{% endif %}like' class='like'
@@ -262,8 +263,8 @@
                         {% endif %}
                 </a>
                {% endwith %}
-               &nbsp;&nbsp;
-               {% comment %} {% if not action.verb == 'post' %}<a><i class="fa fa-credit-card" data-toggle="modal" data-target="#exampleModalLong_{{ action.id }}"></i></a>{% endif %} {% endcomment %}
+               &nbsp;&nbsp;&nbsp;
+                {% if not action.verb == 'post' %}<a><i class="fa fa-credit-card-alt" data-toggle="modal" data-target="#exampleModalLong_{{ action.id }}"></i></a>{% endif %} &nbsp;
                {% comment %} &nbsp;&nbsp; {% endcomment %}
                <span><a href="{{ target.get_absolute_url }}"  style="text-decoration: none;">
                     <span class="text-muted"><i class="fa fa-eye"></i>
@@ -277,7 +278,7 @@
                 {% if not action.verb == 'post' %}<span class="float-right mx-2"><a href='{% if not request.user.is_authenticated %}{% url 'account:register' %}{% else %}{% url 'bizz:recommend' request.user.id target.id %}{% endif %}'><i class="fa fa-hand-spock-o pull-right icons"></i></a></span>{% endif %}
                 {% comment %} {% if not action.verb == 'post' %}<span class="float-right mx-2"><a href='{% url 'cart:home' target.pk %}'><i class="fa fa-plus-circle pull-right icons"></i></a></span>{% endif %} {% endcomment %}
                 {% comment %} {% if not action.verb == 'post' %}<span class="float-right mx-2"><a href='{% url 'chat:thread' target.shop.owner.username %}'><span class='fa fa-envelope pull-right icons'></a></span>{% endif %} {% endcomment %}
-                {% comment %} {% if not action.verb == 'post' %}<span class="float-right mx-2"><a href="https://wa.me/234{{ target.shop.owner.profile.phone }}?text=I'm interested in your {{ target.name }} for sell." style='color:green'><span class='fa fa-whatsapp pull-right icons'></a></span>{% endif %} {% endcomment %}
+                 {% if not action.verb == 'post' %}<span class="float-right mx-2"><a href="https://wa.me/234{{ target.shop.owner.profile.phone }}?text=" style='color:green'><span class='fa fa-whatsapp pull-right icons'></a></span>{% endif %} 
 
                 <div class="modal fade" id="exampleModalLong_{{ action.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                     <div class="modal-dialog" role="document">
