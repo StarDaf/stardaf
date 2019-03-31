@@ -8,6 +8,7 @@ from django.conf import settings
 from sorl.thumbnail import ImageField
 from django.core.validators import MaxValueValidator
 from PIL import Image
+from PIL import ImageFilter
 from io import BytesIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
 import sys
@@ -183,6 +184,7 @@ class Product(models.Model):
     def compressImage(self,logo):
         imageTemproary = Image.open(logo)
         imi = imageTemproary.convert('RGB')
+        imi = imi.filter(ImageFilter.DETAIL)
         outputIoStream = BytesIO()
         imageTemproaryResized = imageTemproary.resize( (1020,573) ) 
         imi.save(outputIoStream , format='JPEG', quality=50)

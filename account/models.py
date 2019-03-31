@@ -5,6 +5,7 @@ from sorl.thumbnail import ImageField
 # from django.utils import timezone
 from django.utils import timezone
 from PIL import Image
+from PIL import ImageFilter
 from io import BytesIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
 import sys
@@ -39,6 +40,7 @@ class Profile(models.Model):
     def compressImage(self,image):
         imageTemproary = Image.open(image)
         imi = imageTemproary.convert('RGB')
+        imi = imi.filter(ImageFilter.DETAIL)
         outputIoStream = BytesIO()
         imageTemproaryResized = imageTemproary.resize( (1020,573) ) 
         imi.save(outputIoStream , format='JPEG', quality=50)
