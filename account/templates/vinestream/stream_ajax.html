@@ -12,8 +12,9 @@
                 {% with views=target.total_views %}
                 {% with product=target.product %}
             <!--<div class="col-sm-4"></div>-->
+           
             
-            {% if target.stock != 0 %}
+            
             
                     <div class='col-md-6 mx-auto d-block' style='padding-left: 0px; padding-right:0px;'>
                         <div class='product-entry'>
@@ -159,6 +160,12 @@
                     </video>
             </a>
         {% endif %}
+        {% for tag in target.tags.all %}
+            <a href="{% url "account:post_list_by_tag" tag.slug %}">
+            #{{ tag.name }}&nbsp;
+            </a>
+            {% if not forloop.last %}  {% endif %}
+        {% endfor %}<br/>
         {% if target.question %}
                 <b>{{ target.question }}?</b><br/>
                 {% with total_likes=target.users_like.count %}
@@ -231,9 +238,18 @@
   </div>
 </div>
     </div>
- {% endif %}           
+ {% endif %}        
             {% if not action.verb == 'post' %}
             <div class="card-body">
+            
+            {% for tag in target.tags.all %}
+            <a href="{% url "account:post_list_by_tag" tag.slug %}">
+            #{{ tag.name }}&nbsp;
+            </a>
+            {% if not forloop.last %}  {% endif %}
+        
+
+{% endfor %}<br/>
             {% comment %} <button type="button" class="btn btn-outline-primary btn-sm" style='width:47%' data-toggle="modal" data-target="#exampleModalLong_{{ action.id }}">buy</button> {% endcomment %}
             {% comment %} <button type="button" class="btn btn-outline-primary btn-sm float-right mx-2" style='width:47%' ><a href="https://wa.me/234{{ target.shop.owner.profile.phone }}?text=I'm interested in your {{ target.name }} for sell.">chat</a></button><br/> {% endcomment %}
         
@@ -264,7 +280,7 @@
                 </a>
                {% endwith %}
                &nbsp;&nbsp;&nbsp;
-                {% if not action.verb == 'post' %}<a><i class="fa fa-credit-card-alt" data-toggle="modal" data-target="#exampleModalLong_{{ action.id }}"></i></a>{% endif %} &nbsp;
+                {% if not action.verb == 'post' %}{% if target.price > 0.00 %}<a><i class="fa fa-credit-card-alt" data-toggle="modal" data-target="#exampleModalLong_{{ action.id }}"></i></a>{% endif %}{% endif %} &nbsp;
                {% comment %} &nbsp;&nbsp; {% endcomment %}
                <span><a href="{{ target.get_absolute_url }}"  style="text-decoration: none;">
                     <span class="text-muted"><i class="fa fa-eye"></i>
@@ -353,7 +369,7 @@
                         {% endwith %}
                             </div>
 
-            <h4 class="card-title"><a href='{{ target.get_absolute_url }}' style='text-decoration:none'>{{ target.name }}</a><!--{% if not action.verb == 'post' %}<button type="button" class="btn btn-outline-primary btn-sm float-right">₦{{ target.price|intcomma }}</button>{% endif %}--></h4>  
+            <h4 class="card-title"><a href='{{ target.get_absolute_url }}' style='text-decoration:none'>{{ target.name }}</a>{% if target.price > 0.00 %}{% if not action.verb == 'post' %}<button type="button" class="btn btn-outline-primary btn-sm float-right">₦{{ target.price|intcomma }}</button>{% endif %}{% endif %}</h4>  
               
               
                          
@@ -406,7 +422,7 @@
           </div>
                         </div>
                     </div>
-                  {% endif %}
+                  
                 {% endwith %}
                 {% endwith %}
             {% endwith %}

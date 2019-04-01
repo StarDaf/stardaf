@@ -83,6 +83,7 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     'paystack',
     #'channels',
+    'taggit',
     'chat',
     'action',
     'Comment',

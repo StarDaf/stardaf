@@ -10,9 +10,7 @@ class CreateShopForm(forms.ModelForm):
         self.fields['shop_address'].required = True
         self.fields['home_address'].required = True
         self.fields['description'].required = True
-        self.fields['Bank'].required = True
-        self.fields['account_number'].required = True
-        self.fields['account_name'].required = True
+        
 
 
     class Meta:
@@ -46,7 +44,7 @@ class AddProductForm(forms.ModelForm):
 
     class Meta:
         model = Product
-        fields = ('category', 'name', 'photo', 'photo1', 'photo2', 'photo3', 'video', 'description', 'price', 'stock', 'available')
+        fields = ('category', 'name', 'tags','photo', 'photo1', 'photo2', 'photo3', 'video', 'description', 'price', 'stock', 'available')
 
         widgets = {
             'available' : forms.HiddenInput,
@@ -77,7 +75,7 @@ class AddPostForm(forms.ModelForm):
 
     class Meta:
         model = Post
-        fields = ('title', 'post', 'image', 'video', 'question')
+        fields = ('title', 'post', 'tags', 'image', 'video', 'question')
 
         widgets = {
             'introduction' : forms.Textarea(attrs={'placeholder':'optional(can be left blank)'}),

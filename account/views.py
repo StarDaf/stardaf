@@ -34,6 +34,7 @@ from django.conf import settings
 from io import BytesIO
 from xhtml2pdf import pisa
 from django.core.mail import send_mail, EmailMultiAlternatives, EmailMessage
+from taggit.models import Tag
 
 r = redis.StrictRedis(host=settings.REDIS_HOST,
                       port=settings.REDIS_PORT,
@@ -256,7 +257,7 @@ def follow(request):
 
 
 
-def market(request, category=None):
+def market(request, tag_slug=None):
     # get all shops
     shops = Shop.objects.all()
     new_shops = Shop.objects.order_by('-created')[:20]
@@ -266,12 +267,17 @@ def market(request, category=None):
     products = sorted(Product.objects.filter(available=True), key=lambda x: random.random())
     posts = sorted(Post.objects.all(), key=lambda x: random.random())
     shops = sorted(Shop.objects.all(), key=lambda x: random.random())
-    if category:
-        products = sorted(Product.objects.filter(available=True, category=category), key=lambda x: random.random())
-        all = list(chain(products))
+    tag = None
+
+    if tag_slug:
+        tag = get_object_or_404(Tag, slug=tag_slug)
+        products = sorted(Product.objects.filter(available=True, tags__in=[tag]), key=lambda x: random.random())
+        posts = sorted(Post.objects.filter(tags__in=[tag]), key=lambda x: random.random())
+
+        all = list(chain(products, posts))
 
     else:
-        all = list(chain(products, shops, posts)) 
+        all = list(chain(products, posts, shops)) 
 
     paginator = Paginator(all, 10)  # 15 actions/activities per page
     page = request.GET.get('page')  # get the page number
@@ -343,7 +349,8 @@ def market(request, category=None):
                  'me':me,
                  'search':search,
                  'all':all,
-                 'section':'market'})
+                 'section':'market',
+                 'tag':tag})
 
 
 # @login_required

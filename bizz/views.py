@@ -87,6 +87,7 @@ def add_product(request, shop_id):
             new_product.shop = shop
             new_product.available = True # make the product available(because we are to filter available products only)
             new_product.save()  # save to database.
+            form.save_m2m()
             create_action(user=new_product.shop.owner, verb='', target=new_product)
 
             messages.success(request, 'Product added successfully ;-)')
@@ -375,6 +376,7 @@ def create_post(request, id):
             post = form.save(commit=False)
             post.user = request.user
             post.save()  # save post to database
+            form.save_m2m()
             create_action(user=user, verb='post', target=post)  
             return redirect('account:stream')
 

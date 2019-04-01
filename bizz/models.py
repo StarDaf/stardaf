@@ -12,6 +12,7 @@ from PIL import ImageFilter
 from io import BytesIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
 import sys
+from taggit.managers import TaggableManager
 # import datetime
 
 #user.shop.products.all()
@@ -142,8 +143,8 @@ class Product(models.Model):
                                 default='clothing')  # category the product belong's to.
 
     # price of the product (price can be left blank hence users negotiate with the sellers)
-    price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
-    stock = models.PositiveIntegerField()  # quantity of product available
+    price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, default=0)
+    stock = models.PositiveIntegerField(blank=True, null=True, default=0)  # quantity of product available
     #photo = models.FileField(upload_to='products/%y/%m/%d', blank=True, null=True)  # image of product
     photo = ImageField(upload_to='products/%y/%m/%d', blank=True, null=True)
     photo1 = ImageField(upload_to='products/%y/%m/%d', blank=True, null=True, default='')
@@ -159,6 +160,7 @@ class Product(models.Model):
     total_views = models.PositiveIntegerField(default=0)
     total_likes = models.IntegerField(default=0)
     video = models.FileField(upload_to='videos/%y/%m/%d', default='', null=True, blank=True)
+    tags = TaggableManager()
 
     # product.users_like.all()
 
@@ -220,6 +222,7 @@ class Post(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to='post/%y/%m/%d', blank=True, null=True, default='')
     video = models.FileField(upload_to='post_videos/%y/%m/%d', default='', null=True, blank=True)
+    tags = TaggableManager()
 
     def get_absolute_url(self):
         return reverse('bizz:post_text', args=[self.id, self.title])
