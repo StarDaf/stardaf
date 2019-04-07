@@ -101,7 +101,9 @@ class='follow float-left' id='{{ user.id }}'>
           </p>
           {% endif %}
           {% if not user.shop %}
-          <button class="btn btn-lg btn-dark btn-block"><a href="{% url 'bizz:create' user.id %}">Create company</a></button> 
+            {% if request.user == user %}
+              <button class="btn btn-lg btn-dark btn-block"><a href="{% url 'bizz:create' user.id %}">Create company</a></button> 
+            {% endif %}
           {% endif %}
           {% if request.user == user %}<a href="{% url 'account:logout_then_login' %}" class='float-right'><button class='btn btn-outline-primary btn-sm'>Sign-out</button></a>{% endif %}
           
