@@ -307,7 +307,7 @@
                         </div>
                         <div class="modal-body">
                             <h2 style='align-center'>NGN ₦{{ target.price|intcomma }}</h2><br/>
-                            {% if target.price > 2500.00 %}
+                            
                                 {% if form_1.errors %}
                                     {% for error in form_1.errors %}
                                         {{ error }}
@@ -322,9 +322,7 @@
                                         <button type='submit' class='btn btn-secondary mx-auto d-block'>buy</button>
                                     </form>
                                 {% endif %}    
-                            {% else %}
-                                <b><a href='{% url "order:order_create_pay" target.id %}'>Pay on Delivery</a></b>
-                            {% endif %}    
+                               
                         </div>
                          
                         <div class="modal-footer">

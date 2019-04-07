@@ -97,6 +97,7 @@ def add_product(request, shop_id):
 
     else:
         form = AddProductForm()  # render form
+        messages.success(request, 'only one photo is compulsory additional images and video are optional.')
 
     return render(request,
                   'add_product.html',
@@ -382,6 +383,7 @@ def create_post(request, id):
 
     else:
         form = AddPostForm()  # empty form
+        messages.success(request, 'only one image is compulsory additional videos are optional.')
 
     return render(request,
                     'post.html',

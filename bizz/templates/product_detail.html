@@ -179,8 +179,8 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <h2 style='align-center'>NGN ₦{{ product.price|intcomma }}</h2><br/>
-                            {% if product.price > 2500.00 %}
+                            <h4 style='align-center'>NGN <small>₦{{ product.price|intcomma }}</small></h4><br/>
+                            
                                 {% if form_1.errors %}
                                     {% for error in form_1.errors %}
                                         {{ error }}
@@ -195,9 +195,7 @@
                                         <button type='submit' class='btn btn-secondary mx-auto d-block'>buy</button>
                                     </form>
                                 {% endif %}
-                            {% else %}
-                                <p>&nbsp;&nbsp;<a href='{% url 'order:order_create_pay' product.id %}'>Pay on Delivery</a></p>
-                            {% endif %}        
+                                    
                         </div>
                         
                         <div class="modal-footer">
@@ -262,10 +260,10 @@
                         </h2>
 
                         <hr>
-                        <h2 class="price-container text-muted">
-                            ₦{{ product.price|intcomma }}
+                        <h4 class="price-container text-muted">
+                            <small>₦{{ product.price|intcomma }}</small>
                             <!--<small>*includes tax</small>-->
-                        </h2>
+                        </h4>
                         <div class="certified">
                             <ul style='list-style-type:none'>
                                 <li><em30 minutes delivery time</em></li>

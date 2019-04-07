@@ -15,7 +15,7 @@ class UserRegistrationForm(forms.ModelForm):
 
     password2 = forms.CharField(label='Repeat password',
                                 widget=forms.PasswordInput)
-    phone_number = forms.CharField(label='Phone Number')                            
+                                
 
     gender = forms.TypedChoiceField(choices=GENDER, coerce=str)
 

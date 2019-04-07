@@ -27,7 +27,7 @@ class Profile(models.Model):
 
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='profile')
     #image = models.ImageField(upload_to='users/%y/%m/%d', blank=True, db_index=True)  # can be left out.
-    image = ImageField(upload_to='users/%y/%m/%d', blank=True, db_index=True)
+    image = ImageField(upload_to='users/%y/%m/%d', blank=True,db_index=True)
     phone = models.DecimalField(max_digits=13, decimal_places=0, blank=True, null=True, db_index=True)  # can also be left out.
     gender = models.CharField(max_length=50)  # male or female
     created = models.DateTimeField(default=timezone.now)
@@ -38,15 +38,15 @@ class Profile(models.Model):
         super(Profile, self).save(*args, **kwargs)
 
     def compressImage(self,image):
-        imageTemproary = Image.open(image)
-        imi = imageTemproary.convert('RGB')
-        imi = imi.filter(ImageFilter.DETAIL)
-        outputIoStream = BytesIO()
-        imageTemproaryResized = imageTemproary.resize( (1020,573) ) 
-        imi.save(outputIoStream , format='JPEG', quality=50)
-        outputIoStream.seek(0)
-        image = InMemoryUploadedFile(outputIoStream,'ImageField', "%s.jpg" % image.name.split('.')[0], 'image/jpeg', sys.getsizeof(outputIoStream), None)
-        return image
+        if self.image:
+            imageTemproary = Image.open(image)
+            imi = imageTemproary.convert('RGB')
+            outputIoStream = BytesIO()
+            imageTemproaryResized = imageTemproary.resize( (1020,573) ) 
+            imi.save(outputIoStream , format='JPEG', quality=50)
+            outputIoStream.seek(0)
+            image = InMemoryUploadedFile(outputIoStream,'ImageField', "%s.jpg" % image.name.split('.')[0], 'image/jpeg', sys.getsizeof(outputIoStream), None)
+            return image
 
     def __str__(self):
         return 'Profile for {}'.format(self.user.username)

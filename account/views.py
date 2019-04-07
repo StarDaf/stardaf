@@ -112,7 +112,7 @@ def register(request):
             Contact.objects.get_or_create(user_from=new_user, user_to=User.objects.get(id=1))
             #account_created.delay(new_user.id)  # set asynchronous task in queue.
             # create profile for user
-            Profile.objects.create(user=new_user, phone=int(cd['phone_number']))
+            Profile.objects.create(user=new_user)
             subject = 'Welcome to stardaf'
             message = 'Hello Dear!!, You have arrived at the first ultimate social commerce site in the world!\nWhere you can browse cool products and also set your business online\nThank you\n\nTeam StarDaf.'
 

@@ -41,6 +41,8 @@ class AddProductForm(forms.ModelForm):
         super(AddProductForm, self).__init__(*args, **kwargs)
         self.fields['photo'].required = True
         self.fields['description'].required = True
+        self.fields['price'].required = True
+        self.fields['stock'].required = True
 
     class Meta:
         model = Product
@@ -48,10 +50,8 @@ class AddProductForm(forms.ModelForm):
 
         widgets = {
             'available' : forms.HiddenInput,
-            'name':forms.TextInput(attrs={'placeholder':'sunan kaya'}),
-            'description' : forms.Textarea(attrs={'placeholder':'bayanin kaya'}),
-            'price' : forms.TextInput(attrs={'placeholder':'kudin kaya'}),
-            'stock':forms.TextInput(attrs={'placeholder':'samfur nawa ne?'}),
+            'tags':forms.TextInput(attrs={'placeholder':'eg: fashion, clothing, zafas'}),
+            
 
         }
 
@@ -85,4 +85,5 @@ class AddPostForm(forms.ModelForm):
             'paragraph_4' : forms.Textarea(attrs={'placeholder':'optional(can be left blank)'}),
             'paragraph_5' : forms.Textarea(attrs={'placeholder':'optional(can be left blank)'}),
             'question' : forms.Textarea(attrs={'placeholder':'can be left blank'}),
+            'tags':forms.TextInput(attrs={'placeholder':'eg: fashion, zahraKitchen'}),
         }

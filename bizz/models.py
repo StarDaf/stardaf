@@ -186,7 +186,6 @@ class Product(models.Model):
     def compressImage(self,logo):
         imageTemproary = Image.open(logo)
         imi = imageTemproary.convert('RGB')
-        imi = imi.filter(ImageFilter.DETAIL)
         outputIoStream = BytesIO()
         imageTemproaryResized = imageTemproary.resize( (1020,573) ) 
         imi.save(outputIoStream , format='JPEG', quality=50)
