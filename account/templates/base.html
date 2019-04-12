@@ -103,14 +103,14 @@
          </div>-->
           
           
-<a class="active" href="{% url 'account:stream' %}" {% if section == 'streams' %}style='color:red'{% else %}style='color:inherit'{% endif %}><i class="fa fa-fw fa-hashtag fa-2x"></i></a> 
+<a class="active" href="{% url 'account:stream' %}" {% if section == 'streams' %}style='color:red'{% else %}style='color:grey'{% endif %}><i class="fa fa-fw fa-hashtag fa-lg"></i></a> 
 
- <a href="{% url 'account:market' %}" {% if section == 'market' %}style='color:red'{% else %}style='color:inherit'{% endif %}><i class="fa fa-fw fa-fort-awesome fa-2x"></i></a>  
+ <a href="{% url 'account:market' %}" {% if section == 'market' %}style='color:red'{% else %}style='color:grey'{% endif %}><i class="fa fa-fw fa-fort-awesome fa-lg"></i></a>  
 {% comment %} <a href="{% url 'bizz:election' request.user.id %}" {% if section == 'election' %}style='color:red'{% else %}style='color:inherit'{% endif %}><i class="fa fa-fw fa-percent fa-2x"></i></a>    {% endcomment %}
     {% if request.user.shop %}
-        <a href="{% url 'bizz:add_product' request.user.shop.id %}" {% if section == 'add' %}style='color:red'{% else %}style='color:inherit'{% endif %}><i class="fa fa-fw fa-upload  fa-2x"></i></a> 
+        <a href="{% url 'bizz:add_product' request.user.shop.id %}" {% if section == 'add' %}style='color:red'{% else %}style='color:grey'{% endif %}><i class="fa fa-fw fa-upload  fa-lg"></i></a> 
     {% else %}
-            <a href="{% url 'bizz:post' request.user.id %}" style='color:inherit'><i class="fa fa-fw fa-upload  fa-2x"></i></a>  
+            <a href="{% url 'bizz:post' request.user.id %}" style='color:grey'><i class="fa fa-fw fa-upload  fa-lg"></i></a>  
     {% endif %}
 
   
@@ -125,9 +125,9 @@
       <div class="navbar fixed-bottom" style='background-color:whitesmoke' id='navbar_nav_anonymous'>
                 
           
-<a class="active" href="{% url 'account:stream' %}" {% if section == 'streams' %}style='color:grey'{% endif %}><i class="fa fa-fw fa-home fa-2x"></i></a> 
+<a class="active" href="{% url 'account:stream' %}" {% if section == 'streams' %}style='color:red'{% else %}style='color:grey'{% endif %}><i class="fa fa-fw fa-home fa-lg"></i></a> 
 
-<a href="{% url 'account:market' %}" {% if section == 'market' %}style='color:grey'{% endif %}><i class="fa fa-fw fa-search fa-2x"></i></a>  
+<a href="{% url 'account:market' %}" {% if section == 'market' %}style='color:red'{% else %}style='color:grey'{% endif %}><i class="fa fa-fw fa-search fa-lg"></i></a>  
 
 
     

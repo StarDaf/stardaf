@@ -2,13 +2,13 @@
 <div id="columns">
 {% for item in all %}
     
-         {% if item.video %}
+         {% comment %} {% if item.video %}
             <figure>
             <a href='{{ item.get_absolute_url }}'>
                 <video  id= "packt" controls= "controls" poster="{% if item.image %}{{ item.image.url }}{% else %}{{ item.photo.url }}{% endif %}"><source src="{{ item.video.url }}"></video>
             </a>
             </figure>
-        {% endif %}  
+        {% endif %}   {% endcomment %}
         {% if item.photo %}
         <a href='{{ item.get_absolute_url }}'>
             <figure data-toggle="tooltip" data-placement="top"  title="{{ item.name }}">

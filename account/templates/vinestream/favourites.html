@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block css %}
+    
+    <link rel='stylesheet' href="{% static 'css/mason1.css' %}">
+{% endblock %}
 
 {% block title %}
     {{ user.username }}'s favourites
@@ -9,7 +14,7 @@
     <br/><br/>
     <h3 class='text-muted'>@{{ user.username }}'s favourites</h3><br/>
 
-      <div class="row">
+      {% comment %} <div class="row">
                 {% for product in user.product_liked.all %}
 
 
@@ -51,5 +56,22 @@
                 {% empty %}
                       &nbsp;&nbsp;&nbsp;&nbsp;No products liked yet.
                 {% endfor %}
-                </div>
+                </div> {% endcomment %}
+
+                <div id="columns">
+{% for item in user.product_liked.all %}
+     
+        {% if item.photo %}
+        <a href='{{ item.get_absolute_url }}'>
+            <figure data-toggle="tooltip" data-placement="top"  title="{{ item.name }}">
+                <img src="{{ item.photo.url }}">
+            </figure>
+        </a>    
+        {% endif %}
+        
+          
+         
+    
+{% endfor %}   
+</div>
 {% endblock %}

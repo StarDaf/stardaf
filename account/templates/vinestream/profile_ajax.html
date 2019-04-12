@@ -1,10 +1,32 @@
 {% load humanize %}
 {% load widget_tweaks %}
-{% for product in products %}
+{% block css %}
+{% load static %}
+    
+    <link rel='stylesheet' href="{% static 'css/mason1.css' %}">
+{% endblock %}
+<div id="columns">
+{% for item in products %}
+    
+          
+        {% if item.photo %}
+        <a href='{{ item.get_absolute_url }}'>
+            <figure data-toggle="tooltip" data-placement="top"  title="{{ item.name }}">
+                <img src="{{ item.photo.url }}">
+            </figure>
+        </a>    
+        {% endif %}
+        
+          
+         
+    
+{% endfor %}   
+</div>
+{% comment %} {% for product in products %}
 
 
                       <div class="col-sm-3">
-                      <div class="card">
+                      <div class="card"> {% endcomment %}
                       {% comment %} {% if not product.video %}
                         <a href='{{ product.get_absolute_url }}'><img class="card-img-top" src="{{ product.photo.url }}" alt="{{ product.id }}" style='height:auto'></a>
                       {% else %}
@@ -15,7 +37,7 @@
                         </video></a>
 
                       {% endif %} {% endcomment %}
-                      <a href='{{ product.get_absolute_url }}'>
+                      {% comment %} <a href='{{ product.get_absolute_url }}'>
                       <div id="carousel_{{ product.id }}" class="carousel slide" data-interval="false">
   <!--Indicators-->
   <ol class="carousel-indicators">
@@ -23,14 +45,14 @@
     <li data-target="#carousel_{{ product.id }}" data-slide-to="1" {% if not product.video %}class='active'{% endif %}></li>
     {% if product.photo1 %}<li data-target="#carousel_{{ product.id }}" data-slide-to="2"></li>{% endif %}
     {% if product.photo2 %}<li data-target="#carousel_{{ product.id }}" data-slide-to="3"></li>{% endif %}
-    {% if product.photo3 %}<li data-target="#carousel_{{ product.id }}" data-slide-to="4"></li>{% endif %}
+    {% if product.photo3 %}<li data-target="#carousel_{{ product.id }}" data-slide-to="4"></li>{% endif %} {% endcomment %}
     
-  </ol>
+  {% comment %} </ol>
   <!--/.Indicators-->
   <!--Slides-->
   <div class="carousel-inner" role="listbox">
-    <!--First slide-->
-    {% if product.video  %}
+    <!--First slide--> {% endcomment %}
+     {% comment %} {% if product.video  %}
         <div class="carousel-item active">
             
                 <video width="100%" height="100%"  controls {% if product.photo %}poster="{{ product.photo.url }}"{% endif %}>
@@ -39,10 +61,10 @@
                     </video>
             
         </div>
-    {% endif %}
+    {% endif %} {% endcomment %}
     <!--/First slide-->
     <!--Second slide-->
-    {% if product.photo %}
+    {% comment %} {% if product.photo %}
     <div class="carousel-item {% if not product.video %}active{% endif %}">
         
             <img class="card-img-top" src="{{ product.photo.url }}" style='height:auto; width:100%;' alt="First slide">
@@ -59,8 +81,8 @@
     </div>
     {% endif %}
     <!--/Third slide-->
-    {% if product.photo2 %}
-    <div class="carousel-item ">
+    {% if product.photo2 %} {% endcomment %}
+    {% comment %} <div class="carousel-item ">
         
             <img class="card-img-top" src="{{ product.photo2.url }}" style='height:auto; width:100%;' alt="First slide">
            
@@ -83,13 +105,13 @@
   </a>
   {% endif %}
   <!--/.Controls-->
-</div></a>
+</div></a> {% endcomment %}
 <!--/.Carousel Wrapper-->
 
-                        <div class="card-body">
+                         {% comment %} <div class="card-body"> {% endcomment %}
                         {% comment %} <button type="button" class="btn btn-outline-primary btn-sm" style='width:40%' data-toggle="modal" data-target="#exampleModalLong_{{ product.id }}">buy</button> {% endcomment %}
                         {% comment %} <button type="button" class="btn btn-outline-primary btn-sm float-right mx-2" style='width:40%' ><a href="https://wa.me/234{{ product.shop.owner.profile.phone }}?text=I'm interested in your {{ product.name }} for sell.">chat</a></button><br/> {% endcomment %}
-                          <a href='#' data-id='{{ product.id }}'
+                          {% comment %} <a href='#' data-id='{{ product.id }}'
                          data-action='{% if request.user in product.users_like.all %}un{% endif %}like' class='like'
                            id='{{ product.id }}'>
                         {% if request.user not in product.users_like.all %}
@@ -99,7 +121,7 @@
                             <i class="fa fa-heart "></i>
                             <!--Like-->
                         {% endif %}
-                </a>&nbsp;&nbsp;
+                </a>&nbsp;&nbsp; 
                  <a><i class="fa fa-credit-card-alt" data-toggle="modal" data-target="#exampleModalLong_{{ product.id }}"></i></a> 
                 <!--modal begins-->
                   <div class="modal fade" id="exampleModalLong_{{ product.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
@@ -118,7 +140,7 @@
                                   {% for error in form_1.errors %}
                                       {{ error }}
                                   {% endfor %}
-                              {% else %}    
+                              {% else %}     
                                 
                                   <form method='get' action='{% url 'order:buy' product.id %}'>
                                       {% for field in form_1.visible_fields %}
@@ -137,9 +159,9 @@
                         </div>
                         </div>
                     </div>
-                </div>
+                </div> {% endcomment %}
                 <!--modal end-->
-                &nbsp;
+                 {% comment %} &nbsp;
                 <span><a href="{{ product.get_absolute_url }}"  style="text-decoration: none;">
                     <span class="text-muted"><i class="fa fa-eye"></i>
                             {{ product.total_views }}
@@ -158,12 +180,12 @@
       <div class="modal-body">
             <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.stardaf.com/{{ product.get_absolute_url }}&t={{ product.name }}"
    target="_blank" title="Share on Facebook"><i class='fa fa-facebook fa-2x'></i>
-</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://wa.me/?text=Checkout {{ product.name }} @ www.stardaf.com{{ product.get_absolute_url }}"><i class='fa fa-whatsapp fa-2x'></i></a>
+</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://wa.me/?text=Checkout {{ product.name }} @ www.stardaf.com{{ product.get_absolute_url }}"><i class='fa fa-whatsapp fa-2x'></i></a> {% endcomment %}
 {% comment %} <a href="https://twitter.com/share?url=https://www.stardaf.com/bizz/3/apple/Faisal/&via=TWITTER_HANDLE&text=Checkout my product"
    onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');return false;"
    target="_blank" title="Share on Twitter"><i class='fa fa-twitter'></i>
 </a> {% endcomment %}
-      </div>
+       {% comment %} </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         
@@ -172,10 +194,10 @@
   </div>
 </div>
                 <span class="float-right mx-2"><a href='{% if not request.user.is_authenticated %}{% url 'account:register' %}{% else %}{% url 'bizz:recommend' request.user.id product.id %}{% endif %}'><i class="fa fa-hand-spock-o pull-right icons"></i></a></span>
-                 <span class="float-right mx-2"><a href="https://wa.me/234{{ product.shop.owner.profile.phone }}?text=" style='color:green'><span class='fa fa-whatsapp pull-right icons'></a></span> 
+                 <span class="float-right mx-2"><a href="https://wa.me/234{{ product.shop.owner.profile.phone }}?text=" style='color:green'><span class='fa fa-whatsapp pull-right icons'></a></span>  {% endcomment %}
                 {% comment %} <span class="float-right mx-2"><a href='{% url 'cart:home' product.pk %}'><i class="fa fa-plus-circle pull-right icons"></i></a></span> {% endcomment %}
-                          <h5 class="card-title"><a href='{{ product.get_absolute_url }}'>{{ product.name }}</a></h5>
-                          <p class="card-text">{{ product.description|truncatewords:15 }}<br/>
+                          {% comment %} <h5 class="card-title"><a href='{{ product.get_absolute_url }}'>{{ product.name }}</a></h5>
+                          <p class="card-text">{{ product.description|truncatewords:15 }}<br/> 
                           stock: {{ product.stock }}<br/>
                             {% if request.user.id == user.shop.owner.id %}
                               <form action="{% url 'bizz:stock' product.id %}" method='post'>
@@ -207,4 +229,4 @@
                 {% else %}
                  
                 {% endif %}    
-                {% endfor %}
+                {% endfor %}  {% endcomment %}
