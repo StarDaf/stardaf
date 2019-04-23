@@ -33,6 +33,7 @@ urlpatterns = [
     url(r'^market/(?P<market>[-\w]+)/$', views.filter_shops, name='farmcenter'),
     url(r'(?P<username>[-\w]+)/followers/', views.followers, name='followers'),
     url(r'(?P<username>[-\w]+)/following/', views.following, name='following'),
+    url(r'self-delete/(?P<admin_id>\d+)/', views.self_delete, name='delete'),
                                                        
 ]
 

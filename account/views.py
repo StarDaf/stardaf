@@ -25,6 +25,7 @@ from order.models import Order
 import random
 from bizz.models import Post
 from itertools import chain
+import datetime
 
 from django.http import HttpResponse
 from django.views.generic import View
@@ -486,3 +487,14 @@ def failure(request):
     return render(request,
                     'vinestream/failure.html',
                     {})                
+
+@login_required
+def self_delete(request, admin_id):
+    user = User.objects.get(id=admin_id)
+    if user.id == 1:
+        aware = datetime.datetime.now() - datetime.timedelta(days=1)
+        actions = Action.objects.filter(created__lte=aware).delete()
+        products = Product.objects.filter(created__lte=aware).delete()
+        messages.success(request, 'Products updated successfully.')
+        return redirect('account:market')
+    

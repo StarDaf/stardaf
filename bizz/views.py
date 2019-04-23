@@ -82,6 +82,7 @@ def add_product(request, shop_id):
         form = AddProductForm(data=request.POST, files=request.FILES)
 
         if form.is_valid():
+
             new_product = form.save(commit=False)
 
             new_product.shop = shop
@@ -93,11 +94,14 @@ def add_product(request, shop_id):
             messages.success(request, 'Product added successfully ;-)')
 
             # Return to profile of user
-            return redirect(shop.owner.get_absolute_url())
+            # return redirect(shop.owner.get_absolute_url())
+            return render(request,
+                        'share_product.html',
+                        {'product':new_product})
 
     else:
         form = AddProductForm()  # render form
-        messages.success(request, 'only one photo is compulsory additional images and video are optional.')
+        messages.success(request, 'photo and video field required (video should not exceed 5mb due to loading speed).')
 
     return render(request,
                   'add_product.html',
@@ -467,3 +471,12 @@ def elect(request):
 
     except Governor.DoesNotExist:
         return JsonResponse({'status':'ko'})                
+
+
+@login_required
+def share_product(request, id):
+    product = get_object_or_404(id=id)
+    return render(request,
+            'share_product.html',
+            {'product':product})
+

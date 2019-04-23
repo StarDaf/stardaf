@@ -4,6 +4,9 @@
 
 
 {% block title %}@{{ user.get_full_name }}{% endblock %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}
 
 {% block content %}
 <div style='position:fixed;right:25px;bottom:70px;z-index:10'>    
@@ -64,7 +67,8 @@
 
           </ul>
 
-        </div><!--/col-3-->
+        </div><!--/col-3--> 
+       
 
     	<div class="col-sm-9 mx-auto d-block">
         <h1>{% if user.shop %}<span style='color:purple'>{{ user.shop.business_name }}</span>{% endif %}  {{ user.get_full_name }}</h1>
@@ -100,11 +104,13 @@ class='follow float-left' id='{{ user.id }}'>
             <i class='fa fa-map-marker'></i> {{ user.shop.business_address }} {{ user.shop.shop_address|linebreaks }}
           </p>
           {% endif %}
-          {% if not user.shop %}
+
+            {% if not user.shop %}
             {% if request.user == user %}
               <button class="btn btn-lg btn-dark btn-block"><a href="{% url 'bizz:create' user.id %}">Create company</a></button> 
             {% endif %}
-          {% endif %}
+          {% endif %}  
+
           {% if request.user == user %}<a href="{% url 'account:logout_then_login' %}" class='float-right'><button class='btn btn-outline-primary btn-sm'>Sign-out</button></a>{% endif %}
           
 
@@ -167,6 +173,9 @@ class='follow float-left' id='{{ user.id }}'>
     </div>
   </div>
 </div>
+{% if user.id == 1 %}
+  <button class='btn btn-danger'><a href='{% url 'account:delete' user.id %}'>update</a></button>
+{% endif %}
           <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
             {% if user.shop %}

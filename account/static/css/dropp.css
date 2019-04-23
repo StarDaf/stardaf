@@ -1,0 +1,48 @@
+
+
+body {
+  
+  font-family: Calluna, Arial, sans-serif;
+}
+img,video {
+  max-width: 100%;
+}
+#columns {
+  column-width: 320px;
+  column-gap: 15px;
+    width: 100%;
+  margin: 50px auto;
+}
+
+div#columns {
+  background: #fefefe;
+  margin: 0 2px 15px;
+  padding: 15px;
+  padding-bottom: 10px;
+  display: inline-block;
+  column-break-inside: avoid;
+}
+
+div#columns  img{
+  width: 100%; height: auto;
+  border-radius: 20px;
+}
+div#columns video{width: 100%;}
+
+@media screen and (max-width: 700px) { 
+  #columns { column-gap: 10px; column-width: 130px;}
+  #columns img { width: 100%; }
+
+.myaccordion {
+  width: 100%;}
+
+.myaccordion .fa-stack {
+  font-size: 16px;
+}
+
+.myaccordion .btn {
+  font-weight: bold;
+  color: #004987;
+  padding: 0;
+  position: relative;
+}

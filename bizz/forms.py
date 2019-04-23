@@ -43,16 +43,18 @@ class AddProductForm(forms.ModelForm):
         self.fields['description'].required = True
         self.fields['price'].required = True
         self.fields['stock'].required = True
+        self.fields['video'].required = True
+    # image = forms.ImageField(widget=forms.ClearableFileInput(attrs={'multiple':True}))
 
     class Meta:
         model = Product
-        fields = ('category', 'name', 'tags','photo', 'photo1', 'photo2', 'photo3', 'video', 'description', 'price', 'stock', 'available')
+        fields = ( 'name', 'tags','photo', 'video', 'description', 'price', 'stock', 'payment_link', 'available')
 
         widgets = {
             'available' : forms.HiddenInput,
-            'tags':forms.TextInput(attrs={'placeholder':'eg: fashion, clothing, zafas'}),
+            'tags':forms.TextInput(attrs={'placeholder':'eg: fashion, zahra kitchen, zafas'}),
+            'payment_link':forms.TextInput(attrs={'placeholder':'optional, if you have an online payment link'}),
             
-
         }
 
 

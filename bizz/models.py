@@ -147,9 +147,11 @@ class Product(models.Model):
     stock = models.PositiveIntegerField(blank=True, null=True, default=0)  # quantity of product available
     #photo = models.FileField(upload_to='products/%y/%m/%d', blank=True, null=True)  # image of product
     photo = ImageField(upload_to='products/%y/%m/%d', blank=True, null=True)
+    photo0 = ImageField(upload_to='products/%y/%m/%d', blank=True, null=True, default='')
     photo1 = ImageField(upload_to='products/%y/%m/%d', blank=True, null=True, default='')
     photo2 = ImageField(upload_to='products/%y/%m/%d', blank=True, null=True, default='')
     photo3 = ImageField(upload_to='products/%y/%m/%d', blank=True, null=True, default='')
+    payment_link = models.CharField(max_length=10000, blank=True)
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

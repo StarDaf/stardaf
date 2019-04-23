@@ -2,20 +2,22 @@
 <div id="columns">
 {% for item in all %}
     
-         {% comment %} {% if item.video %}
+          {% comment %} {% if item.video %}
             <figure>
             <a href='{{ item.get_absolute_url }}'>
                 <video  id= "packt" controls= "controls" poster="{% if item.image %}{{ item.image.url }}{% else %}{{ item.photo.url }}{% endif %}"><source src="{{ item.video.url }}"></video>
             </a>
             </figure>
-        {% endif %}   {% endcomment %}
-        {% if item.photo %}
+        {% endif %}     {% endcomment %}
+          {% if item.photo %}
         <a href='{{ item.get_absolute_url }}'>
             <figure data-toggle="tooltip" data-placement="top"  title="{{ item.name }}">
                 <img src="{{ item.photo.url }}">
             </figure>
         </a>    
-        {% endif %}
+        
+   
+        {% endif %} 
         
           {% if item.business_name %} 
           <a href='{{ item.owner.get_absolute_url }}'>
@@ -30,8 +32,7 @@
                 <img src="{{ item.image.url }}">
             </figure>
             </a>
-         {% endif %}
-         
+         {% endif %} 
     
 {% endfor %}   
 </div>

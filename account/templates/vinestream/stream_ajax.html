@@ -280,7 +280,11 @@
                 </a>
                {% endwith %}
                &nbsp;&nbsp;&nbsp;
-                {% if not action.verb == 'post' %}{% if target.price > 0.00 %}<a><i class="fa fa-credit-card-alt" data-toggle="modal" data-target="#exampleModalLong_{{ action.id }}"></i></a>{% endif %}{% endif %} &nbsp;
+                {% if not action.verb == 'post' %}{% if target.price > 0.00 %}
+                  {% if target.payment_link %}<a href='{{ target.payment_link }}'><i class="fa fa-credit-card-alt"></i></a>{% else %}<a><i class="fa fa-credit-card-alt" data-toggle="modal" data-target="#exampleModalLong_{{ action.id }}"></i></a>{% endif %}
+
+                  
+                  {% endif %}{% endif %} &nbsp;
                {% comment %} &nbsp;&nbsp; {% endcomment %}
                <span><a href="{{ target.get_absolute_url }}"  style="text-decoration: none;">
                     <span class="text-muted"><i class="fa fa-eye"></i>
@@ -300,7 +304,7 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLong_{{ action.id }}Title"><a href='{{ target.get_absolute_url }}' style='text-decoration:none'>{{ target.name }}</a>  &nbsp;&nbsp;&nbsp;<b>free delivery within kano</b><br/><small>7 days return policy</small><br/><small>delivery time: 1 day</small></h5>
+                            <h5 class="modal-title" id="exampleModalLong_{{ action.id }}Title"><a href='{{ target.get_absolute_url }}' style='text-decoration:none'>{{ target.name }}</a>  &nbsp;&nbsp;&nbsp;<br/><small>7 days return policy</small><br/><small>delivery time: 1 day</small></h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                             </button>

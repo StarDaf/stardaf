@@ -16,6 +16,8 @@
 {% block css %}
     {% comment %} <link rel='stylesheet' href="{% static 'css/all.min.css' %}"> {% endcomment %}
     <link rel='stylesheet' href="{% static 'css/mason1.css' %}">
+    <link rel='stylesheet' href="{% static 'css/dropp.css' %}">
+    {% comment %} <link rel='stylesheet' href="{% static 'css/see.css' %}">  {% endcomment %}
 {% endblock %}
 
 
@@ -63,7 +65,7 @@
         </div>
     {% endif %}    
     {% if query %}<br/><br/>
-        <h1>Products containing "{{ query }}"</h1>
+          {% comment %} <h1>Products containing "{{ query }}"</h1>
 
             <h3>
                 <!-- to avo id hitting the database more than once (efficiency matters) -->
@@ -73,8 +75,8 @@
 
             </h3>
 
-        <div class='row'>
-            {% for product in results %}
+        <div class='row'> {% endcomment %}
+            {% comment %} {% for product in results %}
             {% with product.shop as shop %}
                 {% with total_followers=shop.owner.followers.count %}
 
@@ -110,16 +112,26 @@
                         </div>
                     </div><br/>
             </a>        
-            </div>    
+            </div>     
 
-        {% endwith %}
+         {% endwith %}
         {% endwith %}
             {% empty %}
 
                     <p>Their are no results for your query.</p>
 
-            {% endfor %}
-        </div>    
+            {% endfor %} {% endcomment %}
+        {% comment %} </div>        {% endcomment %}
+        <div id="columns">
+        {% for product in results %}
+            <a href='{{ product.get_absolute_url }}'>
+            <figure data-toggle="tooltip" data-placement="top"  title="{{ product.name }}">
+                <img src="{{ product.photo.url }}">
+            </figure>
+        </a>
+        {% endfor %}
+        </div>
+
     {% else %}
         <form action='.' method='get'>
                 {% for field in form.visible_fields %}
@@ -199,15 +211,7 @@
                 </div>     </a>
     {% endfor %}
 {% else %}
-    <form action='.' method='get'>
-                {% for field in form1.visible_fields %}
-                <strong>
-                    <label id='field.id_for_label'>{{ field.label }}:</label>
-                    {{ field|add_class:'form-control' }}
-                </strong>
-                {% endfor %}
-                
-            </form>    
+       
 {% endif %}
     <!--end-->
 <div class='one' style='padding: 7px'>

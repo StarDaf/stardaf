@@ -168,12 +168,12 @@
                                 like{{ total_likes|pluralize }}
                             {% endwith %}
                         </span>&nbsp;
-                         <a><i class="fa fa-credit-card-alt" data-toggle="modal" data-target="#exampleModalLong_{{ product.id }}"></i></a> 
+                         {% if product.payment_link %}<a href='{{ product.payment_link }}'><i class="fa fa-credit-card-alt"></i></a>{% else %}<a><i class="fa fa-credit-card-alt" data-toggle="modal" data-target="#exampleModalLong_{{ product.id }}"></i></a> {% endif %}
                         <div class="modal fade" id="exampleModalLong_{{ product.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLong_{{ product.id }}Title"><a href='{{ product.get_absolute_url }}' style='text-decoration:none'>{{ product.name }}</a> &nbsp;&nbsp;<b>free delivery within kano</b><br/><small>7 days return policy</small><br/><small>delivery time: 1 day</small></h5>
+                            <h5 class="modal-title" id="exampleModalLong_{{ product.id }}Title"><a href='{{ product.get_absolute_url }}' style='text-decoration:none'>{{ product.name }}</a> &nbsp;&nbsp;<br/><small>7 days return policy</small><br/><small>delivery time: 1 day</small></h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                             </button>
@@ -291,7 +291,11 @@
                                     </a>
                                         <span class='text-muted'>{{ product.name }}</span>
                                     {% empty %}
-                                    {% endfor %}<br/><br/>
+                                    {% endfor %}<br/>
+                                    {% if request.user.id == product.shop.owner.id %}
+                                    <button class='btn btn-danger btn-block'><a href="{% url 'bizz:delete' product.id %}">Delete</a></button>
+                                    {% endif %}
+                                    <br/>
                                         <span class="fa fa-2x"><h5>({{ product.comments.count }}) </h5></span>
                             Comment{{ product.comments.count|pluralize }}  {% if request.user.is_anonymous %}<small style="color:red"><a href='{% url 'account:register' %}'>Create account to comment</a></small> or
                             <small style='color:blue'><a href='{% url 'account:login' %}'>Login</a></small> to comment{% endif %}

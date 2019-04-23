@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/share.css' %}">
+{% endblock %}
+
+{% block title %}
+    Share product link
+{% endblock %}
+
+{% block content %}
+   
+    <br><br>
+    <br>
+    <div class="container">
+        <h2 class="text-center">Your product will auto delete after 24 hours.quickly share link with all your contacts .</h2>
+        <p>Share your product</p>
+<img src="{{ product.photo.url }}" class="img-fluid mx-auto d-block rounded" alt="Responsive image">
+<br>
+  <div class="form-row">
+    <div class="col">
+      <input class="form-control"  type="text" value="https://www.stardaf.com{{ product.get_absolute_url }}" >
+    </div>
+    {% comment %} <div class="col">
+       <button type="submit" class="btn btn-primary mb-2">copy</button>
+    </div> {% endcomment %}
+  </div>
+        <div class="row">
+        <div class="col-md-12">
+          <ul class="social-network">
+          
+            <li><a href="https://www.facebook.com/sharer/sharer.php?u=https://www.stardaf.com{{ product.get_absolute_url }}&t={{ product.name }} 24 hours remaining." target="_blank">
+                <span class="fa-stack fa-2x">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                </span></a>
+            </li>
+            {% comment %} <li><a href="#">
+                <span class="fa-stack fa-2x">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-instagram fa-stack-1x fa-inverse"></i>
+                </span></a>
+            </li> {% endcomment %}
+            {% comment %} <li><a href="#">
+                <span class="fa-stack fa-2x">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                </span></a>
+            </li> {% endcomment %}
+            <li><a href="https://wa.me/?text= {{ product.name }} @ www.stardaf.com{{ product.get_absolute_url }}">
+                <span class="fa-stack fa-2x">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-whatsapp fa-stack-1x fa-inverse"></i>
+                </span></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div><br/><br/><br/><br/>
+{% endblock %}

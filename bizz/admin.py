@@ -16,7 +16,10 @@ class ProductAdmin(admin.ModelAdmin):
     list_editable = ('price', 'stock', 'available')
     raw_id_fields = ('shop',)
     prepopulated_fields = {'slug':('shop',)}
+    
+    date_hierarchy = 'created'
     # inlines=[CommentAdminTable]
+    
 
     class Media:
         js = ['/static/js/progress_bar.js']

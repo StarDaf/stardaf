@@ -1,0 +1,33 @@
+img{width: 50%; height: auto; border-radius: 20%;}
+h2 {
+    font-family: sans-serif;
+    font-size: 
+}
+p {text-align: justify; font-size: 25px;}
+ul.social-network {
+	margin: 0;
+	margin-left:0;
+	padding-left: 0;
+	list-style: none;
+}
+ul.social-network li {
+	display: inline;
+	margin: 5px 5px;
+}
+
+
+ul.social-network li a:hover span .fa-circle {
+	color: #2b2b2b;
+}
+
+ul.social-network li a i{
+  transition: 0.3s
+}
+@media screen and (max-width:574px){
+    p{font-size: 20px;}
+    .description {
+  margin-left: 80px;
+  line-height: 24px;
+  font-size: 20px;
+}
+}
