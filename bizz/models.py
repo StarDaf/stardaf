@@ -156,7 +156,7 @@ class Product(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     available = models.BooleanField(default=False)  # can be user to disable products
-    description = models.TextField()
+    description = models.TextField(blank=True)
     users_like = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='product_liked', blank=True) # user.product_liked.all()
     users_hate = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='product_hated', blank=True)
     total_views = models.PositiveIntegerField(default=0)

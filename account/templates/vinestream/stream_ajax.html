@@ -150,7 +150,7 @@
         
         {% if not target.video %}
             <a href='{% url "bizz:post_text" target.id target.title %}'>
-            <img src='{{ target.image.url }}' style='height:auto; width:100%; padding:0px; border-radius:15px 50px 30px'/>
+            <img src='{{ target.image.url }}' style='height:auto; width:100%; padding:0px; border-radius:10px 10px 10px 10px'/>
             </a>
         {% else %}
             <a href='{% url "bizz:post_text" target.id target.title %}'>

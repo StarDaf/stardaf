@@ -5,7 +5,7 @@
 
 {% block title %}@{{ user.get_full_name }}{% endblock %}
 {% block css %}
-  <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+  <link rel="stylesheet" href="{% static 'css/myprofile.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -46,8 +46,8 @@
 <div class="container">
     
       <br>
-    <div class="row">
-  		<div class="col-sm-3"><!--left col-->
+     
+  		{% comment %} <div class="col-sm-3"><!--left col-->
 
 
       <div class="text-center">
@@ -67,8 +67,46 @@
 
           </ul>
 
-        </div><!--/col-3--> 
-       
+        </div><!--/col-3-->  {% endcomment %}
+
+      <div class="container">
+		<header>
+			
+			<div class="logocontainer">
+                <div class="image-circle">
+                    <img src="{% if user.profile.image %}{{ user.profile.image.url }}{% else %}{% static 'img/no_image.png'%}{% endif %}" alt="avatar" class="avatar"></div>
+               
+				<!--<div class="hover">
+						<div><img src="asset/image/favicon%20-%20Copy.png"</div>
+				</div>-->
+			</div>
+        </header>
+        
+            </div>
+
+		<div class="content">
+			<div class="data">
+				<ul>
+			
+          <li>
+						{{ user.product_liked.count }}
+						<span>Likes</span>
+					</li>
+                    <li>
+						{{ user.followers.count }}
+						<span>Followers</span>
+					</li>
+					<li>
+            {{ user.following.count }}
+						<span>Following</span>
+					</li>
+				</ul>
+			</div>
+
+		
+     
+    </div>
+       <div class="row"> 
 
     	<div class="col-sm-9 mx-auto d-block">
         <h1>{% if user.shop %}<span style='color:purple'>{{ user.shop.business_name }}</span>{% endif %}  {{ user.get_full_name }}</h1>
