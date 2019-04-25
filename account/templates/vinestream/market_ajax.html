@@ -6,11 +6,11 @@
             <figure>
            
                 <video  id= "packt" controls= "controls" poster="{% if item.image %}{{ item.image.url }}{% else %}{{ item.photo.url }}{% endif %}" preload="none"><source src="{{ item.video.url }}"></video>
-            
+                <a href='{{ item.get_absolute_url }}'>
+            <button class='btn btn-danger btn-sm'><i class="fa fa-angle-double-down fa-sm"></i></button></small>
+            </a>    
             </figure>
-             <a href='{{ item.get_absolute_url }}'>
-            <small><button class='btn btn-danger btn-sm'><i class="fa fa-angle-double-down fa-sm"></i></button></small>
-            </a>
+             
         {% else %}     
           
         <a href='{{ item.get_absolute_url }}'>
