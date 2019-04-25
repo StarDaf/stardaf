@@ -371,7 +371,7 @@
                         {% endwith %}
                             </div>
 
-            <h4 class="card-title"><a href='{{ target.get_absolute_url }}' style='text-decoration:none'>{{ target.name }}</a>{% if target.price > 0.00 %}{% if not action.verb == 'post' %}<button type="button" class="btn btn-outline-primary btn-sm float-right">₦{{ target.price|intcomma }}</button>{% endif %}{% endif %}</h4>  
+              <h4 class="card-title"><a href='{{ target.get_absolute_url }}' style='text-decoration:none'>{{ target.name }}</a></h4>{% comment %}{% if target.price > 0.00 %}{% if not action.verb == 'post' %}<button type="button" class="btn btn-outline-primary btn-sm float-right">₦{{ target.price|intcomma }}</button>{% endif %}{% endif %}    {% endcomment %}
               
               
                          

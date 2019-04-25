@@ -5,7 +5,7 @@
 
 {% block title %}@{{ user.get_full_name }}{% endblock %}
 {% block css %}
-  <link rel="stylesheet" href="{% static 'css/myprofile.css' %}">
+  <link rel="stylesheet" href="{% static 'css/profile.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -89,15 +89,15 @@
 				<ul>
 			
           <li>
-						{{ user.product_liked.count }}
+						<a href="{% url 'account:favourites' user.id %}" >{{ user.product_liked.count }}</a>
 						<span>Likes</span>
 					</li>
                     <li>
-						{{ user.followers.count }}
+						<a href='{% url "account:followers" user.username %}'>{{ user.followers.count }}</a>
 						<span>Followers</span>
 					</li>
 					<li>
-            {{ user.following.count }}
+            <a href='{% url "account:following" user.username %}'>{{ user.following.count }}</a>
 						<span>Following</span>
 					</li>
 				</ul>
@@ -143,11 +143,11 @@ class='follow float-left' id='{{ user.id }}'>
           </p>
           {% endif %}
 
-            {% if not user.shop %}
+            {% comment %} {% if not user.shop %}
             {% if request.user == user %}
               <button class="btn btn-lg btn-dark btn-block"><a href="{% url 'bizz:create' user.id %}">Create company</a></button> 
             {% endif %}
-          {% endif %}  
+          {% endif %}   {% endcomment %}
 
           {% if request.user == user %}<a href="{% url 'account:logout_then_login' %}" class='float-right'><button class='btn btn-outline-primary btn-sm'>Sign-out</button></a>{% endif %}
           

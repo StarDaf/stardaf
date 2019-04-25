@@ -168,7 +168,7 @@
                                 like{{ total_likes|pluralize }}
                             {% endwith %}
                         </span>&nbsp;
-                         {% if product.payment_link %}<a href='{{ product.payment_link }}'><i class="fa fa-credit-card-alt"></i></a>{% else %}<a><i class="fa fa-credit-card-alt" data-toggle="modal" data-target="#exampleModalLong_{{ product.id }}"></i></a> {% endif %}
+                         {% if product.price > 0.00 %}{% if product.payment_link %}<a href='{{ product.payment_link }}'><i class="fa fa-credit-card-alt"></i></a>{% else %}<a><i class="fa fa-credit-card-alt" data-toggle="modal" data-target="#exampleModalLong_{{ product.id }}"></i></a> {% endif %}{% endif %}
                         <div class="modal fade" id="exampleModalLong_{{ product.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -261,7 +261,7 @@
 
                         <hr>
                         <h4 class="price-container text-muted">
-                            <small>₦{{ product.price|intcomma }}</small>
+                            {% comment %} <small>₦{{ product.price|intcomma }}</small> {% endcomment %}
                             <!--<small>*includes tax</small>-->
                         </h4>
                         <div class="certified">
