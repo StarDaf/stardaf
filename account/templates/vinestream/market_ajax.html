@@ -3,10 +3,9 @@
 {% for item in all %}
     
            {% if item.video %}
-           {% comment %} poster="{% if item.image %}{{ item.image.url }}{% else %}{{ item.photo.url }}{% endif %}" preload='none' {% endcomment %}
             <figure>
             <a href='{{ item.get_absolute_url }}'>
-                <video  id= "packt" controls= "controls"><source src="{{ item.video.url }}"></video>
+                <video  id= "packt" controls= "controls" poster="{% if item.image %}{{ item.image.url }}{% else %}{{ item.photo.url }}{% endif %}"><source src="{{ item.video.url }}"></video>
             </a>
             </figure>
         {% endif %}     
