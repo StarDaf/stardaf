@@ -57,7 +57,7 @@ def stream(request):
         # if the user follows anyone limit actions to those he follows only.
         # (in next version add actions_follow and actions to store actions of those you follow and those you dont)
         # (so as to allow the users access other people)
-        if len(user_following_ids) > 20:
+        if len(user_following_ids) > 2:
             actions = actions.filter(user_id__in=user_following_ids) \
                             .select_related('user', 'user__profile') \
                             .prefetch_related('target')

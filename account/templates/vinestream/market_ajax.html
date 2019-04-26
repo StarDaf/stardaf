@@ -1,4 +1,4 @@
-
+{% load humanize %}
 <div id="columns">
 {% for item in all %}
     
@@ -6,9 +6,37 @@
             <figure>
            
                 <video  id= "packt" controls= "controls" poster="{% if item.image %}{{ item.image.url }}{% else %}{{ item.photo.url }}{% endif %}" preload="none"><source src="{{ item.video.url }}"></video>
-                <a href='{{ item.get_absolute_url }}' style='color:grey'>
-            <i class="fa fa-angle-double-down fa-sm"></i>
-            </a>    
+                 
+            <i class="fa fa-angle-down fa-sm" style='color:white; border:1px solid red;border-radius:20%; background-color:red' data-toggle="modal" data-target="#exampleModalLong_{{ item.id }}"></i>
+            <div class="modal fade" id="exampleModalLong_{{ item.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h2 style='align-center'>{% if item.name %}{{ item.name }}{% endif %}</h2><br/>
+            
+                                <img src="{% if item.image %}{{ item.image.url }}{% else %}{{ item.photo.url }}{% endif %}" alt="avatar" class="avatar"><br/>
+                                {{ item.description|linebreaks|truncatewords:20 }}<br/>
+                                {% if item.price %}₦{{ item.price|intcomma }}{% endif %}<br/>
+               
+			            
+                                
+                                <a href='{{ item.get_absolute_url }}' style='color:grey'><button class='btn btn-outline-danger btn-sm'>see more</button></a>
+                        </div>
+                         
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                
             </figure>
              
         {% else %}     
