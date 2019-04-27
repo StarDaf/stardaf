@@ -102,7 +102,7 @@ class Shop(models.Model):
     
 
     created = models.DateTimeField(auto_now_add=True, db_index=True)
-    description = models.TextField(default='We sale ...')
+    description = models.TextField(default='')
 
     def __str__(self):
         return self.business_name

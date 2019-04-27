@@ -1,4 +1,5 @@
 {% load humanize %}
+{% load static %}
 <div id="columns">
 {% for item in all %}
     
@@ -18,6 +19,16 @@
                             </button>
                         </div>
                         <div class="modal-body">
+                        <a href='{{ item.shop.owner.get_absolute_url }}'><img  class="float-left " src="{% if item.shop.owner.profile.image %}{{ item.shop.logo.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}"
+                                          style="width: 50px; height:50px; border-radius: 50%; border:3px solid black"></a> &nbsp;&nbsp;&nbsp;
+
+                            
+
+                             <a href="{{ item.shop.owner.get_absolute_url }}">{{ item.shop }}</a>  <br/>
+                             <p class='text-muted'>
+                                {{ item.shop.shop_address|linebreaks }}
+                             </p>
+                            </a>
                             <h2 style='align-center'>{% if item.name %}{{ item.name }}{% endif %}</h2><br/>
             
                                 <img src="{% if item.image %}{{ item.image.url }}{% else %}{{ item.photo.url }}{% endif %}" alt="avatar" class="avatar"><br/>

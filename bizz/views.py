@@ -38,7 +38,7 @@ def create_shop(request, user_id):
             new_shop.owner = request.user
             new_shop.save()  # save to database
             shop_created.delay(new_shop.id)  # add asynchronous tasks to queue
-            messages.success(request, 'Congratulations {}, You can add products to your shop through your profile {}' \
+            messages.success(request, 'Congratulations {}, You can add products to your brand through your profile {}' \
                              .format(new_shop.owner.username, new_shop.owner.get_absolute_url()))
 
             # return user to his profile where he will now have a add product link

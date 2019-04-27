@@ -18,7 +18,7 @@
     </div>
     {% if not request.user.is_authenticated %}
     <div style='position:fixed;bottom:70px;left:20%;right:20%;z-index:10;background-color:lavender; padding:10px; border-radius:10%' class='float-center'>  
-          Get in there !
+          <i class='fa fa-heart' style='color:red'></i>stardaf is a video based product discovery tool. get access to uniquely curated contents from unique brands.
         <br/>
         <span class='mx-auto d-block'>
         <a href='{% url "account:login" %}'>
@@ -143,11 +143,11 @@ class='follow float-left' id='{{ user.id }}'>
           </p>
           {% endif %}
 
-            {% comment %} {% if not user.shop %}
+             {% if not user.shop %}
             {% if request.user == user %}
               <button class="btn btn-lg btn-dark btn-block"><a href="{% url 'bizz:create' user.id %}">Create company</a></button> 
             {% endif %}
-          {% endif %}   {% endcomment %}
+          {% endif %}   
 
           {% if request.user == user %}<a href="{% url 'account:logout_then_login' %}" class='float-right'><button class='btn btn-outline-primary btn-sm'>Sign-out</button></a>{% endif %}
           
@@ -211,9 +211,12 @@ class='follow float-left' id='{{ user.id }}'>
     </div>
   </div>
 </div>
-{% if user.id == 1 %}
+<li class="nav-item">
+              <a class='nav-link' href="{% url 'account:contact' %}" style='color:green'>about stardaf</a>
+            </li> 
+{% comment %} {% if user.id == 1 %}
   <button class='btn btn-danger'><a href='{% url 'account:delete' user.id %}'>update</a></button>
-{% endif %}
+{% endif %} {% endcomment %}
           <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
             {% if user.shop %}
